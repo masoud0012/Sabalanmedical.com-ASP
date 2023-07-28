@@ -1,0 +1,51 @@
+﻿    <div class="card bg-dark text-white">
+        <img src="images/banners/baner%20(5).jpg" class="card-img" alt="..." style="opacity: .5;height: 300px">
+        <div class="card-img-overlay d-flex justify-content-center align-items-center">
+            <div class="card-title text-center fs-5 fw-bold d-flex justify-content-between ">
+                <a CLASS="text-white fs-4" HREF="~/">صفحه اصلی</a>
+                <i class="bi-chevron-double-left fs-3"></i>
+                <a CLASS="text-white fs-4">همکاری با ما</a>
+            </div>
+        </div>
+    </div>
+    <?php
+    if (isset($msg)){
+    ?>
+    <div class="row container-xxl">
+        <div class="alert alert-primary mt-5" role="alert">
+            <?php
+            echo $msg;
+            ?>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
+    <div class="container-xxl mt-5 mb-5 pe-5">
+        <div class="row col-lg-6">
+            <p class="fw-bold  text-danger">در صورت تمایل به همکاری با ما لطفا فرم زیر را کامل نمایید</p>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">نام و نام خانوادگی</label>
+                    <input type="text" class="form-control" name="fullName" id="fullName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">شماره تماس</label>
+                    <input type="tel" class="form-control" id="phone" name="tell" placeholder="09111111111" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">ایمیل</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="company" class="form-label">نام شرکت</label>
+                    <input type="text" class="form-control" name="company" id="company">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">توضیحات</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <input class="btn btn-danger" type="submit" name="btnCooperation" value="ارسال">
+            </form>
+        </div>
+    </div>

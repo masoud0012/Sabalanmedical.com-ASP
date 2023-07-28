@@ -1,0 +1,47 @@
+﻿@model TotalDTO
+<div class="card bg-dark text-white">
+    <img src="~/images/banners/baner (4).jpg" class="card-img" alt="..." style="opacity: .6;height: 300px">
+    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+        <div class="card-title text-center fs-5 fw-bold d-flex justify-content-between ">
+            <a CLASS="text-white fs-4" HREF="~/">صفحه اصلی</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4" asp-action="OurProducts" asp-controller="Home">تولیدات ما</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4"><@Model.ProductResponses.ProductNameFr</a>
+        </div>
+    </div>
+</div>
+
+<section class="container-xxl mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 shadow-lg p-5">
+            <h3 class="text-success  border-bottom">@Model.ProductResponses.ProductNameFr</h3>
+            @foreach (ProductDescResponse item in Model.ProductDescResponses)
+            {
+                <h4 class="text-danger mt-5">@item.DescTitle</h4>
+                <p>@item.Description</p>
+            }
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="row">
+                <div class="col-12">
+                    <img src="~/images/products/@Model.ProductResponses.ImageUrl" style="width: 100%">
+                    <div class="col-12 d-flex flex-row shadow-lg">
+                        @foreach (ProductImageResponse image in Model.ProductImageResponses)
+                        {
+                            <IMG src="~/images/products/@image.ImageUrl" style="width: 90px">
+                        }
+                    </div>
+                    <div class="col-12 d-flex flex-column shadow-lg pt-3">
+                        <h5 class=" p-2 text-white fw-bold" style="width: 130px;border-radius: 5px;background-color: darkblue">ویژگیها:</h5>
+                        <div class="border-bottom mb-3 border-danger">
+                        </div>
+                        @foreach (ProductPropertyResponse property in Model.ProductPropertyResponses)
+                        {
+                            <p class="text-dark"><i class="bi-check"></i>@property.PropertyDetail</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

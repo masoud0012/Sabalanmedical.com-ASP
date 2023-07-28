@@ -1,0 +1,123 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <link href="~/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/bootstrap-5.1.3-dist/icons-1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <div class="nav-fill bg-danger d-flex" style="height: 55px;">
+            <div class="container">
+                <ul class="row align-items-center  justify-content-around h-100 p-0">
+                    <li class="col d-flex align-items-center bg-white " style="border-radius: 5px">
+                        <i class="bi-search fw-bold"></i>
+                        <input class="form-control myForm-Control me-1" list="datalistOptions" id="txtSearch" placeholder="جستجو..." style="border: none">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="nav bg-light bg-opacity-10">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light ">
+                    <div class="container">
+                        <a class="navbar-brand" href="~/">
+                            <img src="~/images/web/sabalan-logo.png" asp-append-version="true">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" asp-action="Index" asp-controller="Home">صفحه اصلی</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="about" asp-controller="Home">درباره ما</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="OurProducts" asp-controller="Home">تولیدات ما</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Cooperation" asp-controller="Home">همکاری با ما</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Contact" asp-controller="Home">تماس با ما</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" asp-action="Store" asp-controller="Home">فروشگاه</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="index" asp-controller="Products">مدیریت محصولات</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+    <footer class="p-3 pb-0 mt-5 text-white my-footer" style="background-color: darkblue;">
+        <div class="container-lg">
+            <ul class=" Agency-list p-2">
+                <h4>در باره ما</h4>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>واردات و صادرات محصولات پزشکی</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>حواله ارز پولی</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نماینده رسمی گچ های ارتوپدی شرکت YABIN MED</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نماینده محصولات لاپاراسکوپی شرکتهای WECARE , PRIDE MEDICAL</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نمایندگی کمپانی بزرگ AFAQ AL NAHDA در امارات</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نمایندگی Sinolinks در امارات</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نمایندگی Waston در امارات</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نمایندگی Zener در امارات</h8> </li>
+                <li class="d-flex"><i class="bi-check-square"></i><h8>نمایندگی پمپ های درد Henan Medical</h8> </li>
+            </ul>
+            <ul>
+                <h4>گروه محصولات</h4>
+                @{
+                    @await Component.InvokeAsync("ProductTypes",new{param="types"})
+                }
+            </ul>
+            <ul>
+                <li><h4>تولیدات ما</h4></li>
+                @await Component.InvokeAsync("ProductTypes",new{param="products"})
+            </ul>
+            <ul class=" footer-pages ">
+                <li><i class="bi-house"></i><a asp-action="/" asp-controller="Home">صفحه اصلی</a></li>
+                <li><i class="bi-info-circle"></i><a asp-action="about" asp-controller="Home">درباره ما</a></li>
+                <li><i class="bi-app-indicator"></i><a asp-action="OurProducts" asp-controller="Home">تولیدات ما</a></li>
+                <li><i class="bi-people"></i><a asp-action="Cooperation" asp-controller="Home">همکاری با ما</a></li>
+                <li><i class="bi-phone"></i><a asp-action="Contact" asp-controller="Home">تماس با ما</a></li>
+                <li><i class="bi-shop"></i><a href="/store">فروشگاه</a></li>
+            </ul>
+        </div>
+    </footer>
+    <div class="rules">
+        <div class="container d-flex justify-content-between">
+            <div>
+                <p>تمامی حقوق و مطالب سایت برای سبلان آزمایش اروم محفوظ می باشد</p>
+            </div>
+            <div>
+                <ul class="d-flex">
+                    <li><a href="#"><i class="bi-instagram"></i></a></li>
+                    <li><a href="#"><i class="bi-telegram"></i></a></li>
+                    <li><a href="#"><i class="bi-whatsapp"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="~/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/owl.js"></script>
+    @RenderSection("scripts",required:false)
+</body>
+</html>

@@ -1,0 +1,29 @@
+﻿@model List<ProductResponse>
+<div class="card bg-dark text-white">
+    <img src="~/images/banners/baner%20(1).jpg" class="card-img" alt="..." style="opacity: .6;height: 300px">
+    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+        <div class="card-title text-center fs-5 fw-bold d-flex justify-content-between ">
+            <a CLASS="text-white fs-4" HREF="/">صفحه اصلی</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4">@ViewBag.Type</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card-group d-flex">
+        @foreach (ProductResponse item in Model)
+        {
+            <div class="myCard card me-3 mt-3 p-1 shadow-sm" style="flex: none;width: 350px">
+                <a asp-action="Shop" asp-controller="Home" asp-route-data="">
+                    <div class="cardImages">
+                        <img src="~/images/products/@item.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="height: 15rem; width: 100%">
+                    </div>
+                </a>
+                <div class="card-body">
+                    <p class="card-text text-center">@item.ProductNameFr</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

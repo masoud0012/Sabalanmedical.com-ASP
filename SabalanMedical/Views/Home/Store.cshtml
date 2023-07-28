@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ProductResponse>
+<div class="card bg-dark text-white mb-3">
+    <img src="~/images/banners/baner%20(1).jpg" class="card-img" alt="..." style="opacity: .6;height: 300px">
+    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+        <div class="card-title text-center fs-5 fw-bold d-flex justify-content-between ">
+            <a CLASS="text-white fs-4" asp-controller="Home" asp-action="/">صفحه اصلی</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4">فروشگاه</a>
+        </div>
+    </div>
+</div>
+<div class="container-xxl">
+    <div class="row mt-3 pt-2">
+        <section class="col-lg-3 ">
+            <form class="form-control pt-3 pb-3" method="get">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi-book fs-2 text-danger ms-2"></i>
+                    <h5 class="text-muted">گروه کالا</h5>
+                </div>
+                <ul>
+                    @foreach (ProductTypeResponse type in ViewBag.Type)
+                    {
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" name="@type.TypeNameEn" checked type="checkbox" role="switch"
+                                   id="@type.TypeId" value="@type.TypeNameFr">
+                            <label class="form-check-label" for="@type.TypeId">@type.TypeNameFr</label>
+                        </div>
+                    }
+                </ul>
+                <form asp-action="">
+                </form>
+                <input class="btn btn-outline-danger w-100" type="submit" value="جستجو">
+            </form>
+            <div class="mt-5 mb-5">
+                <h5 class="mb-3">پرفروشترین ها</h5>
+
+                @foreach (ProductResponse item in Model.Where(t=>t.isHotSale==true))
+                {
+                        <div class="card mb-3 store-hot-sale-card" style="width: 100%;height: 100px">
+                            <div class="row g-0">
+                                <div class="col-md-4" style="height: 100px">
+                                    <img src="~/images/products/@item.ImageUrl" class="img-fluid rounded-start" alt="@item.ProductNameFr" style="width: 150px;height: 100%">
+                                </div>
+                                <div class="col-md-8 ">
+                                    <div class="card-body store-hot-sale">
+                                        <h6 class="card-title mb-3">@item.ProductNameFr</h6>
+                                        <a class="card-text text-center" asp-controller="Home" asp-action="Product" asp-route-productUrl="@item.ProductUrl"><i class="bi-cart-dash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                }
+            </div>
+        </section>
+        <section class="col-lg-9  p-1">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (ProductResponse item in Model)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <div class="shop-image">
+                                <a asp-controller="Home" asp-action="Product" asp-route-productUrl="@item.ProductUrl">خرید کالا</a>
+                                <img src="~/images/products/@item.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="width: 100%;height: 300px">
+                            </div>
+                            <div class="card-body">
+                                <ul class="d-flex justify-content-around p-0">
+                                    <li><h6 class="card-title text-danger">@item.ProductNameFr</h6></li>
+                                    <li><p class="card-title fs-6">@item.ProductNameEn</p></li>
+                                </ul>
+                                <p class="card-text me-2 shop-call"><i class="bi-telephone text-danger ms-2 "></i>تماس بگیرید  </p>
+                                <p class="card-text text-muted fs-6"><small class="text-muted">گروه : </small>@item.TypeNameFr</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>

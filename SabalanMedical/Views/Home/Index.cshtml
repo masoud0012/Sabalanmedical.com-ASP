@@ -1,0 +1,204 @@
+﻿@model List<ProductResponse>
+<section>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active " aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/banners/baner%20(3).jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>انواع کارتریج </h5>
+                    <p>وارد کننده اصلی انواع کارتریج اشلون</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/banners/baner%20(2).jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>واردات مستقیم محصولات لاپاراسکوپی</h5>
+                    <p>خرید مستقیم محصولات لاپاراسکوپی از وارد کننده اصلی و حذف واسطه</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/banners/baner%20(1).jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>محصولات بیهوشی تنفسی</h5>
+                    <p>تولید کننده و وارد کننده انواع محصولات بیهوشی تنفسی و اتاق عمل</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row ourOptions d-flex justify-content-around">
+            <div class="col">
+                <i class="bi-house-fill"></i>
+                <p>خرید بدون واسطه</p>
+            </div>
+            <div class="col">
+                <i class="bi-truck"></i>
+                <p>ارسال به تمام نقاط کشور</p>
+            </div>
+            <div class="col">
+                <i class="bi-speedometer2"></i>
+                <p>ارسال سریع</p>
+            </div>
+            <div class="col">
+                <i class="bi-graph-down"></i>
+                <p>قیمت رقابتی</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-xxl mb-5 mt-5 advSection">
+        <div class="row justify-content-center">
+            <section class="col-sm-7">
+                <div class="card" style="min-width: 18rem;height: 100%">
+                    <div class="cardImages" style="height: 100%">
+                        <img src="images/adv/adv%20(2).jpg" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-text text-center">واردات مستقیم اسپیلنت بینی در انواع رنگها و مدلها از چین</h5>
+                    </div>
+                </div>
+            </section>
+            <section class="col-sm-5" style="min-width: 350px">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="cardImages">
+                                <img src="images/adv/adv (1).jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">نخستین تولید کننده تامپون بینی در ایران </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="cardImages">
+                                <img src="images/adv/adv (3).jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">واردات مستقیم محصولات لاپاراسکوپی</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card ">
+                            <div class="cardImages">
+                                <img src="images/adv/adv (4).jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">تولید کننده فیلتر آنتی باکاریال</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="cardImages">
+                                <img src="images/adv/adv (5).jpg" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">تولید کننده فیلتر HME </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <a class="main-page-more-products" asp-action="OurProducts" asp-controller="Home">بیشتر</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="d-flex justify-content-lg-center flex-column mt-4 mb-4 text-lg-center fs-1">
+            <span class="text-center">محصولات پرفروش</span>
+            <i class="bi bi-activity text-danger text-center"></i>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            @{
+                foreach (ProductResponse product in Model.Where(t=>t.isHotSale==true))
+                {
+                    <div class="col">
+                        <div class="card myCard">
+                            <a asp-action="Product" asp-controller="Home" asp-route-productUrl="@product.ProductUrl">
+                                <div class="cardImages">
+                                    @if (product.ImageUrl != null)
+                                    {
+                                        <img src="~/images/products/@product.ImageUrl" class="card-img-top " alt="@product.ProductNameFr" style="width: 100%;height: 20rem">
+                                    }
+                                </div>
+                            </a>
+                            <div class="card-body">
+
+                                <p class="card-text text-center">@product.ProductNameEn</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+<section>
+    <div class="card  text-white mt-5 mb-5" style="background-color: darkblue">
+        <img src="images/banners/baner%20(1).jpg" class="card-img" alt="..." style="opacity: .3;height: 300px">
+        <div class="card-img-overlay d-flex flex-column">
+            <h3 class="card-title text-center fw-bold mb-4 mt-5">
+                با ما بیشتر آشنا شوید
+            </h3>
+            <p class="text-center text-white text-wrap">
+                خدمات پس از فروش و 24 ساعته بصورت آنلاین<br>
+                به شما کمک میکنیم در کمترین زمان ممکن به آنچه میخواهید برسید
+            </p>
+            <h5 class="card-title text-center fs-5 mt-4 fw-bold">
+                <a CLASS="text-white contactUS" HREF="contact"> تماس با ما <i class="bi-arrow-right"></i></a>
+            </h5>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="d-flex justify-content-lg-center flex-column mt-4 mb-4 text-lg-center fs-1">
+            <span class="text-center">دسته بندی محصولات</span>
+            <i class="bi bi-activity text-danger text-center"></i>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            @{
+                foreach (ProductResponse item in Model.DistinctBy(t => t.TypeId))
+                {
+                    <div class="col">
+                        <div class="myCard card">
+                            <a asp-action="ProductTypes" asp-controller="Home" asp-route-typeEn="@item.TypeNameEN">
+                                <div class="cardImages">
+                                    <img src="images/products/@item.ImageUrl" class="card-img-top " alt="@item.TypeNameFr" style="width: 100%;height: 20rem">
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text text-center">@item.TypeNameFr</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+@await Component.InvokeAsync("Manufactured")

@@ -1,0 +1,84 @@
+﻿
+<div class="container">
+    <div class="row">
+        <form class="row col-md-3 container col-md-3" method="post">
+            <h5>نوع محصول</h5>
+            <select id="selectType" class="form-select text-center fw-bold" aria-label="Default select example">
+                <option class="text-center" selected value="0">----انتخاب نوع محصول----</option>
+                @{
+                    foreach (ProductTypeResponse item in ViewBag.Types)
+                    {
+                        <option class="text-danger" value="@item.TypeId">@item.TypeNameEn</option>
+                    }
+                }
+
+            </select>
+        </form>
+    </div>
+    <div class="row mt-3">
+        <div class="flex-row left-align">
+            <a href="~/Products/AddProduct">
+                <i class="bi-file-plus fs-3 text-success" id="addProductButton">محصول جدید</i>
+            </a>
+        </div>
+        <table id="tblProducts" class="table-bordered">
+            <thead>
+                <tr class="search_head_title">
+                    <th>جستجو بر اساس نوع</th>
+                    <th>جستجو بر اساس نام انگلیسی</th>
+                    <th>جستجوی نام به فارسی</th>
+                </tr>
+                <tr class="search_head_text">
+                    <th><div id="searchType" contenteditable="true"></div></th>
+                    <th><div id="searchEn" class="border-danger" contenteditable="true"></div></th>
+                    <th><div id="searchPr" class="border-danger" contenteditable="true"></div></th>
+                </tr>
+                <tr>
+                    <th> Type of product</th>
+                    <th> Name of product</th>
+                    <th>نام محصول</th>
+                    <th>پرفروش</th>
+                    <th>تولید شرکت</th>
+                    <th>productUrl</th>
+                    <th>حدف</th>
+                    <th>ویرایش</th>
+                    <th>عکسها</th>
+                    <th>توضیحات</th>
+                </tr>
+            </thead>
+            <tbody id="productBody">
+                @{
+                    foreach (ProductResponse item in ViewBag.products)
+                    {
+                        <tr>
+                            <td>@item.TypeNameEN</td>
+                            <td>@item.ProductNameEn</td>
+                            <td>@item.ProductNameFr</td>
+                            @if (item.isHotSale == true)
+                            {
+                                <td><input type="checkbox" checked disabled /></td>
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" disabled /></td>
+                            }
+                            @if (item.isManufactured == true)
+                            {
+                                <td><input type="checkbox" checked disabled/></td>
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" disabled /></td>
+                            }
+                            <td>@item.ProductUrl</td>
+                            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.ProductId"><i class="bi-pen"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="ProductPictures" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="ProductDesc" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ProductResponse>
+<section>
+    <div class="container mb-5 mt-5 border-top pt-2">
+        <h5>تولیدات ما</h5>
+    </div>
+    <div class="container-xxl" style="direction: ltr">
+        <div class="owl-carousel owl-theme">
+            @{
+                foreach (ProductResponse item in Model)
+                {
+                    <div class="item manufactured-slider">
+                        <div class="card ms-2" style="height: 100%">
+                            <div class="cardImages">
+                                <img src="images/products/@item.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="height: 230px">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text text-center w-100">@item.ProductNameFr</p>
+                                <a asp-action="OurProducts" asp-asp-controller="Home" asp-route-productUrl="@item.ProductUrl" class="btn btn-danger w-100">بیشتر</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>

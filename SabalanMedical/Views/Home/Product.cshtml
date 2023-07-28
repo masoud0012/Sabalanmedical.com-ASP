@@ -1,0 +1,94 @@
+﻿@model TotalDTO
+<div class="card bg-dark text-white mb-3" ">
+    <img src="../images/banners/baner%20(1).jpg" class="card-img" alt="..." style="opacity: .3;height: 200px">
+    <div class="card-img-overlay d-flex justify-content-center align-items-center">
+        <div class="card-title text-center fs-5 fw-bold d-flex justify-content-between ">
+            <a CLASS="text-white fs-4" HREF="/">صفحه اصلی</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4" asp-controller="Home" asp-action="Store">فروشگاه</a>
+            <i class="bi-chevron-double-left fs-3"></i>
+            <a CLASS="text-white fs-4">@Model.ProductResponses.ProductNameFr</a>
+        </div>
+    </div>
+</div>
+<div class="container-xxl">
+    <div class="row shop-main-page d-flex">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <ul class="shop-img">
+                <li>
+                    <div class="card" style="width: 21rem;">
+                        <img src="~/images/products/@Model.ProductImageResponses[0].ImageUrl" class="card-img-top" alt="@Model.ProductResponses.ProductNameFr">
+                    </div>
+                </li>
+                <li>
+                    @foreach (ProductImageResponse item in Model.ProductImageResponses)
+                    {
+                        <img src="~/images/products/@item.ImageUrl" style="width: 65px">
+                    }
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div>
+                <h5>@Model.ProductResponses.TypeNameFr</h5>
+            </div>
+            <div class="productName-english">
+                @Model.ProductResponses.TypeNameEN
+            </div>
+            <div class="shop-features">
+                <p>ویژگیها :</p>
+               
+                @foreach(ProductPropertyResponse property in Model.ProductPropertyResponses){
+  
+                    <p class="text-muted"><i class="bi-check-circle ms-2"></i>@property.PropertyDetail</p>
+                }
+                
+            </div>
+        </div>
+        <ul class="col-lg-4 col-md-6 col-sm-12  shop-all-options">
+
+            <li class="mb-5">خرید کالا</li>
+            <li>
+                <ul class="shop-each-options">
+                    <li><i class="bi-bank2"></i></li>
+                    <li class="shop-options">
+                        <p>ضمانت تحویل کالای 100% اصلی</p>
+                        <p>تماس جهت اطلاع از شرایط</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="shop-each-options">
+                    <li><i class="bi-truck"></i></li>
+                    <li class="shop-options">
+                        <p>ارسال رایگان</p>
+                        <p>بالای 1 میلیون تومان</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="shop-each-options">
+                    <li><i class="bi-cart"></i></li>
+                    <li class="shop-options">
+                        <p>خرید از وارد کننده کالا</p>
+                        <p>حذف واسطه</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="shop-each-options">
+                    <li><i class="bi-file-bar-graph"></i></li>
+                    <li class="shop-options">
+                        <p>موجودی در انبار</p>
+                        <p>جهت اعلام موجودی تماس بگیرید</p>
+                    </li>
+                </ul>
+            </li>
+            <li class="mt-3">
+                <a class="shop-buy-btn">افزودن به سبد خرید</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

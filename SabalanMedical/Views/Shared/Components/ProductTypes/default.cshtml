@@ -1,0 +1,18 @@
+﻿@{
+    if (ViewBag.param=="products")
+    {
+        foreach (ProductResponse item in ViewBag.Products)
+        {
+            <li><i class="bi-bricks"></i><a href="/our-products/#">@item.ProductNameFr</a></li>
+        }
+    }
+    else
+    {
+        foreach (ProductTypeResponse item in ViewBag.Types)
+        {
+            <li><i class="bi-bricks"></i><a href="/our-products/#">@item.TypeNameFr</a></li>
+        }
+    }
+
+}
+
