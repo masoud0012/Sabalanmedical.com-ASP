@@ -34,8 +34,8 @@
                     <th><div id="searchPr" class="border-danger" contenteditable="true"></div></th>
                 </tr>
                 <tr>
-                    <th> Type of product</th>
-                    <th> Name of product</th>
+                    <th>Type of product</th>
+                    <th>Name of product</th>
                     <th>نام محصول</th>
                     <th>پرفروش</th>
                     <th>تولید شرکت</th>
@@ -71,10 +71,10 @@
                                 <td><input type="checkbox" disabled /></td>
                             }
                             <td>@item.ProductUrl</td>
-                            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
-                            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.ProductId"><i class="bi-pen"></i></a></td>
-                            <td><a asp-controller="Products" asp-action="ProductPictures" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
-                            <td><a asp-controller="Products" asp-action="ProductDesc" asp-route-ProductId="@item.ProductId"><i class="bi-trash"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId"><i class="bi-trash text-danger"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="ProductPictures" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="ProductDescriptions" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
                         </tr>
                     }
                 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
+using ServiceContracts.DTO;
+using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
@@ -29,7 +31,7 @@ namespace SabalanMedical.Controllers
             _productPropertyService = productPropertyService;
             _productTypes = _productTypeService.GettAllProductTypes();
         }
-
+        #region Products
         [Route("[action]")]
         public IActionResult Index()
         {
@@ -107,8 +109,8 @@ namespace SabalanMedical.Controllers
             {
                 return RedirectToAction("Index", "Products");
             }
-            List<ProductImageResponse>? Images= _productImageService.GetProductImagesByProductID(ProductId);
-            if (Images!=null && Images.Count!=0)
+            List<ProductImageResponse>? Images = _productImageService.GetProductImagesByProductID(ProductId);
+            if (Images != null && Images.Count != 0)
             {
                 ViewBag.Image = Images[0].ImageUrl;
             }
@@ -128,10 +130,105 @@ namespace SabalanMedical.Controllers
             {
                 return RedirectToAction("Index", "Products");
             }
-            
+
             _productService.DeleteProduct(product.ProductId);
 
             return RedirectToAction("Index", "Products");
         }
+
+        #endregion
+
+        #region Description
+        [Route("[action]/{productID}")]
+        [HttpGet]
+        public IActionResult ProductDescriptions(Guid productID)
+        {
+            List<ProductDescResponse> descs = _productDescService.GetProductDescByProductID(productID);
+            TotalDTO dto = new TotalDTO()
+            {
+                ProductResponses = _productService.GetProductById(productID),
+                ProductDescResponses = descs
+            };
+            return View(dto);
+        }
+
+
+        [Route("[action]/{ProductId}")]
+        [HttpGet]
+        public IActionResult AddDescription(Guid ProductId)
+        {
+            ProductResponse? Product = _productService.GetProductById(ProductId);
+            if (Product == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Product = Product;
+            return View();
+        }
+
+        [Route("[action]/{ProductId}")]
+        [HttpPost]
+        public IActionResult AddDescription(ProductDescAddRequest Desc)
+        {
+            if (!ModelState.IsValid)
+            {
+                ProductResponse? Product = _productService.GetProductById(Desc.ProductID);
+                ViewBag.Product = Product;
+                return View();
+            }
+            _productDescService.AddProductDesc(Desc);
+            return RedirectToAction("ProductDescriptions", new { productID=Desc.ProductID});
+        }
+
+        [Route("[action]/DescriptionId")]
+        [HttpGet]
+        public IActionResult DeleteDescription(Guid DescriptionId)
+        {
+            ProductDescResponse? desc=_productDescService.GetProductDescByDescID(DescriptionId);
+            if (desc==null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(desc);
+        }
+
+        [Route("[action]/DescriptionId")]
+        [HttpPost]
+        public IActionResult DeleteDescription(ProductDescResponse Description)
+        {
+           
+            if (Description == null || _productDescService.GetProductDescByDescID(Description.DesctiptionID)==null)
+            {
+                return RedirectToAction("Index");
+            }
+            _productDescService.DeleteProductDesc(Description.DesctiptionID);
+            return RedirectToAction("ProductDescriptions", new { productID = Description.ProductID });
+        }
+
+        [Route("[action]/DescriptionId")]
+        [HttpGet]
+        public IActionResult EditDescription(Guid DescriptionId)
+        {
+            ProductDescResponse? desc = _productDescService.GetProductDescByDescID(DescriptionId);
+            if (desc == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(desc);
+        }
+
+        [Route("[action]/DescriptionId")]
+        [HttpGet]
+        public IActionResult EditDescription(ProductDescResponse Desc)
+        {
+            if (Desc==null)
+            {
+                return RedirectToAction("Index");
+            }
+            _productDescService.UpdateProductDesc(Desc.ToProductDescUpdateRequest());
+            return RedirectToAction("ProductDescriptions", new {ProductId=Desc.ProductID});
+        }
+
+        #endregion
     }
 }
