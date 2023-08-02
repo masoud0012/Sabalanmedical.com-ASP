@@ -1,2 +1,2 @@
 # Sabalanmedical.com-ASP
-A website for SAbalan Medical Co written by ASP DOT NET CORE.final project
+A website for Sabalan Medical Co written by ASP DOT NET CORE.final project
