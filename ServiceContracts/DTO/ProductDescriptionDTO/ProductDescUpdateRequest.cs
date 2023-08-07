@@ -18,10 +18,10 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
         {
             return new ProductDesc()
             {
-                DesctiptionID = DesctiptionID,
-                ProductID = ProductID,
-                DescTitle = DescTitle,
-                Description = Description
+                DesctiptionID =this.DesctiptionID,
+                ProductID = this.ProductID,
+                DescTitle = this.DescTitle,
+                Description = this.Description
             };
         }
     }

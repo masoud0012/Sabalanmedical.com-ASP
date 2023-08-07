@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -6,12 +7,14 @@ using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
+using System.IO;
 
 namespace SabalanMedical.Controllers
 {
     [Route("[Controller]")]
     public class ProductsController : Controller
     {
+        private readonly IWebHostEnvironment _environement;
         private readonly IProductService _productService;
         private readonly IProductTypeService _productTypeService;
         private readonly IProductImageService _productImageService;
@@ -22,7 +25,8 @@ namespace SabalanMedical.Controllers
             IProductTypeService productTypeService,
             IProductImageService productImageService,
             IProductDescService productDescService,
-            IProductPropertyService productPropertyService)
+            IProductPropertyService productPropertyService,
+            IWebHostEnvironment environment)
         {
             _productService = productService;
             _productTypeService = productTypeService;
@@ -30,6 +34,7 @@ namespace SabalanMedical.Controllers
             _productDescService = productDescService;
             _productPropertyService = productPropertyService;
             _productTypes = _productTypeService.GettAllProductTypes();
+            _environement = environment;
         }
         #region Products
         [Route("[action]")]
@@ -180,6 +185,8 @@ namespace SabalanMedical.Controllers
             return RedirectToAction("ProductDescriptions", new { productID=Desc.ProductID});
         }
 
+
+
         [Route("[action]/DescriptionId")]
         [HttpGet]
         public IActionResult DeleteDescription(Guid DescriptionId)
@@ -196,7 +203,6 @@ namespace SabalanMedical.Controllers
         [HttpPost]
         public IActionResult DeleteDescription(ProductDescResponse Description)
         {
-           
             if (Description == null || _productDescService.GetProductDescByDescID(Description.DesctiptionID)==null)
             {
                 return RedirectToAction("Index");
@@ -214,11 +220,11 @@ namespace SabalanMedical.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return View(desc);
+            return View(desc.ToProductDescUpdateRequest());
         }
 
         [Route("[action]/DescriptionId")]
-        [HttpGet]
+        [HttpPost]
         public IActionResult EditDescription(ProductDescResponse Desc)
         {
             if (Desc==null)
@@ -226,9 +232,84 @@ namespace SabalanMedical.Controllers
                 return RedirectToAction("Index");
             }
             _productDescService.UpdateProductDesc(Desc.ToProductDescUpdateRequest());
-            return RedirectToAction("ProductDescriptions", new {ProductId=Desc.ProductID});
+            return RedirectToAction("ProductDescriptions", new {productID= Desc.ProductID});
+        }
+        #endregion
+
+        #region Images
+        [Route("[action]/{ProductId}")]
+        public IActionResult ProductImages(Guid? ProductId)
+        {
+            if (ProductId==null || _productService.GetProductById(ProductId)==null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<ProductImageResponse>? images=_productImageService.GetProductImagesByProductID(ProductId);
+            TotalDTO dto = new TotalDTO()
+            {
+                ProductResponses = _productService.GetProductById(ProductId),
+                ProductImageResponses = images
+            };
+            return View(dto);
         }
 
+        [Route("[action]/ImageId")]
+        [HttpGet]
+        public IActionResult DeleteImage(Guid? ImageId)
+        {
+            ProductImageResponse? Image=_productImageService.GetProductImageByImageID(ImageId);
+            if (Image==null)
+            {
+                return RedirectToAction("Index");
+            }
+            _productImageService.DeleteProductImage(ImageId);
+            string? fileName = Image.ImageUrl;
+            if(fileName==null)
+            {
+                return RedirectToAction("Index"); 
+            }
+            string path = Path.Combine(_environement.WebRootPath, $"images/products/{fileName}");
+            FileInfo file= new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            return RedirectToAction("ProductImages", new { ProductId = Image.ProductID });
+        }
+
+        [Route("[action]/ProductId")]
+        [HttpPost]
+        public async Task<IActionResult> AddImage(ProductImageAddRequest Image,IFormFile imageFile)
+        {
+            ProductResponse? productResponse = _productService.GetProductById(Image.ProductID);
+            if (productResponse == null)
+            {
+                return RedirectToAction("index");
+            }
+            if (imageFile.Length == 0 || imageFile is null)
+            {
+                return RedirectToAction("ProductImages", new { ProductId = productResponse.ProductId });
+            }
+            if (imageFile.Length > 0)
+            {
+                Random random = new Random();
+                string[] exctension = imageFile.FileName.Split('.');
+                string extension = exctension[exctension.Length - 1];
+                string fileName=productResponse.ProductUrl+"-"+random.Next()+ "."+extension;
+                string path = Path.Combine(_environement.WebRootPath,$"images/products/{fileName}");
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                   await imageFile.CopyToAsync(stream);
+                }
+                ProductImageAddRequest request = new ProductImageAddRequest()
+                {
+                    ProductID = Image.ProductID,
+                    ImageUrl = fileName
+                };
+                _productImageService.AddProductImage(request);
+            }
+            return RedirectToAction("ProductImages", new {ProductId=productResponse.ProductId});
+        }
         #endregion
     }
 }

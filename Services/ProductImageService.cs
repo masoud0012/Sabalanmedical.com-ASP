@@ -41,6 +41,7 @@ namespace Services
                 return false;
             }
             _sabalanDbContext.ProductImgs.Remove(response);
+            _sabalanDbContext.SaveChanges();
             return true;
         }
 

@@ -7505,10 +7505,6 @@
       "PackagePath": "staticwebassets\\images\\certificates\\sabalan_certificate (9).jpg"
     },
     {
-      "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\New folder.zip",
-      "PackagePath": "staticwebassets\\images\\products\\New folder.zip"
-    },
-    {
       "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\bvf-1653421286.jpg",
       "PackagePath": "staticwebassets\\images\\products\\bvf-1653421286.jpg"
     },
@@ -7673,6 +7669,10 @@
       "PackagePath": "staticwebassets\\images\\products\\external-nasal-splint-trapezium-1653421621.jpg"
     },
     {
+      "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\file.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\file.jpg"
+    },
+    {
       "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\hemolock-clips-1653734530.jpg",
       "PackagePath": "staticwebassets\\images\\products\\hemolock-clips-1653734530.jpg"
     },
@@ -7815,10 +7815,6 @@
     {
       "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\trocar-1653735056.jpg",
       "PackagePath": "staticwebassets\\images\\products\\trocar-1653735056.jpg"
-    },
-    {
-      "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\unKnownImage.png",
-      "PackagePath": "staticwebassets\\images\\unKnownImage.png"
     },
     {
       "Id": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\web\\sabalan-logo.png",

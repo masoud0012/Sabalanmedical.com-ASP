@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xzn4c2YQE0bImCvVN9dmSEZhP0yQ83i7GAH9vqrzwpk=",
+  "Hash": "S3vvpap+C8WXXmOUwfN0aLcUlb5pVwTans6ldsAIfDc=",
   "Source": "SabalanMedical",
   "BasePath": "_content/SabalanMedical",
   "Mode": "Default",
@@ -29342,6 +29342,23 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\external-nasal-splint-trapezium-1653421621.jpg"
     },
     {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\file.jpg",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "images/products/file.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\file.jpg"
+    },
+    {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\hemolock-clips-1653734530.jpg",
       "SourceId": "SabalanMedical",
       "SourceType": "Discovered",
@@ -29665,23 +29682,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\linear-cutter-stapler-1653734727.jpg"
     },
     {
-      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\New folder.zip",
-      "SourceId": "SabalanMedical",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
-      "BasePath": "_content/SabalanMedical",
-      "RelativePath": "images/products/New folder.zip",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\New folder.zip"
-    },
-    {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\pain-pomp-1653421737.jpg",
       "SourceId": "SabalanMedical",
       "SourceType": "Discovered",
@@ -29969,23 +29969,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\trocar-1653735056.jpg"
-    },
-    {
-      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\unKnownImage.png",
-      "SourceId": "SabalanMedical",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
-      "BasePath": "_content/SabalanMedical",
-      "RelativePath": "images/unKnownImage.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\unKnownImage.png"
     },
     {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\web\\sabalan-logo.png",

@@ -15,16 +15,16 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
         public string? Description { get; set; }
         public ProductDescUpdateRequest ToProductDescUpdateRequest()
         {
+           
             return new ProductDescUpdateRequest()
             {
-                DesctiptionID = DesctiptionID,
-                ProductID = ProductID,
-                DescTitle = DescTitle,
-                Description = Description
+                DesctiptionID = this.DesctiptionID,
+                ProductID = this.ProductID,
+                DescTitle = this.DescTitle,
+                Description = this.Description
             };
         }
     }
-
     public static class ProductDescExtension
     {
         public static ProductDescResponse ToProductDescResponse(this ProductDesc productDesc)
@@ -35,8 +35,8 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
                 ProductID = productDesc.ProductID,
                 DescTitle = productDesc.DescTitle,
                 Description = productDesc.Description
+                //Description = productDesc.Description?.Replace("--", "<br>")
             };
         }
     }
-
 }
