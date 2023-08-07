@@ -31,7 +31,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
             return new ProductPropertyResponse()
             {
                 propertyID = productProperty.propertyID,
-                ProductID = productProperty.propertyID,
+                ProductID = productProperty.ProductID,
                 PropertyTitle = productProperty.PropertyTitle,
                 PropertyDetail = productProperty.PropertyDetail,
             };

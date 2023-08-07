@@ -5,6 +5,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
+using ServiceContracts.DTO.ProductPropertyDTO;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
 using System.IO;
@@ -273,6 +274,7 @@ namespace SabalanMedical.Controllers
             if (file.Exists)
             {
                 file.Delete();
+                
             }
             return RedirectToAction("ProductImages", new { ProductId = Image.ProductID });
         }
@@ -309,6 +311,112 @@ namespace SabalanMedical.Controllers
                 _productImageService.AddProductImage(request);
             }
             return RedirectToAction("ProductImages", new {ProductId=productResponse.ProductId});
+        }
+        #endregion
+        #region Properties
+        [Route("[action]/{productID}")]
+        [HttpGet]
+        public async Task<IActionResult> ProductProperties(Guid productId)
+        {
+            if (productId == Guid.Empty)
+            {
+                return RedirectToAction("Index");
+            }
+            var productResponses = _productService.GetProductById(productId);
+            List<ProductPropertyResponse>? response=_productPropertyService.GetProductPropertiesByProductID(productId);
+            TotalDTO dto = new TotalDTO()
+            {
+                ProductResponses = productResponses,
+                ProductPropertyResponses = response
+            };
+
+            return View(dto);
+        }
+
+        [Route("[action]/{productId}")]
+        [HttpGet]
+        public IActionResult AddProperty(Guid? productId)
+        {
+            if (productId == Guid.Empty)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Product=_productService.GetProductById(productId);
+            return View();
+        }
+
+        [Route("[action]/{productId}")]
+        [HttpPost]
+        public IActionResult AddProperty(ProductPropertyAddRequest request)
+        {
+            if (request==null)
+            {
+                return RedirectToAction("index");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            _productPropertyService.AddProductProperty(request);
+            return RedirectToAction("ProductProperties", new { productId = request.ProductID });
+        }
+
+        [Route("[action]/{propertyId}")]
+        [HttpGet]
+        public IActionResult EditProperty(Guid? propertyId)
+        {
+            if (propertyId == null)
+            {
+                return RedirectToAction("index");
+            }
+            var request=_productPropertyService.GetProductPropertyByPropertyID(propertyId);
+            return View(request.ToProductPropertyUpdateRequest());
+        }
+
+        [Route("[action]/{propertyId}")]
+        [HttpPost]
+        public IActionResult EditProperty(ProductPropertyUpdateRequest? request)
+        {
+            if (request==null)
+            {
+                return RedirectToAction("index");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            _productPropertyService.UpdateProductProperty(request);
+            return RedirectToAction("ProductProperties", new {productId=request.ProductID});
+        }
+
+        [Route("[action]/{propertyId}")]
+        [HttpGet]
+        public IActionResult DeleteProperty(Guid? propertyId)
+        {
+            if (propertyId==null)
+            {
+                return RedirectToAction("index");
+            }
+            var request=_productPropertyService.GetProductPropertyByPropertyID(propertyId);
+   
+            return View(request);
+        }
+
+        [Route("[action]/{propertyId}")]
+        [HttpPost]
+        public IActionResult DeleteProperty(ProductPropertyResponse response)
+        {
+            if (response == null)
+            {
+                return RedirectToAction("index");
+            }
+            var request = _productPropertyService.GetProductPropertyByPropertyID(response.propertyID);
+            if (request==null)
+            {
+                return RedirectToAction("index");
+            }
+            _productPropertyService.DeleteProductProperty(request.propertyID);
+            return RedirectToAction("ProductProperties",new {productId=request.ProductID});
         }
         #endregion
     }

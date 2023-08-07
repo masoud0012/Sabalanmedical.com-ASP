@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S3vvpap+C8WXXmOUwfN0aLcUlb5pVwTans6ldsAIfDc=",
+  "Hash": "uDi/Il/7wYqlsjGctHBjqdEeyTVOq5Hgvwz5I4MvxPg=",
   "Source": "SabalanMedical",
   "BasePath": "_content/SabalanMedical",
   "Mode": "Default",
@@ -29767,23 +29767,6 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\pph-stapler-1653734840.jpg"
     },
     {
-      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\pph-stapler-1653734842.jpg",
-      "SourceId": "SabalanMedical",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
-      "BasePath": "_content/SabalanMedical",
-      "RelativePath": "images/products/pph-stapler-1653734842.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\products\\pph-stapler-1653734842.jpg"
-    },
-    {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\pph-stapler-1653734844.jpg",
       "SourceId": "SabalanMedical",
       "SourceType": "Discovered",
@@ -29799,6 +29782,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\pph-stapler-1653734844.jpg"
+    },
+    {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\PPH-stapler-2037510046.jpg",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "images/products/PPH-stapler-2037510046.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\PPH-stapler-2037510046.jpg"
     },
     {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\skin-stapler-1653734873.jpg",

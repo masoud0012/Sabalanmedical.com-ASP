@@ -44,6 +44,7 @@
                     <th>ویرایش</th>
                     <th>عکسها</th>
                     <th>توضیحات</th>
+                    <th>مشخصات</th>
                 </tr>
             </thead>
             <tbody id="productBody">
@@ -75,6 +76,7 @@
                             <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
                             <td><a asp-controller="Products" asp-action="ProductImages" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
                             <td><a asp-controller="Products" asp-action="ProductDescriptions" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+                            <td><a asp-controller="Products" asp-action="ProductProperties" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
                         </tr>
                     }
                 }

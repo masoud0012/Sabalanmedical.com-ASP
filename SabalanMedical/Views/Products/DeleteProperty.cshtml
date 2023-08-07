@@ -1,0 +1,18 @@
+﻿@model ProductPropertyResponse
+<div class="container align-content-center">
+    <h3>Are you sure to Delete <span class="text">@Model.PropertyTitle</span></h3>
+    <p>@Model.PropertyDetail</p>
+
+    <form asp-controller="Products" asp-action="DeleteProperty" method="post">
+
+        <input type="hidden" asp-for="propertyID" />
+        <input type="hidden" asp-for="ProductID" />
+        <div>
+            <button type="submit" class="btn btn-primary">
+                <a asp-controller="Products" asp-action="ProductProperties" asp-route-productID="@Model.ProductID">Cancell</a>
+            </button>
+
+            <button type="submit" class="btn btn-danger">Confirm</button>
+        </div>
+    </form>
+</div>

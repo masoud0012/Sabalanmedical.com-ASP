@@ -60,6 +60,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcQWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/AddProperty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcQWRkUHJvcGVydHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/DeleteDescription.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGVsZXRlRGVzY3JpcHRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -68,12 +72,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGVsZXRlUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/DeleteProperty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGVsZXRlUHJvcGVydHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/EditDescription.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRWRpdERlc2NyaXB0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/EditProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRWRpdFByb2R1Y3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/EditProperty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRWRpdFByb3BlcnR5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/Index.cshtml]
@@ -86,6 +98,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/ProductImages.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcUHJvZHVjdEltYWdlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Products/ProductProperties.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcUHJvZHVjdFByb3BlcnRpZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/drive/Reza-Masoud/websites/Sabalanmedical.com-ASP/SabalanMedical/Views/Shared/Components/Manufactured/default.cshtml]

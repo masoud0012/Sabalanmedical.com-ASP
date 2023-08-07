@@ -1,0 +1,54 @@
+﻿@model TotalDTO
+<div class="container">
+    <div class="container row">
+        <div class="col-6">
+            <a asp-controller="Products" asp-action="Index"><i class="bi-arrow-return-right"></i>برگشت به محصولات </a>
+        </div>
+    </div>
+    <div class="col-6">
+        @{
+            if (Model.ProductResponses.ProductNameFr != null)
+            {
+                <h3 class="text-center text-danger">@Model.ProductResponses.ProductNameFr </h3>
+            }
+            else
+            {
+                <h3 class="text-center text-danger">@Model.ProductResponses.ProductNameEn </h3>
+            }
+        }
+    </div>
+    <div>
+        <a asp-controller="Products" asp-action="AddProperty" asp-route-productID="@Model.ProductResponses.ProductId">
+            <i style="cursor: pointer" class="bi-file-plus fs-3 text-success">جدید</i>
+        </a>
+    </div>
+    <table id="tbl_desc" class="table-bordered m-auto table-striped">
+        <thead>
+            <tr>
+                <th style="min-width: 200px">عنوان</th>
+                <th style="min-width: 400px">مشخصات</th>
+                <th>ویرایش</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ProductPropertyResponse item in Model.ProductPropertyResponses)
+            {
+                <tr>
+                    <th><div id="desc_title">@item.PropertyTitle</div></th>
+                    <th><div id="desc_text">@item.PropertyDetail</div></th>
+                    <th>
+                        <a asp-action="EditProperty" asp-controller="Products" asp-route-propertyId="@item.propertyID">
+                            <i class="bi-pencil-fill"> </i>
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="DeleteProperty" asp-controller="Products" asp-route-propertyID="@item.propertyID">
+                            <i class="bi-trash text-danger"></i>
+                        </a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
