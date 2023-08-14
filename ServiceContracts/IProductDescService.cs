@@ -6,11 +6,11 @@ namespace ServiceContracts
 {
     public interface IProductDescService
     {
-        ProductDescResponse? AddProductDesc(ProductDescAddRequest? request);
-        List<ProductDescResponse>? GetAllProductDesc();
-        ProductDescResponse? GetProductDescByDescID(Guid? descID);
-        List<ProductDescResponse>? GetProductDescByProductID(Guid? productID);
-        ProductDescResponse? UpdateProductDesc(ProductDescUpdateRequest? updateRequest);
-        bool DeleteProductDesc(Guid? id);
+        Task<ProductDescResponse>? AddProductDesc(ProductDescAddRequest? request);
+        Task<List<ProductDescResponse>>? GetAllProductDesc();
+        Task<ProductDescResponse>? GetProductDescByDescID(Guid? descID);
+        Task<List<ProductDescResponse>>? GetProductDescByProductID(Guid? productID);
+        Task<ProductDescResponse>? UpdateProductDesc(ProductDescUpdateRequest? updateRequest);
+        Task<bool> DeleteProductDesc(Guid? id);
     }
 }

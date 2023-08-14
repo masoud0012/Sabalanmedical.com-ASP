@@ -12,18 +12,18 @@ namespace ServiceContracts
         /// </summary>
         /// <param name="productTypeAddRequest">product type object to be added</param>
         /// <returns>returns the productType object after adding to database</returns>
-        ProductTypeResponse AddProductType(ProductTypeAddRequest? productTypeAddRequest);
+        Task<ProductTypeResponse> AddProductType(ProductTypeAddRequest? productTypeAddRequest);
         /// <summary>
         /// Returns all productTypes
         /// </summary>
         /// <returns>returns all product types as producttyperespnse</returns>
-        List<ProductTypeResponse>? GettAllProductTypes();
+        Task<List<ProductTypeResponse>>? GetAllProductTypes();
 
         /// <summary>
         /// Get productType based on an ID
         /// </summary>
         /// <returns>returns productType as a productTypeResponse</returns>
-        ProductTypeResponse? GetProductTypeByID(Guid? guid);
+        Task<ProductTypeResponse>? GetProductTypeByID(Guid? guid);
     }
     
 }

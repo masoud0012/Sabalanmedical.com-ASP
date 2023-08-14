@@ -16,21 +16,21 @@ namespace TestProject
         #region Add ProductType
         //ProductType is null.Throw ArgumentNullException
         [Fact]
-        public void AddProductType_IsNull()
+        public async Task AddProductType_IsNull()
         {
             //Arrange
             ProductTypeAddRequest? request = null;
             //Act
 
             //Assertion
-            Assert.Throws<ArgumentNullException>(() =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                _productTypeSerivice.AddProductType(request);
+               await _productTypeSerivice.AddProductType(request);
             });
         }
         //ProductType Name is null, Throw ArumentException
         [Fact]
-        public void AddProdutType_NameIsNull()
+        public async Task AddProdutType_NameIsNull()
         {
             //Arrange
             ProductTypeAddRequest request = new ProductTypeAddRequest()
@@ -39,9 +39,9 @@ namespace TestProject
                 TypeNameFr = null
             };
             //Assert
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _productTypeSerivice.AddProductType(request);
+              await  _productTypeSerivice.AddProductType(request);
             });
         }
         //ProducyType Name Duplicate, Throw ArgumentException
@@ -68,7 +68,7 @@ namespace TestProject
         }
         //Proper ProductType,add the product type
         [Fact]
-        public void AddProductType_ProperObject()
+        public async Task AddProductType_ProperObject()
         {
             //Arrangment
             ProductTypeAddRequest request = new ProductTypeAddRequest()
@@ -77,8 +77,8 @@ namespace TestProject
                 TypeNameFr = "محصولات بیهوشی تنفسی"
             };
             //Act
-            ProductTypeResponse response = _productTypeSerivice.AddProductType(request);
-            List<ProductTypeResponse>? allProductTypes = _productTypeSerivice.GettAllProductTypes();
+            ProductTypeResponse response =await _productTypeSerivice.AddProductType(request);
+            List<ProductTypeResponse>? allProductTypes =await _productTypeSerivice.GetAllProductTypes();
             //Assert
             Assert.Contains(response, allProductTypes);
             Assert.True(response.TypeId != Guid.Empty);
@@ -86,16 +86,16 @@ namespace TestProject
         #endregion
         #region Get All Product Types
         [Fact]
-        public void GetAllProductTypes_EmptyList()
+        public async Task GetAllProductTypes_EmptyList()
         {
             //arrangement
             //act
-            List<ProductTypeResponse>? productTypeList = _productTypeSerivice.GettAllProductTypes();
+            List<ProductTypeResponse>? productTypeList =await _productTypeSerivice.GetAllProductTypes();
             //assert
             Assert.Empty(productTypeList);
         }
         [Fact]
-        public void GetAllProductTypes_PropperList()
+        public async Task GetAllProductTypes_PropperList()
         {
             //arrangement
             List<ProductTypeAddRequest> requests = new List<ProductTypeAddRequest>()
@@ -107,10 +107,10 @@ namespace TestProject
             List<ProductTypeResponse> ProductTypeFromAddMethod = new List<ProductTypeResponse>();
             foreach (ProductTypeAddRequest request in requests)
             {
-                ProductTypeFromAddMethod.Add(_productTypeSerivice.AddProductType(request));
+               ProductTypeFromAddMethod.Add(await _productTypeSerivice.AddProductType(request));
             }
             //act
-            List<ProductTypeResponse>? productTypeList_fromGetMethod = _productTypeSerivice.GettAllProductTypes();
+            List<ProductTypeResponse>? productTypeList_fromGetMethod =await _productTypeSerivice.GetAllProductTypes();
             //assert
             foreach (ProductTypeResponse item in ProductTypeFromAddMethod)
             {
@@ -120,17 +120,17 @@ namespace TestProject
         #endregion
         #region GetProductTypeByID
         [Fact]
-        public void GetProductTypeByID_IDIsNull()
+        public async Task GetProductTypeByID_IDIsNull()
         {
             //Arrangment
             Guid? ProductTypId = null;
             //Act
-            ProductTypeResponse? response = _productTypeSerivice.GetProductTypeByID(ProductTypId);
+            ProductTypeResponse? response =await _productTypeSerivice.GetProductTypeByID(ProductTypId);
             //Assert
             Assert.Null(response);
         }
         [Fact]
-        public void GetProductTypeByID_ValidID()
+        public async void GetProductTypeByID_ValidID()
         {
             //arrange
             ProductTypeAddRequest request = new ProductTypeAddRequest()
@@ -138,9 +138,9 @@ namespace TestProject
                 TypeNameEN = "ENT",
                 TypeNameFr = "بیهوشی"
             };
-            ProductTypeResponse response = _productTypeSerivice.AddProductType(request);
+            ProductTypeResponse response =await _productTypeSerivice.AddProductType(request);
             //act
-            ProductTypeResponse? response2 = _productTypeSerivice.GetProductTypeByID(response.TypeId);
+            ProductTypeResponse? response2 =await _productTypeSerivice.GetProductTypeByID(response.TypeId);
             //assert
             Assert.Equal(response, response2);
         }

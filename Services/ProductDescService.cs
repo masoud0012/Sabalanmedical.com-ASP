@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using Services.Helpers;
@@ -13,7 +14,7 @@ namespace Services
         {
             _sabalanDbContext = sabalanDbContext;
         }
-        public ProductDescResponse? AddProductDesc(ProductDescAddRequest? request)
+        public async Task<ProductDescResponse>? AddProductDesc(ProductDescAddRequest? request)
         {
             if (request is null)
             {
@@ -21,39 +22,40 @@ namespace Services
             }
             ValidationHelper.ModelValidation(request);
             ProductDesc productDesc = request.ToProductDesc();
-            _sabalanDbContext.ProductDescs.Add(productDesc);
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.ProductDescs.AddAsync(productDesc);
+            await _sabalanDbContext.SaveChangesAsync();
             return productDesc.ToProductDescResponse();
         }
 
-        public bool DeleteProductDesc(Guid? id)
+        public async Task<bool> DeleteProductDesc(Guid? id)
         {
             if (id is null)
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? response = _sabalanDbContext.ProductDescs.FirstOrDefault(t => t.DesctiptionID == id);
+            ProductDesc? response = await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.DesctiptionID == id);
             if (response is null)
             {
                 return false;
             }
             _sabalanDbContext.ProductDescs.Remove(response);
-            _sabalanDbContext.SaveChanges();
-            return true ;
+            await _sabalanDbContext.SaveChangesAsync();
+            return true;
         }
 
-        public List<ProductDescResponse>? GetAllProductDesc()
+        public async Task<List<ProductDescResponse>>? GetAllProductDesc()
         {
             return _sabalanDbContext.ProductDescs.Select(t => t.ToProductDescResponse()).ToList();
         }
 
-        public ProductDescResponse? GetProductDescByDescID(Guid? id)
+        public async Task<ProductDescResponse>? GetProductDescByDescID(Guid? id)
         {
             if (id is null)
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? productDesc = _sabalanDbContext.ProductDescs.FirstOrDefault(t => t.DesctiptionID == id);
+            ProductDesc? productDesc = await _sabalanDbContext.ProductDescs.
+                FirstOrDefaultAsync(t => t.DesctiptionID == id);
             if (productDesc == null)
             {
                 throw new ArgumentException("No Description was found!");
@@ -61,20 +63,20 @@ namespace Services
             return productDesc.ToProductDescResponse();
         }
 
-        public List<ProductDescResponse>? GetProductDescByProductID(Guid? productID)
+        public async Task<List<ProductDescResponse>>? GetProductDescByProductID(Guid? productID)
         {
             List<ProductDesc> productDescResponses = _sabalanDbContext.ProductDescs.Where(t =>
             t.ProductID == productID).ToList();
-            return productDescResponses.Select(t=>t.ToProductDescResponse()).ToList();
+            return productDescResponses.Select(t => t.ToProductDescResponse()).ToList();
         }
 
-        public ProductDescResponse? UpdateProductDesc(ProductDescUpdateRequest? updateRequest)
+        public async Task<ProductDescResponse>? UpdateProductDesc(ProductDescUpdateRequest? updateRequest)
         {
             if (updateRequest == null)
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductDesc? response = _sabalanDbContext.ProductDescs.FirstOrDefault(t => t.DesctiptionID == updateRequest.DesctiptionID);
+            ProductDesc? response = await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.DesctiptionID == updateRequest.DesctiptionID);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");
@@ -83,7 +85,7 @@ namespace Services
             response.ProductID = updateRequest.ProductID;
             response.DescTitle = updateRequest.DescTitle;
             response.Description = updateRequest.Description;
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.SaveChangesAsync();
             return response.ToProductDescResponse();
         }
     }

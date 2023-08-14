@@ -32,9 +32,9 @@ namespace SabalanMedical.Controllers
 
         [Route("/")]
         [Route("[action]")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<ProductResponse> allProducts = _productService.GetAllProducts();
+            List<ProductResponse> allProducts =await _productService.GetAllProducts();
             ViewBag.Title = "صفحه اول";
             return View(allProducts);
         }
@@ -59,18 +59,20 @@ namespace SabalanMedical.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult OurProducts()
+        public async Task<IActionResult> OurProducts()
         {
-            IEnumerable<ProductResponse> allManufacturedProducts = _productService.GetAllProducts().Where(t => t.isManufactured == true);
+            List<ProductResponse> allProducts =await _productService.GetAllProducts();
+            IEnumerable<ProductResponse> allManufacturedProducts = allProducts.Where(t => t.isManufactured == true);
             ViewBag.Desc = _productDescService.GetAllProductDesc(); ;
             ViewBag.Title = "تولیدات ما";
             return View(allManufacturedProducts);
         }
 
         [Route("[action]/{productUrl}")]
-        public IActionResult OurProductDetails(string productUrl)
+        public async Task<IActionResult> OurProductDetails(string productUrl)
         {
-            ProductResponse? Product = _productService.GetAllProducts().FirstOrDefault(t => t.ProductUrl == productUrl);
+            List<ProductResponse> allProducts = await _productService.GetAllProducts();
+            ProductResponse? Product = allProducts.FirstOrDefault(t => t.ProductUrl == productUrl);
             if (Product==null)
             {
                 throw new ArgumentNullException(nameof(productUrl));
@@ -78,26 +80,26 @@ namespace SabalanMedical.Controllers
             TotalDTO ProductDetails = new TotalDTO()
             {
                 ProductResponses = Product,
-                ProductDescResponses= _productDescService.GetProductDescByProductID(Product.ProductId),
-                ProductImageResponses=_productImageService.GetProductImagesByProductID(Product.ProductId),
-                ProductPropertyResponses=_productPropertyService.GetProductPropertiesByProductID(Product.ProductId),
+                ProductDescResponses=await _productDescService.GetProductDescByProductID(Product.ProductId),
+                ProductImageResponses=await _productImageService.GetProductImagesByProductID(Product.ProductId),
+                ProductPropertyResponses=await _productPropertyService.GetProductPropertiesByProductID(Product.ProductId),
             };
           
             return View(ProductDetails);
         }
         [Route("[action]")]
         [HttpGet]
-        public IActionResult Store()
+        public async Task<IActionResult> Store()
         {
-            IEnumerable<ProductResponse> allProducts = _productService.GetAllProducts().OrderBy(t => t.TypeId);
-            ViewBag.Type = _productTypeService.GettAllProductTypes();
-            return View(allProducts);
+            List<ProductResponse> allProducts = await _productService.GetAllProducts();
+            ViewBag.Type =await _productTypeService.GetAllProductTypes();
+            return View(allProducts.OrderBy(t => t.TypeId));
         }
         [Route("[action]/{productUrl}")]
         [HttpGet]
-        public IActionResult Product(string productUrl)
+        public async Task<IActionResult> Product(string productUrl)
         {
-            ProductResponse? product = _productService.GetProductByProductUrl(productUrl);
+            ProductResponse? product =await _productService.GetProductByProductUrl(productUrl);
             if (product == null)
             {
                 throw new ArgumentException(nameof(productUrl));
@@ -105,23 +107,25 @@ namespace SabalanMedical.Controllers
             TotalDTO productDTOP = new TotalDTO()
             {
                 ProductResponses = product,
-                ProductDescResponses = _productDescService.GetProductDescByProductID(product.ProductId),
-                ProductImageResponses = _productImageService.GetProductImagesByProductID(product.ProductId),
-                ProductPropertyResponses = _productPropertyService.GetProductPropertiesByProductID(product.ProductId)
+                ProductDescResponses =await _productDescService.GetProductDescByProductID(product.ProductId),
+                ProductImageResponses =await _productImageService.GetProductImagesByProductID(product.ProductId),
+                ProductPropertyResponses =await _productPropertyService.GetProductPropertiesByProductID(product.ProductId)
             };
             return View(productDTOP);
         }
         [Route("[action]/{typeEn}")]
-        public IActionResult ProductTypes(string typeEn)
+        public async Task<IActionResult> ProductTypes(string typeEn)
         {
             ViewBag.Title = typeEn;
-            Guid? typeID = _productTypeService.GettAllProductTypes()?.FirstOrDefault(t => t.TypeNameEn == typeEn)?.TypeId;
+            var allTypes = await _productTypeService.GetAllProductTypes();
+            Guid? typeID =allTypes.FirstOrDefault(t => t.TypeNameEn == typeEn)?.TypeId;
             if (typeID == null)
             {
                 throw new ArgumentNullException(nameof(typeEn));
             }
             ViewBag.Type = typeEn;
-            List<ProductResponse>? Products = _productService.GetAllProducts().Where(t => t.TypeId == typeID).ToList();
+            List<ProductResponse>? allProducts =await _productService.GetAllProducts();
+            List<ProductResponse>? Products = allProducts.Where(t => t.TypeId == typeID).ToList();
             return View(Products);
         }
     }

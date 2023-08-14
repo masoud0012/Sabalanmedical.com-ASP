@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
@@ -17,7 +18,7 @@ namespace Services
         {
             _sabalanDbContext = sabalanDbContext;
         }
-        private  ProductResponse ConvertToProductResponse(Product product)
+        private ProductResponse ConvertToProductResponse(Product product)
         {
             ProductResponse productResponse = product.ToProductResponse();
             productResponse.TypeNameEN = _sabalanDbContext.ProductTypes.FirstOrDefault(t =>
@@ -28,7 +29,7 @@ namespace Services
             t.ProductID == product.ProductID)?.ImageUrl;
             return productResponse;
         }
-        public ProductResponse AddProduct(ProductAddRequest? productAddRequest)
+        public async Task<ProductResponse> AddProduct(ProductAddRequest? productAddRequest)
         {
             if (productAddRequest is null)
             {
@@ -42,26 +43,25 @@ namespace Services
                 throw new ArgumentException("Product Name is duplicated");
             }
             Product product = productAddRequest.ToProduct();
-            _sabalanDbContext.Products.Add(product);
-            _sabalanDbContext.SaveChanges();
-            //_products.Add(product);
+            _sabalanDbContext.sp_AddProduct(product);
+            await _sabalanDbContext.SaveChangesAsync();
             return ConvertToProductResponse(product);
         }
-        public List<ProductResponse> GetAllProducts()
+        public async Task<List<ProductResponse>> GetAllProducts()
         {
-            List<ProductResponse> products = _sabalanDbContext.Products.ToList()
-                .Select(t =>ConvertToProductResponse(t)).ToList();
-
+            List<ProductResponse> products = _sabalanDbContext.sp_GetAllProducts()
+                .Select(t => ConvertToProductResponse(t)).ToList();
             return products;
         }
-        public ProductResponse? GetProductById(Guid? productID)
+        public async Task<ProductResponse>? GetProductById(Guid? productID)
         {
             if (productID == null)
             {
                 return null;
             }
             //ProductResponse? product= _products.FirstOrDefault(temp => temp.ProductID == guid)?.ToProductResponse();
-            Product? product = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productID);
+            // Product? product = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productID);
+            Product? product =_sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
             if (product == null)
             {
                 return null;
@@ -71,45 +71,48 @@ namespace Services
                 return ConvertToProductResponse(product);
             }
         }
-        public List<ProductResponse>? GetFilteredProduct(string searchBy, string? searchKey)
+        public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string? searchKey)
         {
-            List<ProductResponse> allProducts = GetAllProducts();
-            List<ProductResponse> machteProductes = allProducts;
+            List<ProductResponse> allProducts =await GetAllProducts();
+            List<ProductResponse> matcheProductes = allProducts;
             if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchKey))
                 return allProducts;
 
             switch (searchBy)
             {
+                case nameof(ProductResponse.TypeId):
+                    matcheProductes = allProducts.Where(t => t.TypeId == t.TypeId).ToList();
+                    break;
                 case nameof(ProductResponse.TypeNameEN):
-                    machteProductes = allProducts.Where(item => item.TypeNameEN == searchKey).ToList();
+                    matcheProductes = allProducts.Where(item => item.TypeNameEN == searchKey).ToList();
                     break;
                 case nameof(ProductResponse.TypeNameFr):
-                    machteProductes = allProducts.Where(item => item.TypeNameFr == searchKey).ToList();
+                    matcheProductes = allProducts.Where(item => item.TypeNameFr == searchKey).ToList();
                     break;
                 case nameof(ProductResponse.ProductNameEn):
-                    machteProductes = allProducts.Where(item =>
+                    matcheProductes = allProducts.Where(item =>
                     !string.IsNullOrEmpty(item.ProductNameEn) ?
                     item.ProductNameEn.Contains(searchKey, StringComparison.OrdinalIgnoreCase) : true).ToList();
                     break;
                 case nameof(ProductResponse.ProductNameFr):
-                    machteProductes = allProducts.Where(item =>
+                    matcheProductes = allProducts.Where(item =>
                     !string.IsNullOrEmpty(item.ProductNameFr) ?
                     item.ProductNameFr.Contains(searchKey, StringComparison.OrdinalIgnoreCase) : true).ToList();
                     break;
                 case nameof(ProductResponse.isHotSale):
-                    machteProductes = allProducts.Where(item =>
+                    matcheProductes = allProducts.Where(item =>
                     (item.isHotSale != null) ? item.isHotSale.Equals(searchKey) : true).ToList();
                     break;
                 case (nameof(ProductResponse.isManufactured)):
-                    machteProductes = allProducts.Where(item =>
+                    matcheProductes = allProducts.Where(item =>
                     item.isManufactured != null ? item.isManufactured.Equals(searchKey) : true).ToList();
                     break;
             }
 
-            return machteProductes;
+            return matcheProductes;
         }
 
-        public List<ProductResponse> GetSortedProducts(List<ProductResponse> allProducts, string SortBy, SortOrderOptions sortOrder)
+        public async Task<List<ProductResponse>> GetSortedProducts(List<ProductResponse> allProducts, string SortBy, SortOrderOptions sortOrder)
         {
             if (string.IsNullOrEmpty(SortBy))
                 return (allProducts);
@@ -131,28 +134,29 @@ namespace Services
 
             return SortedProducts;
         }
-        public ProductResponse UpdateProduct(ProductUpdateRequest? productUpdateRequest)
+        public async Task<ProductResponse> UpdateProduct(ProductUpdateRequest? productUpdateRequest)
         {
             if (productUpdateRequest == null)
             {
                 throw new ArgumentNullException(nameof(productUpdateRequest));
             }
             ValidationHelper.ModelValidation(productUpdateRequest);
-            Product? matchedProduct = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productUpdateRequest.ProductID);
+            Product? matchedProduct = _sabalanDbContext.sp_GetProductById(productUpdateRequest.ProductID);
             if (matchedProduct == null)
             {
                 throw new ArgumentException("No Product was found in the list");
             }
-            matchedProduct.TypeId = productUpdateRequest.TypeId;
-            matchedProduct.ProductNameEn = productUpdateRequest.ProductNameEn;
-            matchedProduct.ProductNameFr = productUpdateRequest.ProductNameFr;
-            matchedProduct.isHotSale = productUpdateRequest.isHotSale;
-            matchedProduct.isManufactured = productUpdateRequest.isManufactured;
-            matchedProduct.ProductUrl = productUpdateRequest.ProductUrl;
-            _sabalanDbContext.SaveChanges();
+            _sabalanDbContext.sp_UpdateProduct(productUpdateRequest.ToProduct());
+            /*            matchedProduct.TypeId = productUpdateRequest.TypeId;
+                        matchedProduct.ProductNameEn = productUpdateRequest.ProductNameEn;
+                        matchedProduct.ProductNameFr = productUpdateRequest.ProductNameFr;
+                        matchedProduct.isHotSale = productUpdateRequest.isHotSale;
+                        matchedProduct.isManufactured = productUpdateRequest.isManufactured;
+                        matchedProduct.ProductUrl = productUpdateRequest.ProductUrl;*/
+            await _sabalanDbContext.SaveChangesAsync();
             return ConvertToProductResponse(matchedProduct);
         }
-        public bool DeleteProduct(Guid? productId)
+        public async Task<bool> DeleteProduct(Guid? productId)
         {
             if (productId == null)
             {
@@ -164,13 +168,14 @@ namespace Services
                 return false;
             }
             _sabalanDbContext.Products.Remove(mathedProduct);
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.SaveChangesAsync();
             return true;
         }
 
-        public ProductResponse? GetProductByProductUrl(string? productUrl)
+        public async Task<ProductResponse>? GetProductByProductUrl(string? productUrl)
         {
-          return  _sabalanDbContext.Products.FirstOrDefault(t => t.ProductUrl == productUrl).ToProductResponse();
+            Product? product = await _sabalanDbContext.Products.FirstOrDefaultAsync(t => t.ProductUrl == productUrl);
+            return product.ToProductResponse();
         }
     }
 }

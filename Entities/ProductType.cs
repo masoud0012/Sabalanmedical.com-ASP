@@ -15,5 +15,7 @@ namespace Entities
         [StringLength(400)]
         public string? TypeNameFr { get; set; }
 
+        public virtual ICollection<Product>? Products { get; set; }
+
     }
 }

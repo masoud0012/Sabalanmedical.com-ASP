@@ -1,13 +1,13 @@
 ﻿@model ProductResponse
 <div class="container align-content-center">
     <h3>Are you sure to Delete @Model.ProductNameEn</h3>
-    @if (ViewBag.Image != null)
-    {
-        <img src="~/images/products/@ViewBag.Image" class="card-img-top" alt="..." style="width: 100%;height: 20rem">
+    @if(!String.IsNullOrEmpty(Model.ImageUrl)){
+        <img src="~/images/products/@Model.ImageUrl" class="card-img-top" alt="..." style="width: 100%;height: 20rem"/>
     }
     else
     {
-        <img src="~/images/unKnownImage.png" />
+        
+        <img src="~/images/unKnownImage.jpg" class="card-img-top" alt="..." style="width: 100%;height: 20rem" />
     }
     <form asp-controller="Products" asp-action="DeleteProduct" method="post">
 

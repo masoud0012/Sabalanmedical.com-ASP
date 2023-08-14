@@ -1,0 +1,32 @@
+﻿@{
+    foreach (ProductResponse item in ViewBag.products)
+    {
+        <tr>
+            <td>@item.TypeNameEN</td>
+            <td>@item.ProductNameEn</td>
+            <td>@item.ProductNameFr</td>
+            @if (item.isHotSale == true)
+            {
+                <td><input type="checkbox" checked disabled /></td>
+            }
+            else
+            {
+                <td><input type="checkbox" disabled /></td>
+            }
+            @if (item.isManufactured == true)
+            {
+                <td><input type="checkbox" checked disabled /></td>
+            }
+            else
+            {
+                <td><input type="checkbox" disabled /></td>
+            }
+            <td>@item.ProductUrl</td>
+            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId"><i class="bi-trash text-danger"></i></a></td>
+            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductImages" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductDescriptions" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductProperties" asp-route-ProductId="@item.ProductId"><i class="bi-pencil-fill text-success"></i></a></td>
+        </tr>
+    }
+}

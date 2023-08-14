@@ -10,11 +10,11 @@ namespace ServiceContracts
 {
     public interface IProductImageService
     {
-        ProductImageResponse? AddProductImage(ProductImageAddRequest? request);
-        List<ProductImageResponse>? GetAllProductImages();
-        ProductImageResponse? GetProductImageByImageID(Guid? id);
-        List<ProductImageResponse>? GetProductImagesByProductID(Guid? productId);
-        ProductImageResponse? UpdateProductImage(ProductImageUpdateRequest? updateRequest);
-        bool DeleteProductImage(Guid? id);
+        Task<ProductImageResponse>? AddProductImage(ProductImageAddRequest? request);
+        Task<List<ProductImageResponse>>? GetAllProductImages();
+        Task<ProductImageResponse>? GetProductImageByImageID(Guid? id);
+        Task<List<ProductImageResponse>>? GetProductImagesByProductID(Guid? productId);
+        Task<ProductImageResponse>? UpdateProductImage(ProductImageUpdateRequest? updateRequest);
+        Task<bool> DeleteProductImage(Guid? id);
     }
 }

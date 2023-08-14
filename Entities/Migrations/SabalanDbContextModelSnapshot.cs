@@ -51,6 +51,8 @@ namespace Entities.Migrations
 
                     b.HasKey("ProductID");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("Products", (string)null);
 
                     b.HasData(
@@ -1318,6 +1320,22 @@ namespace Entities.Migrations
                             TypeNameEN = "surgery",
                             TypeNameFr = "محصولات جراحی"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Product", b =>
+                {
+                    b.HasOne("Entities.ProductType", "productType")
+                        .WithMany("products")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("productType");
+                });
+
+            modelBuilder.Entity("Entities.ProductType", b =>
+                {
+                    b.Navigation("products");
                 });
 #pragma warning restore 612, 618
         }

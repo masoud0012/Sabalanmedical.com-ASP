@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductTypeDTO;
 
@@ -11,7 +12,7 @@ namespace Services
         {
             _sabalanDbContext = sabalanDbContext;
         }
-        public ProductTypeResponse AddProductType(ProductTypeAddRequest? productTypeAddRequest)
+        public async Task<ProductTypeResponse> AddProductType(ProductTypeAddRequest? productTypeAddRequest)
         {
             if (productTypeAddRequest is null)
             {
@@ -29,23 +30,24 @@ namespace Services
             }
             ProductType productType = productTypeAddRequest.ToProductType();
             _sabalanDbContext.ProductTypes.Add(productType);
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.SaveChangesAsync();
             return productType.ToProductTypeResponse();
         }
 
-        public ProductTypeResponse? GetProductTypeByID(Guid? typeId)
+        public async Task<ProductTypeResponse>? GetProductTypeByID(Guid? typeId)
         {
             if (typeId == null)
             {
                 return null;
             }
-            ProductType? response = _sabalanDbContext.ProductTypes.FirstOrDefault(temp => temp.TypeId == typeId);
+            ProductType? response =await _sabalanDbContext.ProductTypes
+                .FirstOrDefaultAsync(temp => temp.TypeId == typeId);
             return response?.ToProductTypeResponse();
         }
 
-        public List<ProductTypeResponse>? GettAllProductTypes()
+        public async Task<List<ProductTypeResponse>>? GetAllProductTypes()
         {
-            return _sabalanDbContext.ProductTypes.Select(temp => temp.ToProductTypeResponse()).ToList();
+            return _sabalanDbContext.sp_GetAllProductTypes().Select(temp => temp.ToProductTypeResponse()).ToList();
         }
     }
 };

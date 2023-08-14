@@ -6,11 +6,11 @@ namespace ServiceContracts
 {
     public interface IProductPropertyService
     {
-        ProductPropertyResponse? AddProductProperty(ProductPropertyAddRequest request);
-        List<ProductPropertyResponse>? GetAllProductProperty();
-        ProductPropertyResponse? GetProductPropertyByPropertyID(Guid? propertyId);
-        List<ProductPropertyResponse>? GetProductPropertiesByProductID(Guid? productId);
-        ProductPropertyResponse? UpdateProductProperty(ProductPropertyUpdateRequest? updateRequest);
-        bool DeleteProductProperty(Guid? id);
+        Task<ProductPropertyResponse>? AddProductProperty(ProductPropertyAddRequest request);
+        Task<List<ProductPropertyResponse>>? GetAllProductProperty();
+        Task<ProductPropertyResponse>? GetProductPropertyByPropertyID(Guid? propertyId);
+        Task<List<ProductPropertyResponse>>? GetProductPropertiesByProductID(Guid? productId);
+        Task<ProductPropertyResponse>? UpdateProductProperty(ProductPropertyUpdateRequest? updateRequest);
+        Task<bool> DeleteProductProperty(Guid? id);
     }
 }

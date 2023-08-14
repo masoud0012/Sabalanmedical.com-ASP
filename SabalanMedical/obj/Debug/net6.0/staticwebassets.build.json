@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uDi/Il/7wYqlsjGctHBjqdEeyTVOq5Hgvwz5I4MvxPg=",
+  "Hash": "zyq2wCbyTV4G3s3bkhZJgRVKtu8rR182V1kh6jIhxao=",
   "Source": "SabalanMedical",
   "BasePath": "_content/SabalanMedical",
   "Mode": "Default",
@@ -29971,6 +29971,23 @@
       "OriginalItemSpec": "wwwroot\\images\\products\\trocar-1653735056.jpg"
     },
     {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\unKnownImage.jpg",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "images/unKnownImage.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\unKnownImage.jpg"
+    },
+    {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\web\\sabalan-logo.png",
       "SourceId": "SabalanMedical",
       "SourceType": "Discovered",
@@ -30088,6 +30105,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\owl.js"
+    },
+    {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\js\\Store.js",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "js/Store.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Store.js"
     },
     {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\json\\tblproductdescription.json",

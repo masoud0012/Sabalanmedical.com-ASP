@@ -13,7 +13,6 @@ namespace Entities
         [Key]
         public Guid ProductID { get; set; }
 
-        [ForeignKey(nameof(ProductID))]
         public Guid TypeId { get; set; }
         [StringLength(100)]
         public string? ProductNameEn { get; set; }
@@ -25,6 +24,8 @@ namespace Entities
         public bool isHotSale { get; set; }=false;
 
         public bool isManufactured { get; set; } = false;
-       
+
+        [ForeignKey("TypeId")]
+        public ProductType? ProductType { get; set; }
     }
 }

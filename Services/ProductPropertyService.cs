@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductPropertyDTO;
 using Services.Helpers;
@@ -14,7 +15,7 @@ namespace Services
         {
             _sabalanDbContext = sabalanDbContext;
         }
-        public ProductPropertyResponse? AddProductProperty(ProductPropertyAddRequest request)
+        public async Task<ProductPropertyResponse>? AddProductProperty(ProductPropertyAddRequest request)
         {
 
             if (request is null)
@@ -23,11 +24,11 @@ namespace Services
             }
             ValidationHelper.ModelValidation(request);
             _sabalanDbContext.ProductProperties.Add(request.ToProductProperty());
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.SaveChangesAsync();
             return request.ToProductProperty().ToProductPropertyResponse();
         }
 
-        public bool DeleteProductProperty(Guid? propertyId)
+        public async Task<bool> DeleteProductProperty(Guid? propertyId)
         {
             if (propertyId is null)
             {
@@ -36,33 +37,35 @@ namespace Services
             ProductProperty? property = _sabalanDbContext.ProductProperties.FirstOrDefault(t => t.propertyID == propertyId);
             if (property == null) { return false; }
             _sabalanDbContext.ProductProperties.Remove(property);
-            _sabalanDbContext.SaveChanges();
+            await _sabalanDbContext.SaveChangesAsync();
             return true;
         }
 
-        public List<ProductPropertyResponse>? GetAllProductProperty()
+        public async Task<List<ProductPropertyResponse>>? GetAllProductProperty()
         {
-            return _sabalanDbContext.ProductProperties.Select(t => t.ToProductPropertyResponse()).ToList();
+            return await _sabalanDbContext.ProductProperties.
+                Select(t => t.ToProductPropertyResponse()).ToListAsync();
         }
 
-        public List<ProductPropertyResponse>? GetProductPropertiesByProductID(Guid? productId)
+        public async Task<List<ProductPropertyResponse>>? GetProductPropertiesByProductID(Guid? productId)
         {
             List<ProductProperty>? properties;
             if (productId==null)
             {
                 throw new ArgumentException(nameof(productId));
             }
-            properties = _sabalanDbContext.ProductProperties.Where(t => t.ProductID == productId).ToList();
+            properties =await _sabalanDbContext.ProductProperties.
+                Where(t => t.ProductID == productId).ToListAsync();
             return properties.Select(t=>t.ToProductPropertyResponse()).ToList();
         }
 
-        public ProductPropertyResponse? GetProductPropertyByPropertyID(Guid? propertyId)
+        public async Task<ProductPropertyResponse>? GetProductPropertyByPropertyID(Guid? propertyId)
         {
             if (propertyId is null)
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
-            ProductProperty? property = _sabalanDbContext.ProductProperties.FirstOrDefault(t => t.propertyID == propertyId);
+            ProductProperty? property =await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.propertyID == propertyId);
             if (property == null)
             {
                 throw new ArgumentException("The product property was not found!");
@@ -70,14 +73,14 @@ namespace Services
             return property.ToProductPropertyResponse();
         }
 
-        public ProductPropertyResponse? UpdateProductProperty(ProductPropertyUpdateRequest? updateRequest)
+        public async Task<ProductPropertyResponse>? UpdateProductProperty(ProductPropertyUpdateRequest? updateRequest)
         {
             if (updateRequest == null)
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
             ValidationHelper.ModelValidation(updateRequest);
-            ProductProperty? property = _sabalanDbContext.ProductProperties.FirstOrDefault(t => t.propertyID == updateRequest.propertyID);
+            ProductProperty? property =await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.propertyID == updateRequest.propertyID);
             if (property == null)
             {
                 throw new ArgumentException("No property was found!");
@@ -86,7 +89,7 @@ namespace Services
             property.ProductID = updateRequest.ProductID;
             property.PropertyTitle = updateRequest.PropertyTitle;
             property.PropertyDetail = updateRequest.PropertyDetail;
-            _sabalanDbContext.SaveChanges();
+           await _sabalanDbContext.SaveChangesAsync();
             return property.ToProductPropertyResponse();
         }
     }
