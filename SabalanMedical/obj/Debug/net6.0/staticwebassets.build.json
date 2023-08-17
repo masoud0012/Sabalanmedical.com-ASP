@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zyq2wCbyTV4G3s3bkhZJgRVKtu8rR182V1kh6jIhxao=",
+  "Hash": "8yMHv2Fu5JUKU5n9jRIoh821gBWTh9ZRqcq4zSX40hA=",
   "Source": "SabalanMedical",
   "BasePath": "_content/SabalanMedical",
   "Mode": "Default",
@@ -33471,6 +33471,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\OwlCarousel2-2.3.4\\test\\unit\\core.js"
+    },
+    {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\Rotativa\\wkhtmltopdf.exe",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "Rotativa/wkhtmltopdf.exe",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Rotativa\\wkhtmltopdf.exe"
     }
   ]
 }

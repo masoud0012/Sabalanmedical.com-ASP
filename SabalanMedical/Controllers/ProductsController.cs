@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualBasic;
+using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.ProductDescriptionDTO;
@@ -430,6 +431,13 @@ namespace SabalanMedical.Controllers
        {
 
             return ViewComponent("ProductTable", new { typeID = typeId,searchBy= searchBy, searchKey = searchKey});
+        }
+
+        [Route("ProductToPDF")]
+        public async Task<IActionResult> ProductToPDF()
+        {
+            List<ProductResponse> products = await _productService.GetAllProducts();
+            return new ViewAsPdf(products);
         }
     }
 }

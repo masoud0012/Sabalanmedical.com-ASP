@@ -16,7 +16,8 @@ builder.Services.AddDbContext<SabalanDbContext>(options =>
 });
 
 var app = builder.Build();
-
+//configure Rotativa-Convert to pdf- the directory in which wkhtmltox.exe is available
+Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();

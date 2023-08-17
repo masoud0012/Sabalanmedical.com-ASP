@@ -1,0 +1,26 @@
+﻿@model List<ProductResponse>
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/bootstrap-5.1.3-dist/icons-1.7.2/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/main.css">
+<table id="tblProducts" class="table-bordered">
+    <thead>
+        <tr>
+            <th>Type of product</th>
+            <th>Name of product</th>
+            <th>نام محصول</th>
+            <th>پرفروش</th>
+            <th>تولید شرکت</th>
+            <th>productUrl</th>
+            <th>حدف</th>
+            <th>ویرایش</th>
+            <th>عکسها</th>
+            <th>توضیحات</th>
+            <th>مشخصات</th>
+        </tr>
+    </thead>
+    <tbody id="productBody">
+        @await Component.InvokeAsync("ProductTable")
+    </tbody>
+</table>

@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.ProductDescriptionDTO;
@@ -128,5 +129,6 @@ namespace SabalanMedical.Controllers
             List<ProductResponse>? Products = allProducts.Where(t => t.TypeId == typeID).ToList();
             return View(Products);
         }
+
     }
 }

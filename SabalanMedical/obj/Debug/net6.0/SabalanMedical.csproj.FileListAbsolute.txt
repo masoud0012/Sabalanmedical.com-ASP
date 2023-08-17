@@ -180,3 +180,13 @@ D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\obj\Debug\ne
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\obj\Debug\net6.0\SabalanMedical.csproj.CopyComplete
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\obj\Debug\net6.0\SabalanMedical.genruntimeconfig.cache
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\obj\Debug\net6.0\ref\SabalanMedical.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\obj\Debug\net6.0\SabalanMedical.MvcApplicationPartsAssemblyInfo.cs
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.AspNetCore.Razor.Language.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.CodeAnalysis.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Microsoft.CodeAnalysis.Razor.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\Rotativa.AspNetCore.dll
