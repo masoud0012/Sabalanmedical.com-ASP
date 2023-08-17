@@ -433,11 +433,17 @@ namespace SabalanMedical.Controllers
             return ViewComponent("ProductTable", new { typeID = typeId,searchBy= searchBy, searchKey = searchKey});
         }
 
-        [Route("ProductToPDF")]
+        [Route("[action]")]
         public async Task<IActionResult> ProductToPDF()
         {
             List<ProductResponse> products = await _productService.GetAllProducts();
             return new ViewAsPdf(products);
+        }
+        [Route("[action]")]
+        public async Task<IActionResult> ProductToCSV()
+        {
+            MemoryStream memoryStream=await _productService.ProductToCsv();
+            return File(memoryStream,"application/octet-stream","product.csv");
         }
     }
 }

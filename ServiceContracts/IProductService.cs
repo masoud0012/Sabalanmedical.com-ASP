@@ -55,5 +55,11 @@ namespace ServiceContracts
         /// <param name="guid">ProductId</param>
         /// <returns>returns true if the product object was edited else fals</returns>
         Task<ProductResponse> UpdateProduct(ProductUpdateRequest? productUpdateRequest);
+
+        /// <summary>
+        /// convert all products to a csv file
+        /// </summary>
+        /// <returns>a csv file include all products response</returns>
+        Task<MemoryStream> ProductToCsv();
     }
 }

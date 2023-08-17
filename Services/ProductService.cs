@@ -1,11 +1,17 @@
-﻿using Entities;
+﻿using Azure;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
 using ServiceContracts.Enums;
 using Services.Helpers;
-
+using System.Globalization;
+using System.Text;
+using System.IO;
+using System.Reflection;
 
 namespace Services
 {
@@ -61,7 +67,7 @@ namespace Services
             }
             //ProductResponse? product= _products.FirstOrDefault(temp => temp.ProductID == guid)?.ToProductResponse();
             // Product? product = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productID);
-            Product? product =_sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
+            Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
             if (product == null)
             {
                 return null;
@@ -73,7 +79,7 @@ namespace Services
         }
         public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string? searchKey)
         {
-            List<ProductResponse> allProducts =await GetAllProducts();
+            List<ProductResponse> allProducts = await GetAllProducts();
             List<ProductResponse> matcheProductes = allProducts;
             if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchKey))
                 return allProducts;
@@ -176,6 +182,39 @@ namespace Services
         {
             Product? product = await _sabalanDbContext.Products.FirstOrDefaultAsync(t => t.ProductUrl == productUrl);
             return product.ToProductResponse();
+        }
+
+        public async Task<MemoryStream> ProductToCsv()
+        {
+            MemoryStream memorySream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(memorySream,Encoding.UTF8);
+            CsvConfiguration csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
+            CsvWriter csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+            foreach (var item in typeof(ProductResponse).GetProperties())
+            {
+                if (!item.Name.Contains("Id",StringComparison.OrdinalIgnoreCase))
+                {
+                    csvWriter.WriteField(item.Name);
+                }
+            }
+            csvWriter.NextRecord();
+            List<Product> products = _sabalanDbContext.sp_GetAllProducts();
+            List<ProductResponse> productResponses = products.Select(t => ConvertToProductResponse(t)).ToList();
+            foreach (var item in productResponses)
+            {
+                csvWriter.WriteField(item.TypeNameEN);
+                csvWriter.WriteField(item.TypeNameFr);
+                csvWriter.WriteField(item.ProductNameEn);
+                csvWriter.WriteField(item.ProductNameFr);
+                csvWriter.WriteField(item.isHotSale==false?"No":"Yes");
+                csvWriter.WriteField(item.ProductUrl);
+                csvWriter.WriteField(item.isManufactured);
+                csvWriter.WriteField(item.ImageUrl);
+                csvWriter.NextRecord();
+                csvWriter.Flush();
+            }
+            memorySream.Position = 0;
+            return memorySream;
         }
     }
 }

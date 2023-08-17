@@ -82,7 +82,7 @@ namespace Entities
         #region ProductStored Procedures
         public List<Product> sp_GetAllProducts()
         {
-            return Products.FromSqlRaw("EXECUTE GetAllProducts").ToList();
+            return Products.FromSqlRaw("EXECUTE GetAllProducts").ToList().OrderBy(t=>t.TypeId).OrderBy(t=>t.ProductNameEn).ToList();
         }
         public int sp_AddProduct(Product product)
         {
