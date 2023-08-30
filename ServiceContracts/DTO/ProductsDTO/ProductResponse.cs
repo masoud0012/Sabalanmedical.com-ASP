@@ -61,9 +61,12 @@ namespace ServiceContracts.DTO.ProductsDTO
                 TypeId = product.TypeId,
                 ProductNameEn = product.ProductNameEn,
                 ProductNameFr = product.ProductNameFr,
+                TypeNameEN = product.ProductType.TypeNameEN,
+                TypeNameFr = product.ProductType.TypeNameFr,
                 isHotSale = product.isHotSale,
                 ProductUrl = product.ProductUrl,
-                isManufactured = product.isManufactured
+                isManufactured = product.isManufactured,
+
             };
         }
     }

@@ -10,8 +10,10 @@ namespace Entities
     {
         [Key]
         public Guid TypeId { get; set; }
+
         [StringLength(200)]
         public string? TypeNameEN { get; set; }
+
         [StringLength(400)]
         public string? TypeNameFr { get; set; }
 

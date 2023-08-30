@@ -27,5 +27,14 @@ namespace Entities
 
         [ForeignKey("TypeId")]
         public ProductType? ProductType { get; set; }
+
+/*        [ForeignKey("ImageID")]
+        public List<ProductImg>? ProductImgs { get; set; }
+
+        [ForeignKey("DesctiptionID")]
+        public List<ProductDesc>? ProductDesc { get; set; }
+
+        [ForeignKey("propertyID")]
+        public List<ProductProperty>? ProductProperty { get; set; }*/
     }
 }

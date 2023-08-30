@@ -12,12 +12,15 @@ namespace Entities
     {
         [Key]
         public Guid DesctiptionID { get; set; }
-        [ForeignKey(nameof(DesctiptionID))]
+
         public Guid ProductID { get; set; }
         [StringLength(200)]
         public string? DescTitle { get; set; } 
 
         public string? Description { get; set; }
+
+       // public virtual ICollection<Product>? Products { get; set; }
+
 
     }
 }

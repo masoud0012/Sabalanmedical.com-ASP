@@ -1324,18 +1324,18 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Product", b =>
                 {
-                    b.HasOne("Entities.ProductType", "productType")
-                        .WithMany("products")
+                    b.HasOne("Entities.ProductType", "ProductType")
+                        .WithMany("Products")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("productType");
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Entities.ProductType", b =>
                 {
-                    b.Navigation("products");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

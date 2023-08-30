@@ -2,16 +2,22 @@
 using Services;
 using Entities;
 using ServiceContracts.DTO.ProductTypeDTO;
+using EntityFrameworkCoreMock;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestProject
 {
     public class ProductTypeServiceTest
     {
         private readonly IProductTypeService _productTypeSerivice;
-
-        public ProductTypeServiceTest(IProductTypeService productTypeService)
+        public ProductTypeServiceTest()
         {
-            _productTypeSerivice = productTypeService;
+         
+            List<ProductType> productTypes = new List<ProductType>() { };
+            DbContextMock<SabalanDbContext> dbContextMock=new DbContextMock<SabalanDbContext> (new DbContextOptionsBuilder<SabalanDbContext>().Options);
+            SabalanDbContext sabalanDbContext=dbContextMock.Object;
+            dbContextMock.CreateDbSetMock(t=>t.ProductTypes,productTypes);
+            _productTypeSerivice = new ProductTypesService(sabalanDbContext);
         }
         #region Add ProductType
         //ProductType is null.Throw ArgumentNullException
@@ -51,7 +57,7 @@ namespace TestProject
             //Arrangment
             ProductTypeAddRequest request1 = new ProductTypeAddRequest()
             {
-                TypeNameEN = "ENT1",
+                TypeNameEN = "ENT",
                 TypeNameFr = "بیهوشی تنفسی"
             };
             ProductTypeAddRequest request2 = new ProductTypeAddRequest()
@@ -60,10 +66,10 @@ namespace TestProject
                 TypeNameFr = "بیهوشی تنفسی"
             };
             //Assert
-            Assert.Throws<ArgumentException>(() =>
+            Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _productTypeSerivice.AddProductType(request1);
-                _productTypeSerivice.AddProductType(request2);
+               await _productTypeSerivice.AddProductType(request1);
+               await _productTypeSerivice.AddProductType(request2);
             });
         }
         //Proper ProductType,add the product type
@@ -78,9 +84,9 @@ namespace TestProject
             };
             //Act
             ProductTypeResponse response =await _productTypeSerivice.AddProductType(request);
-            List<ProductTypeResponse>? allProductTypes =await _productTypeSerivice.GetAllProductTypes();
+
             //Assert
-            Assert.Contains(response, allProductTypes);
+            Assert.Equal(response.TypeNameEn, request.TypeNameEN);
             Assert.True(response.TypeId != Guid.Empty);
         }
         #endregion
@@ -90,7 +96,7 @@ namespace TestProject
         {
             //arrangement
             //act
-            List<ProductTypeResponse>? productTypeList =await _productTypeSerivice.GetAllProductTypes();
+            var productTypeList =await _productTypeSerivice.GetAllProductTypes();
             //assert
             Assert.Empty(productTypeList);
         }

@@ -191,7 +191,6 @@ namespace SabalanMedical.Controllers
         }
 
 
-
         [Route("[action]/DescriptionId")]
         [HttpGet]
         public async Task<IActionResult> DeleteDescription(Guid DescriptionId)

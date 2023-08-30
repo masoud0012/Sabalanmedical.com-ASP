@@ -49,15 +49,25 @@ namespace Services
                 throw new ArgumentException("Product Name is duplicated");
             }
             Product product = productAddRequest.ToProduct();
-            _sabalanDbContext.sp_AddProduct(product);
+            // _sabalanDbContext.sp_AddProduct(product);
+            _sabalanDbContext.Add(product);
             await _sabalanDbContext.SaveChangesAsync();
             return ConvertToProductResponse(product);
         }
         public async Task<List<ProductResponse>> GetAllProducts()
         {
-            List<ProductResponse> products = _sabalanDbContext.sp_GetAllProducts()
-                .Select(t => ConvertToProductResponse(t)).ToList();
-            return products;
+            List<Product> products = await _sabalanDbContext.Products.Include("ProductType")
+                .Include("ProductImg")
+                .Include("ProductDesc")
+                .Include("ProductProperty")
+                .ToListAsync();
+            /*List<ProductResponse> productResponses = new List<ProductResponse>();
+            foreach (var item in products)
+            {
+                productResponses.Add(ConvertToProductResponse(item));
+            }*/
+            List<ProductResponse> productResponses= products.Select(t => t.ToProductResponse()).ToList();
+            return productResponses;
         }
         public async Task<ProductResponse>? GetProductById(Guid? productID)
         {
@@ -187,18 +197,18 @@ namespace Services
         public async Task<MemoryStream> ProductToCsv()
         {
             MemoryStream memorySream = new MemoryStream();
-            StreamWriter streamWriter = new StreamWriter(memorySream,Encoding.UTF8);
+            StreamWriter streamWriter = new StreamWriter(memorySream, Encoding.UTF8);
             CsvConfiguration csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
             CsvWriter csvWriter = new CsvWriter(streamWriter, csvConfiguration);
             foreach (var item in typeof(ProductResponse).GetProperties())
             {
-                if (!item.Name.Contains("Id",StringComparison.OrdinalIgnoreCase))
+                if (!item.Name.Contains("Id", StringComparison.OrdinalIgnoreCase))
                 {
                     csvWriter.WriteField(item.Name);
                 }
             }
             csvWriter.NextRecord();
-            List<Product> products = _sabalanDbContext.sp_GetAllProducts();
+            List<Product> products = await _sabalanDbContext.sp_GetAllProducts();
             List<ProductResponse> productResponses = products.Select(t => ConvertToProductResponse(t)).ToList();
             foreach (var item in productResponses)
             {
@@ -206,7 +216,7 @@ namespace Services
                 csvWriter.WriteField(item.TypeNameFr);
                 csvWriter.WriteField(item.ProductNameEn);
                 csvWriter.WriteField(item.ProductNameFr);
-                csvWriter.WriteField(item.isHotSale==false?"No":"Yes");
+                csvWriter.WriteField(item.isHotSale == false ? "No" : "Yes");
                 csvWriter.WriteField(item.ProductUrl);
                 csvWriter.WriteField(item.isManufactured);
                 csvWriter.WriteField(item.ImageUrl);
@@ -215,6 +225,11 @@ namespace Services
             }
             memorySream.Position = 0;
             return memorySream;
+        }
+
+        public Task<MemoryStream> ProductToExcel()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,9 +9,11 @@ namespace Entities
         [Key]
         public Guid ImageID { get; set; }
 
-        [ForeignKey(nameof(ImageID))]
         public Guid ProductID { get; set; }
         [StringLength(500)]
         public string? ImageUrl { get; set; }
+
+        //public virtual ICollection<Product>? Products { get; set; }
+
     }
 }

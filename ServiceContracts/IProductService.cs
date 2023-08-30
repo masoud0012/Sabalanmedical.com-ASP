@@ -61,5 +61,11 @@ namespace ServiceContracts
         /// </summary>
         /// <returns>a csv file include all products response</returns>
         Task<MemoryStream> ProductToCsv();
+
+        /// <summary>
+        /// Convert all products to an excel file
+        /// </summary>
+        /// <returns>returns all products as product response</returns>
+        Task<MemoryStream> ProductToExcel();
     }
 }
