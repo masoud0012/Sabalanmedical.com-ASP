@@ -324,3 +324,9 @@ D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\System.Diagnostics.EventLog.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\selenium-manager\linux\selenium-manager
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\selenium-manager\macos\selenium-manager
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\selenium-manager\windows\selenium-manager.exe
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\WebDriver.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\AutoFixture.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\Fare.dll

@@ -15,8 +15,8 @@ namespace Entities
         public string? PropertyTitle { get; set; }
         
         public string? PropertyDetail { get; set; }
-       
-        //public virtual ICollection<Product>? Products { get; set; }
 
+        [ForeignKey("ProductID")]
+        public Product? Product { get; set; }
     }
 }

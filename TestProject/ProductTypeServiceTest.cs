@@ -4,15 +4,18 @@ using Entities;
 using ServiceContracts.DTO.ProductTypeDTO;
 using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
+using AutoFixture;
+using ServiceContracts.DTO.ProductsDTO;
 
 namespace TestProject
 {
     public class ProductTypeServiceTest
     {
         private readonly IProductTypeService _productTypeSerivice;
+        private readonly IFixture _fixture;
         public ProductTypeServiceTest()
         {
-         
+            _fixture = new Fixture();
             List<ProductType> productTypes = new List<ProductType>() { };
             DbContextMock<SabalanDbContext> dbContextMock=new DbContextMock<SabalanDbContext> (new DbContextOptionsBuilder<SabalanDbContext>().Options);
             SabalanDbContext sabalanDbContext=dbContextMock.Object;
@@ -55,21 +58,12 @@ namespace TestProject
         public void AddProductType_TypeIsDuplicated()
         {
             //Arrangment
-            ProductTypeAddRequest request1 = new ProductTypeAddRequest()
-            {
-                TypeNameEN = "ENT",
-                TypeNameFr = "بیهوشی تنفسی"
-            };
-            ProductTypeAddRequest request2 = new ProductTypeAddRequest()
-            {
-                TypeNameEN = "ENT",
-                TypeNameFr = "بیهوشی تنفسی"
-            };
+            ProductTypeAddRequest request1 = _fixture.Create<ProductTypeAddRequest>();
             //Assert
             Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                await _productTypeSerivice.AddProductType(request1);
-               await _productTypeSerivice.AddProductType(request2);
+               await _productTypeSerivice.AddProductType(request1);
             });
         }
         //Proper ProductType,add the product type
@@ -77,11 +71,7 @@ namespace TestProject
         public async Task AddProductType_ProperObject()
         {
             //Arrangment
-            ProductTypeAddRequest request = new ProductTypeAddRequest()
-            {
-                TypeNameEN = "ENT",
-                TypeNameFr = "محصولات بیهوشی تنفسی"
-            };
+            ProductTypeAddRequest request = _fixture.Create<ProductTypeAddRequest>();
             //Act
             ProductTypeResponse response =await _productTypeSerivice.AddProductType(request);
 
@@ -96,7 +86,7 @@ namespace TestProject
         {
             //arrangement
             //act
-            var productTypeList =await _productTypeSerivice.GetAllProductTypes();
+            List<ProductTypeResponse> productTypeList =await _productTypeSerivice.GetAllProductTypes();
             //assert
             Assert.Empty(productTypeList);
         }
@@ -106,9 +96,9 @@ namespace TestProject
             //arrangement
             List<ProductTypeAddRequest> requests = new List<ProductTypeAddRequest>()
             {
-                new ProductTypeAddRequest(){TypeNameEN="ENT", TypeNameFr="بهراشتی"},
-                new ProductTypeAddRequest(){TypeNameEN="Laparascopy",TypeNameFr="محصولات لاپاراسگوپی"},
-                new ProductTypeAddRequest(){TypeNameEN="surgery",TypeNameFr="محصولات اتاق غمل"}
+                  _fixture.Create<ProductTypeAddRequest>(),
+                  _fixture.Create<ProductTypeAddRequest>(),
+                  _fixture.Create<ProductTypeAddRequest>()
             };
             List<ProductTypeResponse> ProductTypeFromAddMethod = new List<ProductTypeResponse>();
             foreach (ProductTypeAddRequest request in requests)

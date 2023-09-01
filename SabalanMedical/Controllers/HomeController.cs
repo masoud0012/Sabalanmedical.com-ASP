@@ -1,5 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -35,7 +37,7 @@ namespace SabalanMedical.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-            List<ProductResponse> allProducts =await _productService.GetAllProducts();
+            List<ProductResponse> allProducts = await _productService.GetAllProducts();
             ViewBag.Title = "صفحه اول";
             return View(allProducts);
         }
@@ -62,9 +64,8 @@ namespace SabalanMedical.Controllers
         [Route("[action]")]
         public async Task<IActionResult> OurProducts()
         {
-            List<ProductResponse> allProducts =await _productService.GetAllProducts();
+            List<ProductResponse> allProducts = await _productService.GetAllProducts();
             IEnumerable<ProductResponse> allManufacturedProducts = allProducts.Where(t => t.isManufactured == true);
-            ViewBag.Desc = _productDescService.GetAllProductDesc(); ;
             ViewBag.Title = "تولیدات ما";
             return View(allManufacturedProducts);
         }
@@ -74,60 +75,71 @@ namespace SabalanMedical.Controllers
         {
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
             ProductResponse? Product = allProducts.FirstOrDefault(t => t.ProductUrl == productUrl);
-            if (Product==null)
+            if (Product == null)
             {
                 throw new ArgumentNullException(nameof(productUrl));
             }
-            TotalDTO ProductDetails = new TotalDTO()
-            {
-                ProductResponses = Product,
-                ProductDescResponses=await _productDescService.GetProductDescByProductID(Product.ProductId),
-                ProductImageResponses=await _productImageService.GetProductImagesByProductID(Product.ProductId),
-                ProductPropertyResponses=await _productPropertyService.GetProductPropertiesByProductID(Product.ProductId),
-            };
-          
-            return View(ProductDetails);
+
+            return View(Product);
         }
         [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> Store()
         {
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
-            ViewBag.Type =await _productTypeService.GetAllProductTypes();
             return View(allProducts.OrderBy(t => t.TypeId));
         }
         [Route("[action]/{productUrl}")]
         [HttpGet]
         public async Task<IActionResult> Product(string productUrl)
         {
-            ProductResponse? product =await _productService.GetProductByProductUrl(productUrl);
+            if (productUrl == null)
+            {
+                throw new ArgumentNullException(nameof(productUrl));
+            }
+            ProductResponse? product = await _productService.GetProductByProductUrl(productUrl);
             if (product == null)
             {
                 throw new ArgumentException(nameof(productUrl));
             }
-            TotalDTO productDTOP = new TotalDTO()
-            {
-                ProductResponses = product,
-                ProductDescResponses =await _productDescService.GetProductDescByProductID(product.ProductId),
-                ProductImageResponses =await _productImageService.GetProductImagesByProductID(product.ProductId),
-                ProductPropertyResponses =await _productPropertyService.GetProductPropertiesByProductID(product.ProductId)
-            };
-            return View(productDTOP);
+            return View(product);
         }
         [Route("[action]/{typeEn}")]
         public async Task<IActionResult> ProductTypes(string typeEn)
         {
             ViewBag.Title = typeEn;
             var allTypes = await _productTypeService.GetAllProductTypes();
-            Guid? typeID =allTypes.FirstOrDefault(t => t.TypeNameEn == typeEn)?.TypeId;
+            Guid? typeID = allTypes.FirstOrDefault(t => t.TypeNameEn == typeEn)?.TypeId;
             if (typeID == null)
             {
                 throw new ArgumentNullException(nameof(typeEn));
             }
             ViewBag.Type = typeEn;
-            List<ProductResponse>? allProducts =await _productService.GetAllProducts();
+            List<ProductResponse>? allProducts = await _productService.GetAllProducts();
             List<ProductResponse>? Products = allProducts.Where(t => t.TypeId == typeID).ToList();
             return View(Products);
+        }
+
+        [Route("[action]")]
+        public void TestSelenium()
+        {
+            var chromOption = new ChromeOptions();
+            chromOption.AddArgument("--headless");
+            IWebDriver driver = new ChromeDriver();
+            driver.Navigate().GoToUrl("http://sabalanmedical.ir/");
+
+            //IWebElement searchBox = driver.FindElement(By.ClassName("nav-fill "));
+
+            //searchBox.SendKeys("Selenium WebDriver");
+            //searchBox.SendKeys(Keys.Enter);
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+
+            // Define your jQuery code
+            string jqueryCode = "$('.ourOptions i').css('color', '#9999');";
+
+            // Execute the jQuery code
+            js.ExecuteScript(jqueryCode);
         }
 
     }

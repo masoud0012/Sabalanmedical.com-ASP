@@ -47,8 +47,8 @@ namespace Services
 
         public async Task<List<ProductTypeResponse>>? GetAllProductTypes()
         {
-            List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
-           // List<ProductType> productTypes =await _sabalanDbContext.ProductTypes.ToListAsync();
+           // List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
+            List<ProductType> productTypes =await _sabalanDbContext.ProductTypes.ToListAsync();
             return productTypes.Select(temp => temp.ToProductTypeResponse()).ToList();
         }
     }

@@ -13,7 +13,8 @@ namespace Entities
         [StringLength(500)]
         public string? ImageUrl { get; set; }
 
-        //public virtual ICollection<Product>? Products { get; set; }
+        [ForeignKey("ProductID")]
+        public Product? Product { get; set; }
 
     }
 }

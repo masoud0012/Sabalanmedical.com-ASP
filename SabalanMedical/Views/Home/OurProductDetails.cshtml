@@ -1,4 +1,4 @@
-﻿@model TotalDTO
+﻿@model ProductResponse
 <div class="card bg-dark text-white">
     <img src="~/images/banners/baner (4).jpg" class="card-img" alt="..." style="opacity: .6;height: 300px">
     <div class="card-img-overlay d-flex justify-content-center align-items-center">
@@ -7,7 +7,7 @@
             <i class="bi-chevron-double-left fs-3"></i>
             <a CLASS="text-white fs-4" asp-action="OurProducts" asp-controller="Home">تولیدات ما</a>
             <i class="bi-chevron-double-left fs-3"></i>
-            <a CLASS="text-white fs-4">@Model.ProductResponses.ProductNameFr</a>
+            <a CLASS="text-white fs-4">@Model.ProductNameFr</a>
         </div>
     </div>
 </div>
@@ -15,8 +15,8 @@
 <section class="container-xxl mt-5 mb-5">
     <div class="row">
         <div class="col-lg-6 col-sm-12 shadow-lg p-5">
-            <h3 class="text-success  border-bottom">@Model.ProductResponses.ProductNameFr</h3>
-            @foreach (ProductDescResponse item in Model.ProductDescResponses)
+            <h3 class="text-success  border-bottom">@Model.ProductNameFr</h3>
+            @foreach (ProductDescResponse item in Model.productDescs.Select(t=>t.ToProductDescResponse()))
             {
                 <h4 class="text-danger mt-5">@item.DescTitle</h4>
                 <p>@item.Description</p>
@@ -25,9 +25,9 @@
         <div class="col-lg-6 col-sm-12">
             <div class="row">
                 <div class="col-12">
-                    <img src="~/images/products/@Model.ProductResponses.ImageUrl" style="width: 100%">
+                    <img src="~/images/products/@Model.productImgs.FirstOrDefault().ImageUrl" style="width: 100%">
                     <div class="col-12 d-flex flex-row shadow-lg">
-                        @foreach (ProductImageResponse image in Model.ProductImageResponses)
+                        @foreach (ProductImageResponse image in Model.productImgs.Select(t=>t.ToProductImgResponse()))
                         {
                             <IMG src="~/images/products/@image.ImageUrl" style="width: 90px">
                         }
@@ -36,7 +36,7 @@
                         <h5 class=" p-2 text-white fw-bold" style="width: 130px;border-radius: 5px;background-color: darkblue">ویژگیها:</h5>
                         <div class="border-bottom mb-3 border-danger">
                         </div>
-                        @foreach (ProductPropertyResponse property in Model.ProductPropertyResponses)
+                        @foreach (ProductPropertyResponse property in Model.productProperties.Select(t=>t.ToProductPropertyResponse()))
                         {
                             <p class="text-dark"><i class="bi-check"></i>@property.PropertyDetail</p>
                         }

@@ -1,4 +1,4 @@
-﻿@model TotalDTO
+﻿@model ProductResponse
 <div class="card bg-dark text-white mb-3" ">
     <img src="../images/banners/baner%20(1).jpg" class="card-img" alt="..." style="opacity: .3;height: 200px">
     <div class="card-img-overlay d-flex justify-content-center align-items-center">
@@ -7,7 +7,7 @@
             <i class="bi-chevron-double-left fs-3"></i>
             <a CLASS="text-white fs-4" asp-controller="Home" asp-action="Store">فروشگاه</a>
             <i class="bi-chevron-double-left fs-3"></i>
-            <a CLASS="text-white fs-4">@Model.ProductResponses.ProductNameFr</a>
+            <a CLASS="text-white fs-4">@Model.ProductNameFr</a>
         </div>
     </div>
 </div>
@@ -17,11 +17,11 @@
             <ul class="shop-img">
                 <li>
                     <div class="card" style="width: 21rem;">
-                        <img src="~/images/products/@Model.ProductImageResponses[0].ImageUrl" class="card-img-top" alt="@Model.ProductResponses.ProductNameFr">
+                        <img src="~/images/products/@Model.productImgs.FirstOrDefault()" class="card-img-top" alt="@Model.ProductNameFr">
                     </div>
                 </li>
                 <li>
-                    @foreach (ProductImageResponse item in Model.ProductImageResponses)
+                    @foreach (ProductImageResponse item in Model.productImgs.Select(t=>t.ToProductImgResponse()))
                     {
                         <img src="~/images/products/@item.ImageUrl" style="width: 65px">
                     }
@@ -30,15 +30,15 @@
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div>
-                <h5>@Model.ProductResponses.ProductNameFr</h5>
+                <h5>@Model.ProductNameFr</h5>
             </div>
             <div class="productName-english">
-                @Model.ProductResponses.TypeNameEN
+                @Model.productType.TypeNameEN
             </div>
             <div class="shop-features">
                 <p>ویژگیها :</p>
                
-                @foreach(ProductPropertyResponse property in Model.ProductPropertyResponses){
+                @foreach(ProductPropertyResponse property in Model.productProperties.Select(t=>t.ToProductPropertyResponse())){
   
                     <p class="text-muted"><i class="bi-check-circle ms-2"></i>@property.PropertyDetail</p>
                 }

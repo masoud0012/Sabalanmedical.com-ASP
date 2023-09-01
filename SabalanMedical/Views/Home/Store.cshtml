@@ -18,12 +18,12 @@
                     <h5 class="text-muted">گروه کالا</h5>
                 </div>
                 <ul>
-                    @foreach (ProductTypeResponse type in ViewBag.Type)
+                    @foreach (ProductResponse type in Model.DistinctBy(t=>t.TypeId))
                     {
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" name="@type.TypeNameEn" checked type="checkbox" role="switch"
-                                   id="@type.TypeId" value="@type.TypeNameFr">
-                            <label class="form-check-label" for="@type.TypeId">@type.TypeNameFr</label>
+                            <input class="form-check-input" name="@type.productType.TypeNameEN" checked type="checkbox" role="switch"
+                                   id="@type.TypeId" value="@type.productType.TypeNameFr">
+                            <label class="form-check-label" for="@type.TypeId">@type.productType.TypeNameFr</label>
                         </div>
                     }
                 </ul>
@@ -34,21 +34,21 @@
             <div class="mt-5 mb-5">
                 <h5 class="mb-3">پرفروشترین ها</h5>
 
-                @foreach (ProductResponse item in Model.Where(t=>t.isHotSale==true))
+                @foreach (ProductResponse item in Model.Where(t => t.isHotSale == true))
                 {
-                        <div class="card mb-3 store-hot-sale-card" style="width: 100%;height: 100px">
-                            <div class="row g-0">
-                                <div class="col-md-4" style="height: 100px">
-                                    <img src="~/images/products/@item.ImageUrl" class="img-fluid rounded-start" alt="@item.ProductNameFr" style="width: 150px;height: 100%">
-                                </div>
-                                <div class="col-md-8 ">
-                                    <div class="card-body store-hot-sale">
-                                        <h6 class="card-title mb-3">@item.ProductNameFr</h6>
-                                        <a class="card-text text-center" asp-controller="Home" asp-action="Product" asp-route-productUrl="@item.ProductUrl"><i class="bi-cart-dash"></i></a>
-                                    </div>
+                    <div class="card mb-3 store-hot-sale-card" style="width: 100%;height: 100px">
+                        <div class="row g-0">
+                            <div class="col-md-4" style="height: 100px">
+                                <img src="~/images/products/@item.productImgs?.FirstOrDefault()?.ImageUrl" class="img-fluid rounded-start" alt="@item.ProductNameFr" style="width: 150px;height: 100%">
+                            </div>
+                            <div class="col-md-8 ">
+                                <div class="card-body store-hot-sale">
+                                    <h6 class="card-title mb-3">@item.ProductNameFr</h6>
+                                    <a class="card-text text-center" asp-controller="Home" asp-action="Product" asp-route-productUrl="@item.ProductUrl"><i class="bi-cart-dash"></i></a>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 }
             </div>
         </section>
@@ -60,7 +60,7 @@
                         <div class="card">
                             <div class="shop-image">
                                 <a asp-controller="Home" asp-action="Product" asp-route-productUrl="@item.ProductUrl">خرید کالا</a>
-                                <img src="~/images/products/@item.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="width: 100%;height: 300px">
+                                <img src="~/images/products/@item.productImgs?.FirstOrDefault()?.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="width: 100%;height: 300px">
                             </div>
                             <div class="card-body">
                                 <ul class="d-flex justify-content-around p-0">
@@ -68,7 +68,7 @@
                                     <li><p class="card-title fs-6">@item.ProductNameEn</p></li>
                                 </ul>
                                 <p class="card-text me-2 shop-call"><i class="bi-telephone text-danger ms-2 "></i>تماس بگیرید  </p>
-                                <p class="card-text text-muted fs-6"><small class="text-muted">گروه : </small>@item.TypeNameFr</p>
+                                <p class="card-text text-muted fs-6"><small class="text-muted">گروه : </small>@item.productType.TypeNameFr</p>
                             </div>
                         </div>
                     </div>
@@ -77,3 +77,4 @@
         </section>
     </div>
 </div>
+@await Component.InvokeAsync("Manufactured")

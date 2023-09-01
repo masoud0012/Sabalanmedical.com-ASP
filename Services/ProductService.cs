@@ -24,17 +24,6 @@ namespace Services
         {
             _sabalanDbContext = sabalanDbContext;
         }
-        private ProductResponse ConvertToProductResponse(Product product)
-        {
-            ProductResponse productResponse = product.ToProductResponse();
-            productResponse.TypeNameEN = _sabalanDbContext.ProductTypes.FirstOrDefault(t =>
-            t.TypeId == product.TypeId)?.TypeNameEN;
-            productResponse.TypeNameFr = _sabalanDbContext.ProductTypes.FirstOrDefault(t =>
-            t.TypeId == product.TypeId)?.TypeNameFr;
-            productResponse.ImageUrl = _sabalanDbContext.ProductImgs.FirstOrDefault(t =>
-            t.ProductID == product.ProductID)?.ImageUrl;
-            return productResponse;
-        }
         public async Task<ProductResponse> AddProduct(ProductAddRequest? productAddRequest)
         {
             if (productAddRequest is null)
@@ -52,21 +41,16 @@ namespace Services
             // _sabalanDbContext.sp_AddProduct(product);
             _sabalanDbContext.Add(product);
             await _sabalanDbContext.SaveChangesAsync();
-            return ConvertToProductResponse(product);
+            return product.ToProductResponse();
         }
         public async Task<List<ProductResponse>> GetAllProducts()
         {
             List<Product> products = await _sabalanDbContext.Products.Include("ProductType")
                 .Include("ProductImg")
-                .Include("ProductDesc")
-                .Include("ProductProperty")
+                .Include("ProductProperties")
+                .Include("ProductDescs")
                 .ToListAsync();
-            /*List<ProductResponse> productResponses = new List<ProductResponse>();
-            foreach (var item in products)
-            {
-                productResponses.Add(ConvertToProductResponse(item));
-            }*/
-            List<ProductResponse> productResponses= products.Select(t => t.ToProductResponse()).ToList();
+            List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
             return productResponses;
         }
         public async Task<ProductResponse>? GetProductById(Guid? productID)
@@ -75,16 +59,15 @@ namespace Services
             {
                 return null;
             }
-            //ProductResponse? product= _products.FirstOrDefault(temp => temp.ProductID == guid)?.ToProductResponse();
-            // Product? product = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productID);
-            Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
+            Product? product = _sabalanDbContext.Products.FirstOrDefault(t => t.ProductID == productID);
+            // Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
             if (product == null)
             {
                 return null;
             }
             else
             {
-                return ConvertToProductResponse(product);
+                return product.ToProductResponse();
             }
         }
         public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string? searchKey)
@@ -99,11 +82,12 @@ namespace Services
                 case nameof(ProductResponse.TypeId):
                     matcheProductes = allProducts.Where(t => t.TypeId == t.TypeId).ToList();
                     break;
-                case nameof(ProductResponse.TypeNameEN):
-                    matcheProductes = allProducts.Where(item => item.TypeNameEN == searchKey).ToList();
+                case nameof(ProductResponse.productType.TypeNameEN):
+                    matcheProductes = allProducts.Where(item =>
+                    item.productType.TypeNameEN == searchKey).ToList();
                     break;
-                case nameof(ProductResponse.TypeNameFr):
-                    matcheProductes = allProducts.Where(item => item.TypeNameFr == searchKey).ToList();
+                case nameof(ProductResponse.productType.TypeNameFr):
+                    matcheProductes = allProducts.Where(item => item.productType.TypeNameFr == searchKey).ToList();
                     break;
                 case nameof(ProductResponse.ProductNameEn):
                     matcheProductes = allProducts.Where(item =>
@@ -157,20 +141,23 @@ namespace Services
                 throw new ArgumentNullException(nameof(productUpdateRequest));
             }
             ValidationHelper.ModelValidation(productUpdateRequest);
-            Product? matchedProduct = _sabalanDbContext.sp_GetProductById(productUpdateRequest.ProductID);
+            Product? matchedProduct = await _sabalanDbContext.Products.FirstOrDefaultAsync
+                (t => t.ProductID == productUpdateRequest.ProductID);
             if (matchedProduct == null)
             {
                 throw new ArgumentException("No Product was found in the list");
             }
-            _sabalanDbContext.sp_UpdateProduct(productUpdateRequest.ToProduct());
-            /*            matchedProduct.TypeId = productUpdateRequest.TypeId;
-                        matchedProduct.ProductNameEn = productUpdateRequest.ProductNameEn;
-                        matchedProduct.ProductNameFr = productUpdateRequest.ProductNameFr;
-                        matchedProduct.isHotSale = productUpdateRequest.isHotSale;
-                        matchedProduct.isManufactured = productUpdateRequest.isManufactured;
-                        matchedProduct.ProductUrl = productUpdateRequest.ProductUrl;*/
+
+            //_sabalanDbContext.sp_UpdateProduct(productUpdateRequest.ToProduct());
+
+            matchedProduct.TypeId = productUpdateRequest.TypeId;
+            matchedProduct.ProductNameEn = productUpdateRequest.ProductNameEn;
+            matchedProduct.ProductNameFr = productUpdateRequest.ProductNameFr;
+            matchedProduct.isHotSale = productUpdateRequest.isHotSale;
+            matchedProduct.isManufactured = productUpdateRequest.isManufactured;
+            matchedProduct.ProductUrl = productUpdateRequest.ProductUrl;
             await _sabalanDbContext.SaveChangesAsync();
-            return ConvertToProductResponse(matchedProduct);
+            return matchedProduct.ToProductResponse();
         }
         public async Task<bool> DeleteProduct(Guid? productId)
         {
@@ -209,17 +196,17 @@ namespace Services
             }
             csvWriter.NextRecord();
             List<Product> products = await _sabalanDbContext.sp_GetAllProducts();
-            List<ProductResponse> productResponses = products.Select(t => ConvertToProductResponse(t)).ToList();
+            List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
             foreach (var item in productResponses)
             {
-                csvWriter.WriteField(item.TypeNameEN);
-                csvWriter.WriteField(item.TypeNameFr);
+                csvWriter.WriteField(item.productType.TypeNameEN);
+                csvWriter.WriteField(item.productType.TypeNameFr);
                 csvWriter.WriteField(item.ProductNameEn);
                 csvWriter.WriteField(item.ProductNameFr);
                 csvWriter.WriteField(item.isHotSale == false ? "No" : "Yes");
                 csvWriter.WriteField(item.ProductUrl);
                 csvWriter.WriteField(item.isManufactured);
-                csvWriter.WriteField(item.ImageUrl);
+                csvWriter.WriteField(item.productImgs?.FirstOrDefault());
                 csvWriter.NextRecord();
                 csvWriter.Flush();
             }

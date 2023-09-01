@@ -13,21 +13,19 @@
     @{
         foreach (ProductResponse item in Model)
         {
-            ProductDescResponse? desc = ((List<ProductDescResponse>)ViewBag.Desc)
-            .FirstOrDefault(t => t.ProductID == item.ProductId);
             <div class="card mb-3 mt-3 ms-2 me-3" style="max-width: 100%;">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <div class="manufactured-img">
-                            <img src="~/images/products/@item.ImageUrl" class="img-fluid rounded-start" alt="@item.ProductNameFr" style="width: 350px" asp-append-version="true">
+                            <img src="~/images/products/@item.productImgs?.FirstOrDefault().ImageUrl" class="img-fluid rounded-start" alt="@item.ProductNameFr" style="width: 350px" asp-append-version="true">
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title text-danger fw-bold">@item.ProductNameFr</h5>
-                            @if (desc != null)
+                            @if (item.productDescs != null)
                             {
-                                <p class="card-text">@desc.Description</p>
+                                <p class="card-text">@item.productDescs.FirstOrDefault()?.Description</p>
                             }
                             <a class="btn btn-info" asp-action="OurProductDetails" asp-controller="Home" asp-route-productUrl="@item.ProductUrl" >بیشتر</a>
                         </div>

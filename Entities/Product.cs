@@ -28,13 +28,8 @@ namespace Entities
         [ForeignKey("TypeId")]
         public ProductType? ProductType { get; set; }
 
-/*        [ForeignKey("ImageID")]
-        public List<ProductImg>? ProductImgs { get; set; }
-
-        [ForeignKey("DesctiptionID")]
-        public List<ProductDesc>? ProductDesc { get; set; }
-
-        [ForeignKey("propertyID")]
-        public List<ProductProperty>? ProductProperty { get; set; }*/
+        public virtual ICollection<ProductImg>? ProductImg { get; set; }
+        public virtual ICollection<ProductProperty>? ProductProperties { get; set; }
+        public virtual ICollection<ProductDesc>? ProductDescs { get; set; }
     }
 }

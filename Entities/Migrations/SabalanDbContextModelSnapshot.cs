@@ -296,6 +296,8 @@ namespace Entities.Migrations
 
                     b.HasKey("DesctiptionID");
 
+                    b.HasIndex("ProductID");
+
                     b.ToTable("ProductDescs", (string)null);
 
                     b.HasData(
@@ -672,6 +674,8 @@ namespace Entities.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ImageID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("ProductImgs", (string)null);
 
@@ -1158,6 +1162,8 @@ namespace Entities.Migrations
 
                     b.HasKey("propertyID");
 
+                    b.HasIndex("ProductID");
+
                     b.ToTable("ProductProperties", (string)null);
 
                     b.HasData(
@@ -1331,6 +1337,48 @@ namespace Entities.Migrations
                         .IsRequired();
 
                     b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("Entities.ProductDesc", b =>
+                {
+                    b.HasOne("Entities.Product", "Product")
+                        .WithMany("ProductDescs")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Entities.ProductImg", b =>
+                {
+                    b.HasOne("Entities.Product", "Product")
+                        .WithMany("ProductImg")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Entities.ProductProperty", b =>
+                {
+                    b.HasOne("Entities.Product", "Product")
+                        .WithMany("ProductProperties")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Entities.Product", b =>
+                {
+                    b.Navigation("ProductDescs");
+
+                    b.Navigation("ProductImg");
+
+                    b.Navigation("ProductProperties");
                 });
 
             modelBuilder.Entity("Entities.ProductType", b =>

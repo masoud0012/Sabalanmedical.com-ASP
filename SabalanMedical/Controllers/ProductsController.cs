@@ -42,11 +42,13 @@ namespace SabalanMedical.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-           var allTypes = await _productTypeService.GetAllProductTypes();
+           //List<ProductTypeResponse>? allTypes = await _productTypeService.GetAllProductTypes();
 
-            ViewBag.products = _productService.GetAllProducts();
-            ViewBag.Types = allTypes;
-            return View();
+            List<ProductResponse> productResponses =await _productService.GetAllProducts();
+            List<ProductTypeResponse> types = await _productTypeService.GetAllProductTypes();
+            ViewBag.TypeList= types?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.TypeId.ToString() });
+            //ViewBag.Types = allTypes;
+            return View(productResponses);
         }
 
         [Route("[action]")]
@@ -338,13 +340,13 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{productId}")]
         [HttpGet]
-        public IActionResult AddProperty(Guid? productId)
+        public async Task<IActionResult> AddProperty(Guid? productId)
         {
             if (productId == Guid.Empty)
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.Product=_productService.GetProductById(productId);
+            ViewBag.Product=await _productService.GetProductById(productId);
             return View();
         }
 

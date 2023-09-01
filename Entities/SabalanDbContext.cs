@@ -28,7 +28,7 @@ namespace Entities
             modelBuilder.Entity<ProductProperty>().ToTable("ProductProperties");
             modelBuilder.Entity<ProductImg>().ToTable("ProductImgs");
 
-            string productsText = File.ReadAllText("wwwroot/json/tblproducts.json");
+           /* string productsText = File.ReadAllText("wwwroot/json/tblproducts.json");
             List<Product>? productList = System.Text.Json.JsonSerializer.Deserialize<List<Product>>(productsText);
             if (productList != null)
             {
@@ -77,7 +77,7 @@ namespace Entities
                     modelBuilder.Entity<ProductDesc>().HasData(item);
                 }
             }
-        }
+*/        }
 
         #region ProductStored Procedures
         public async Task<List<Product>> sp_GetAllProducts()
@@ -119,14 +119,15 @@ namespace Entities
         public Product sp_GetProductById(Guid ProductId)
         {
             SqlParameter parameter = new SqlParameter("@ProductId", ProductId);
-            List<Product> product = Products.FromSqlRaw("EXECUTE GetProductById @ProductId", parameter).ToList();
+            List<Product>  product = Products.FromSqlRaw("EXECUTE GetProductById @ProductId", parameter).ToList();
             return product.FirstOrDefault();
         }
         #endregion
         public async Task<List<ProductType>> sp_GetAllProductTypes()
         {
-
-            return await ProductTypes.FromSqlRaw("EXECUTE GetAllProductTypes").ToListAsync();
+            List<ProductType> allTypes = await ProductTypes.FromSqlRaw
+                ("EXECUTE GetAllProductTypes").ToListAsync();
+            return allTypes;
         }
 
         public List<ProductImg> sp_GetAllProductImages()

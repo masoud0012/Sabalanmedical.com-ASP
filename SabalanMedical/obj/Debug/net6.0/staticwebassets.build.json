@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8yMHv2Fu5JUKU5n9jRIoh821gBWTh9ZRqcq4zSX40hA=",
+  "Hash": "/z1ayg4V7RhiT8zuNbohJn0tUG2K26hXlckbT8W384E=",
   "Source": "SabalanMedical",
   "BasePath": "_content/SabalanMedical",
   "Mode": "Default",
@@ -29969,6 +29969,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\trocar-1653735056.jpg"
+    },
+    {
+      "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\products\\unKnownImage.jpg",
+      "SourceId": "SabalanMedical",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\",
+      "BasePath": "_content/SabalanMedical",
+      "RelativePath": "images/products/unKnownImage.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\unKnownImage.jpg"
     },
     {
       "Identity": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical\\wwwroot\\images\\unKnownImage.jpg",

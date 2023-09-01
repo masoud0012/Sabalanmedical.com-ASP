@@ -6,14 +6,18 @@ namespace ServiceContracts.DTO.ProductsDTO
     {
         public Guid ProductId { get; set; }
         public Guid TypeId { get; set; }
-        public string? TypeNameEN { get; set; }
-        public string? TypeNameFr { get; set; }
         public string? ProductNameEn { get; set; }
         public string? ProductNameFr { get; set; }
         public bool isHotSale { get; set; }
         public string? ProductUrl { get; set; }
         public bool isManufactured { get; set; }
-        public string? ImageUrl { get; set; }
+        public List<ProductImg>? productImgs { get; set; }
+        public List<ProductDesc>? productDescs { get; set; }
+        public List<ProductProperty>? productProperties { get; set; }
+/*        public string? ImageUrl { get; set; }
+        public string? TypeNameEN { get; set; }
+        public string? TypeNameFr { get; set; }*/
+        public ProductType? productType { get; set; }
         public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != typeof(ProductResponse))
@@ -61,12 +65,13 @@ namespace ServiceContracts.DTO.ProductsDTO
                 TypeId = product.TypeId,
                 ProductNameEn = product.ProductNameEn,
                 ProductNameFr = product.ProductNameFr,
-                TypeNameEN = product.ProductType.TypeNameEN,
-                TypeNameFr = product.ProductType.TypeNameFr,
                 isHotSale = product.isHotSale,
                 ProductUrl = product.ProductUrl,
                 isManufactured = product.isManufactured,
-
+                productType=product.ProductType,
+                productDescs=product.ProductDescs?.ToList(),
+                productImgs=product.ProductImg?.ToList(),
+                productProperties=product.ProductProperties?.ToList()
             };
         }
     }
