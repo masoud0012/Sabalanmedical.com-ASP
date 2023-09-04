@@ -28,8 +28,8 @@ namespace Entities
         [ForeignKey("TypeId")]
         public ProductType? ProductType { get; set; }
 
-        public virtual ICollection<ProductImg>? ProductImg { get; set; }
+        public virtual ICollection<ProductImg>? ProductImages { get; set; }
         public virtual ICollection<ProductProperty>? ProductProperties { get; set; }
-        public virtual ICollection<ProductDesc>? ProductDescs { get; set; }
+        public virtual ICollection<ProductDesc>? ProductDescriptions { get; set; }
     }
 }

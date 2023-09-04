@@ -1,5 +1,11 @@
 ﻿@model List<ProductResponse>
 @{
+    if (Model is null)
+    {
+        <tr>
+            <td><p>هیچ محصولی پیدا نشد</p></td>
+        </tr>
+    }
     foreach (ProductResponse item in Model)
     {
         <tr>

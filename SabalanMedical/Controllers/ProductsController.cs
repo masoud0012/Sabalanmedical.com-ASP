@@ -263,12 +263,16 @@ namespace SabalanMedical.Controllers
         [HttpGet]
         public async  Task<IActionResult> DeleteImage(Guid? ImageId)
         {
+            if (ImageId==null)
+            {
+                throw new ArgumentNullException(nameof(ImageId));
+            }
             ProductImageResponse? Image= await _productImageService.GetProductImageByImageID(ImageId);
             if (Image==null)
             {
                 return RedirectToAction("Index");
             }
-            _productImageService.DeleteProductImage(ImageId);
+            await _productImageService.DeleteProductImage(ImageId);
             string? fileName = Image.ImageUrl;
             if(fileName==null)
             {

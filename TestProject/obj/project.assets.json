@@ -2973,6 +2973,33 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
+      "RepositoryContracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositoryContracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositoryContracts.dll": {}
+        }
+      },
+      "RepositoryServices/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Entities": "1.0.0",
+          "RepositoryContracts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositoryServices.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositoryServices.dll": {}
+        }
+      },
       "ServiceContracts/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -2993,6 +3020,7 @@
           "CsvHelper": "30.0.1",
           "EPPlus": "6.2.8",
           "Entities": "1.0.0",
+          "RepositoryContracts": "1.0.0",
           "ServiceContracts": "1.0.0"
         },
         "compile": {
@@ -8920,6 +8948,16 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
+    "RepositoryContracts/1.0.0": {
+      "type": "project",
+      "path": "../RepositoryContracts/RepositoryContracts.csproj",
+      "msbuildProject": "../RepositoryContracts/RepositoryContracts.csproj"
+    },
+    "RepositoryServices/1.0.0": {
+      "type": "project",
+      "path": "../RepositoryServices/RepositoryServices.csproj",
+      "msbuildProject": "../RepositoryServices/RepositoryServices.csproj"
+    },
     "ServiceContracts/1.0.0": {
       "type": "project",
       "path": "../ServiceContracts/ServiceContracts.csproj",
@@ -8938,6 +8976,8 @@
       "EntityFrameworkCoreMock.Moq >= 2.4.0",
       "Microsoft.NET.Test.Sdk >= 17.5.0",
       "Moq >= 4.20.69",
+      "RepositoryContracts >= 1.0.0",
+      "RepositoryServices >= 1.0.0",
       "Selenium.WebDriver >= 4.11.0",
       "Selenium.WebDriver.ChromeDriver >= 116.0.5845.9600",
       "ServiceContracts >= 1.0.0",
@@ -8976,6 +9016,12 @@
           "projectReferences": {
             "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj": {
               "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj"
+            },
+            "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj": {
+              "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj"
+            },
+            "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj": {
+              "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj"
             },
             "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj": {
               "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj"

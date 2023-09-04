@@ -201,3 +201,7 @@ D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\ne
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\selenium-manager\macos\selenium-manager
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\selenium-manager\windows\selenium-manager.exe
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\WebDriver.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\RepositoryContracts.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\RepositoryServices.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\RepositoryContracts.pdb
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical\bin\Debug\net6.0\RepositoryServices.pdb

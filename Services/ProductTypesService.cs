@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductTypeDTO;
 
@@ -7,10 +8,10 @@ namespace Services
 {
     public class ProductTypesService : IProductTypeService
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductTypesService(SabalanDbContext sabalanDbContext)
+        private readonly IProductTypeRepository _productTypeRepository;
+        public ProductTypesService( IProductTypeRepository productTypeRepository)
         {
-            _sabalanDbContext = sabalanDbContext;
+            _productTypeRepository = productTypeRepository;
         }
         public async Task<ProductTypeResponse> AddProductType(ProductTypeAddRequest? productTypeAddRequest)
         {
@@ -23,14 +24,16 @@ namespace Services
                 throw new ArgumentException(nameof(productTypeAddRequest.TypeNameEN) + "or" +
                     nameof(ProductTypeAddRequest.TypeNameFr));
             }
-            if (_sabalanDbContext.ProductTypes.Count(t=>t.TypeNameEN==productTypeAddRequest.TypeNameEN
-            || t.TypeNameFr == productTypeAddRequest.TypeNameFr)>0)
+            List<ProductType> allTypes=await _productTypeRepository.GetAllProductTypes();
+            if (allTypes.Count(t => t.TypeNameEN == productTypeAddRequest.TypeNameEN
+            || t.TypeNameFr == productTypeAddRequest.TypeNameFr) > 0)
             {
                 throw new ArgumentException($"{productTypeAddRequest.TypeNameEN} or {productTypeAddRequest.TypeNameFr} is alraedy excisted");
             }
+
             ProductType productType = productTypeAddRequest.ToProductType();
-            _sabalanDbContext.ProductTypes.Add(productType);
-            await _sabalanDbContext.SaveChangesAsync();
+            await _productTypeRepository.AddProductType(productType);
+
             return productType.ToProductTypeResponse();
         }
 
@@ -38,18 +41,21 @@ namespace Services
         {
             if (typeId == null)
             {
-                return null;
+                throw new ArgumentNullException(nameof(typeId));
             }
-            ProductType? response =await _sabalanDbContext.ProductTypes
-                .FirstOrDefaultAsync(temp => temp.TypeId == typeId);
-            return response?.ToProductTypeResponse();
+            ProductType? response = await _productTypeRepository.GetProductTypeByID(typeId);
+            if (response is null)
+            {
+                throw new ArgumentException(nameof(response));
+            }
+            return response.ToProductTypeResponse();
         }
 
         public async Task<List<ProductTypeResponse>>? GetAllProductTypes()
         {
-           // List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
-            List<ProductType> productTypes =await _sabalanDbContext.ProductTypes.ToListAsync();
-            return productTypes.Select(temp => temp.ToProductTypeResponse()).ToList();
+            // List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
+            List<ProductType> productTypes = await _productTypeRepository.GetAllProductTypes();
+            return productTypes.Select(t => t.ToProductTypeResponse()).ToList();
         }
     }
 };

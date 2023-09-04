@@ -14,9 +14,7 @@ namespace ServiceContracts.DTO.ProductsDTO
         public List<ProductImg>? productImgs { get; set; }
         public List<ProductDesc>? productDescs { get; set; }
         public List<ProductProperty>? productProperties { get; set; }
-/*        public string? ImageUrl { get; set; }
-        public string? TypeNameEN { get; set; }
-        public string? TypeNameFr { get; set; }*/
+
         public ProductType? productType { get; set; }
         public override bool Equals(object? obj)
         {
@@ -69,8 +67,8 @@ namespace ServiceContracts.DTO.ProductsDTO
                 ProductUrl = product.ProductUrl,
                 isManufactured = product.isManufactured,
                 productType=product.ProductType,
-                productDescs=product.ProductDescs?.ToList(),
-                productImgs=product.ProductImg?.ToList(),
+                productDescs=product.ProductDescriptions?.ToList(),
+                productImgs=product.ProductImages?.ToList(),
                 productProperties=product.ProductProperties?.ToList()
             };
         }
