@@ -246,17 +246,16 @@ namespace SabalanMedical.Controllers
         [Route("[action]/{ProductId}")]
         public async Task<IActionResult> ProductImages(Guid? ProductId)
         {
-            if (ProductId==null || _productService.GetProductById(ProductId)==null)
+            if (ProductId==null)
             {
                 return RedirectToAction("Index");
             }
-            List<ProductImageResponse>? images=await _productImageService.GetProductImagesByProductID(ProductId);
-            TotalDTO dto = new TotalDTO()
+            ProductResponse? product = await _productService.GetProductById(ProductId);
+            if (product == null)
             {
-                ProductResponses =await _productService.GetProductById(ProductId),
-                ProductImageResponses = images
-            };
-            return View(dto);
+                return RedirectToAction("Index");
+            }
+            return View(product);
         }
 
         [Route("[action]/ImageId")]
@@ -356,7 +355,7 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{productId}")]
         [HttpPost]
-        public IActionResult AddProperty(ProductPropertyAddRequest request)
+        public async Task<IActionResult> AddProperty(ProductPropertyAddRequest request)
         {
             if (request==null)
             {
@@ -366,7 +365,7 @@ namespace SabalanMedical.Controllers
             {
                 return View();
             }
-            _productPropertyService.AddProductProperty(request);
+            await _productPropertyService.AddProductProperty(request);
             return RedirectToAction("ProductProperties", new { productId = request.ProductID });
         }
 
@@ -384,7 +383,7 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{propertyId}")]
         [HttpPost]
-        public IActionResult EditProperty(ProductPropertyUpdateRequest? request)
+        public async Task<IActionResult> EditProperty(ProductPropertyUpdateRequest? request)
         {
             if (request==null)
             {
@@ -394,19 +393,19 @@ namespace SabalanMedical.Controllers
             {
                 return View();
             }
-            _productPropertyService.UpdateProductProperty(request);
+           await _productPropertyService.UpdateProductProperty(request);
             return RedirectToAction("ProductProperties", new {productId=request.ProductID});
         }
 
         [Route("[action]/{propertyId}")]
         [HttpGet]
-        public IActionResult DeleteProperty(Guid? propertyId)
+        public async Task<IActionResult> DeleteProperty(Guid? propertyId)
         {
             if (propertyId==null)
             {
                 return RedirectToAction("index");
             }
-            var request=_productPropertyService.GetProductPropertyByPropertyID(propertyId);
+            ProductPropertyResponse request=await _productPropertyService.GetProductPropertyByPropertyID(propertyId);
    
             return View(request);
         }
@@ -432,7 +431,7 @@ namespace SabalanMedical.Controllers
 
         [Route("{action}")]
         [HttpPost]
-        public ActionResult GetFilteredProducts(Guid typeId,string searchBy, string searchKey)
+        public async Task<ActionResult> GetFilteredProducts(Guid typeId,string searchBy, string searchKey)
        {
 
             return ViewComponent("ProductTable", new { typeID = typeId,searchBy= searchBy, searchKey = searchKey});

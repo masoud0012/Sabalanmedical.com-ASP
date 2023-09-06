@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductsDTO;
@@ -10,11 +11,11 @@ namespace Services
 {
     public class ProductImageService : IProductImageService
     {
-        private readonly SabalanDbContext _sabalanDbContext;
+        private readonly IProductImageRepository _productImageRepository;
         //constractor
-        public ProductImageService(SabalanDbContext sabalanDbContext)
+        public ProductImageService(IProductImageRepository productImageRepository)
         {
-            _sabalanDbContext = sabalanDbContext;
+            _productImageRepository = productImageRepository;
         }
 
         public async Task<ProductImageResponse>? AddProductImage(ProductImageAddRequest? request)
@@ -25,8 +26,7 @@ namespace Services
             }
             ValidationHelper.ModelValidation(request);
             ProductImg productImage = request.ToProductImage();
-            _sabalanDbContext.ProductImgs.Add(productImage);
-            await _sabalanDbContext.SaveChangesAsync();
+            await _productImageRepository.AddProductImage(request.ToProductImage());
             return productImage.ToProductImgResponse();
         }
 
@@ -36,19 +36,19 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(imageID));
             }
-            ProductImg? response = _sabalanDbContext.ProductImgs.FirstOrDefault(t => t.ImageID == imageID);
+
+            ProductImg? response =await _productImageRepository.GetProductImageByImageID(imageID.Value);
             if (response is null)
             {
                 return false;
             }
-            _sabalanDbContext.ProductImgs.Remove(response);
-            await _sabalanDbContext.SaveChangesAsync();
+            await _productImageRepository.DeleteProductImage(imageID.Value);
             return true;
         }
 
         public async Task<List<ProductImageResponse>>? GetAllProductImages()
         {
-            return _sabalanDbContext.sp_GetAllProductImages().Select(t => t.ToProductImgResponse()).ToList();
+            return (await _productImageRepository.GetAllProductImages()).Select(t => t.ToProductImgResponse()).ToList();
         }
 
         public async Task<ProductImageResponse>? GetProductImageByImageID(Guid? imageID)
@@ -57,7 +57,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(imageID));
             }
-            ProductImg? productImg =await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.ImageID == imageID);
+            ProductImg? productImg = await _productImageRepository.GetProductImageByImageID(imageID.Value);
             if (productImg == null)
             {
                 throw new ArgumentException("No image was found!");
@@ -71,29 +71,25 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(productId));
             }
-            List<ProductImg>? response = _sabalanDbContext.ProductImgs.Where(t => t.ProductID == productId).ToList();
-            if (response==null)
+            List<ProductImg>? response =await _productImageRepository.GetProductImagesByProductID(productId.Value);
+            if (response == null)
             {
                 return null;
             }
             return response.Select(t => t.ToProductImgResponse()).ToList();
         }
-
         public async Task<ProductImageResponse>? UpdateProductImage(ProductImageUpdateRequest? updateRequest)
         {
             if (updateRequest == null)
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductImg? response = _sabalanDbContext.ProductImgs.FirstOrDefault(t => t.ImageID == updateRequest.ImageID);
+            ProductImg? response =await _productImageRepository.GetProductImageByImageID(updateRequest.ImageID);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");
             }
-            response.ImageID = updateRequest.ImageID;
-            response.ProductID = updateRequest.ProductID;
-            response.ImageUrl = updateRequest.ImageUrl;
-           await _sabalanDbContext.SaveChangesAsync();
+            await _productImageRepository.UpdateProductImage(response);
             return response.ToProductImgResponse();
         }
     }

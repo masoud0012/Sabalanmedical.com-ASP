@@ -21,7 +21,7 @@
                     </div>
                 </li>
                 <li>
-                    @foreach (ProductImageResponse item in Model.productImgs.Select(t=>t.ToProductImgResponse()))
+                    @foreach (ProductImageResponse item in Model.productImgs)
                     {
                         <img src="~/images/products/@item.ImageUrl" style="width: 65px">
                     }
@@ -38,7 +38,7 @@
             <div class="shop-features">
                 <p>ویژگیها :</p>
                
-                @foreach(ProductPropertyResponse property in Model.productProperties.Select(t=>t.ToProductPropertyResponse())){
+                @foreach(ProductPropertyResponse property in Model.productProperties){
   
                     <p class="text-muted"><i class="bi-check-circle ms-2"></i>@property.PropertyDetail</p>
                 }

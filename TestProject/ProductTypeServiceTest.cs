@@ -16,8 +16,10 @@ namespace TestProject
     {
         private readonly IProductTypeService _productTypeSerivice;
         private readonly IFixture _fixture;
-        public ProductTypeServiceTest()
+        private readonly IProductTypeRepository _productRepository;
+        public ProductTypeServiceTest(IProductTypeRepository productTypeRepository)
         {
+            _productRepository = productTypeRepository;
             Mock<ProductTypeRepository> repositoryMock = new Mock<ProductTypeRepository>();
             _fixture = new Fixture();/*
             List<ProductType> productTypes = new List<ProductType>() { };

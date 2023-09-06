@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-6 col-sm-12 shadow-lg p-5">
             <h3 class="text-success  border-bottom">@Model.ProductNameFr</h3>
-            @foreach (ProductDescResponse item in Model.productDescs.Select(t=>t.ToProductDescResponse()))
+            @foreach (ProductDescResponse item in Model.productDescs)
             {
                 <h4 class="text-danger mt-5">@item.DescTitle</h4>
                 <p>@item.Description</p>
@@ -27,7 +27,7 @@
                 <div class="col-12">
                     <img src="~/images/products/@Model.productImgs.FirstOrDefault().ImageUrl" style="width: 100%">
                     <div class="col-12 d-flex flex-row shadow-lg">
-                        @foreach (ProductImageResponse image in Model.productImgs.Select(t=>t.ToProductImgResponse()))
+                        @foreach (ProductImageResponse image in Model.productImgs)
                         {
                             <IMG src="~/images/products/@image.ImageUrl" style="width: 90px">
                         }
@@ -36,7 +36,7 @@
                         <h5 class=" p-2 text-white fw-bold" style="width: 130px;border-radius: 5px;background-color: darkblue">ویژگیها:</h5>
                         <div class="border-bottom mb-3 border-danger">
                         </div>
-                        @foreach (ProductPropertyResponse property in Model.productProperties.Select(t=>t.ToProductPropertyResponse()))
+                        @foreach (ProductPropertyResponse property in Model.productProperties)
                         {
                             <p class="text-dark"><i class="bi-check"></i>@property.PropertyDetail</p>
                         }

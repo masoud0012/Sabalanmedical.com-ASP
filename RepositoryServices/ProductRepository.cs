@@ -46,8 +46,8 @@ namespace RepositoryServices
 
         public async Task<Product?> GetProductById(Guid guid)
         {
-            return await _sabalanDbContext.Products.Include("ProductType").Include("ProductDescription")
-                              .Include("ProductImg").Include("ProductProperties").FirstOrDefaultAsync(t => t.ProductID == guid);
+            return await _sabalanDbContext.Products.Include("ProductType").Include("ProductDescriptions")
+                              .Include("ProductImages").Include("ProductProperties").FirstOrDefaultAsync(t => t.ProductID == guid);
         }
 
         public async Task<Product?> GetProductByName(string? productNameEN, string? productNameFr)

@@ -58,7 +58,7 @@ namespace Services
             }
             return product.ToProductResponse();
         }
-        public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string searchKey="")
+        public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string searchKey="c")
         {
             searchKey= searchKey ?? "";
             List<Product>? products = searchBy switch
@@ -82,7 +82,7 @@ namespace Services
             };
             return products.Select(t => t.ToProductResponse()).ToList();
         }
-        public async Task<List<ProductResponse>>? GetFilteredProduct(Guid typeId, string searchBy, string searchKey="c")
+        public async Task<List<ProductResponse>>? GetFilteredProduct(Guid typeId, string searchBy, string searchKey="")
         {
 
             if (typeId==null&&string.IsNullOrEmpty(searchKey)&&string.IsNullOrEmpty(searchKey))

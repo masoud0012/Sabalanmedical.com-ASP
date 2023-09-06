@@ -1,4 +1,7 @@
 ﻿using Entities;
+using ServiceContracts.DTO.ProductDescriptionDTO;
+using ServiceContracts.DTO.ProductImageDTO;
+using ServiceContracts.DTO.ProductPropertyDTO;
 using System;
 namespace ServiceContracts.DTO.ProductsDTO
 {
@@ -11,9 +14,9 @@ namespace ServiceContracts.DTO.ProductsDTO
         public bool isHotSale { get; set; }
         public string? ProductUrl { get; set; }
         public bool isManufactured { get; set; }
-        public List<ProductImg>? productImgs { get; set; }
-        public List<ProductDesc>? productDescs { get; set; }
-        public List<ProductProperty>? productProperties { get; set; }
+        public List<ProductImageResponse>? productImgs { get; set; }
+        public List<ProductDescResponse>? productDescs { get; set; }
+        public List<ProductPropertyResponse>? productProperties { get; set; }
 
         public ProductType? productType { get; set; }
         public override bool Equals(object? obj)
@@ -67,9 +70,9 @@ namespace ServiceContracts.DTO.ProductsDTO
                 ProductUrl = product.ProductUrl,
                 isManufactured = product.isManufactured,
                 productType=product.ProductType,
-                productDescs=product.ProductDescriptions?.ToList(),
-                productImgs=product.ProductImages?.ToList(),
-                productProperties=product.ProductProperties?.ToList()
+                productDescs=product.ProductDescriptions.Select(t=>t.ToProductDescResponse())?.ToList(),
+                productImgs=product.ProductImages?.Select(t=>t.ToProductImgResponse()).ToList(),
+                productProperties=product.ProductProperties.Select(t=>t.ToProductPropertyResponse())?.ToList()
             };
         }
     }

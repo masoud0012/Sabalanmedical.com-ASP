@@ -13,6 +13,8 @@
           "EntityFrameworkCoreMock.Moq": "2.4.0",
           "Microsoft.NET.Test.Sdk": "17.5.0",
           "Moq": "4.20.69",
+          "RepositoryContracts": "1.0.0",
+          "RepositoryServices": "1.0.0",
           "Selenium.WebDriver": "4.11.0",
           "Selenium.WebDriver.ChromeDriver": "116.0.5845.9600",
           "ServiceContracts": "1.0.0",
@@ -1804,6 +1806,23 @@
           "Entities.dll": {}
         }
       },
+      "RepositoryContracts/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "runtime": {
+          "RepositoryContracts.dll": {}
+        }
+      },
+      "RepositoryServices/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0",
+          "RepositoryContracts": "1.0.0"
+        },
+        "runtime": {
+          "RepositoryServices.dll": {}
+        }
+      },
       "ServiceContracts/1.0.0": {
         "dependencies": {
           "Entities": "1.0.0"
@@ -1817,6 +1836,7 @@
           "CsvHelper": "30.0.1",
           "EPPlus": "6.2.8",
           "Entities": "1.0.0",
+          "RepositoryContracts": "1.0.0",
           "ServiceContracts": "1.0.0"
         },
         "runtime": {
@@ -2952,6 +2972,16 @@
       "hashPath": "xunit.runner.visualstudio.2.4.5.nupkg.sha512"
     },
     "Entities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RepositoryContracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RepositoryServices/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

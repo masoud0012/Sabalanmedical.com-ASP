@@ -330,3 +330,7 @@ D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\WebDriver.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\AutoFixture.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\Fare.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\RepositoryContracts.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\RepositoryServices.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\RepositoryContracts.pdb
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\TestProject\bin\Debug\net6.0\RepositoryServices.pdb

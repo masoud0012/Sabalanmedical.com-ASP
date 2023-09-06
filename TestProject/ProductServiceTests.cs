@@ -4,6 +4,8 @@ using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Moq;
+using RepositoryContracts;
+using RepositoryServices;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
@@ -20,20 +22,22 @@ namespace TestProject
         private readonly ITestOutputHelper _testHelper;
         private readonly IProductTypeService _productTypeService;
         private readonly IFixture _fixture;
-        public ProductServiceTests(ITestOutputHelper testOutputHelper
-            )
+
+        public ProductServiceTests(ITestOutputHelper testOutputHelper)
         {
+            Mock<ProductRepository> ProductRepositoryMock = new Mock<ProductRepository>();
+            Mock<ProductTypeRepository> ProducttyeRepositoryMock = new Mock<ProductTypeRepository>();
             _fixture = new Fixture();
-            List<Product> products = new List<Product>() { };
+/*            List<Product> products = new List<Product>() { };
             List<ProductType> ProductTypes = new List<ProductType>() { };
             DbContextMock<SabalanDbContext> dbContextMock = new DbContextMock<SabalanDbContext>
                 (new DbContextOptionsBuilder<SabalanDbContext>().Options);
             SabalanDbContext sabalanDbContext = dbContextMock.Object;
             dbContextMock.CreateDbSetMock(t => t.Products, products);
-            dbContextMock.CreateDbSetMock(t => t.ProductTypes, ProductTypes);
-            _productService = new ProductService(sabalanDbContext);
+            dbContextMock.CreateDbSetMock(t => t.ProductTypes, ProductTypes);*/
+            _productService = new ProductService(ProductRepositoryMock.Object);
             _testHelper = testOutputHelper;
-            _productTypeService = new ProductTypesService(sabalanDbContext);
+            _productTypeService = new ProductTypesService(ProducttyeRepositoryMock.Object);
         }
         #region AddProduct
         [Fact]
