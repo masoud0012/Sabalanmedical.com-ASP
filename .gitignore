@@ -22,4 +22,4 @@ packages/
 
 # Ignore application-specific config files (customize as needed)
 Web.config
-appsettings.json
+
