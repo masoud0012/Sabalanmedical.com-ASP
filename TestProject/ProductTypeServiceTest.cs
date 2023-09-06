@@ -18,7 +18,8 @@ namespace TestProject
         private readonly IFixture _fixture;
         public ProductTypeServiceTest()
         {
-            _fixture = new Fixture();/*
+            _fixture = new Fixture();
+            /*
             List<ProductType> productTypes = new List<ProductType>() { };
             DbContextMock<SabalanDbContext> dbContextMock = new DbContextMock<SabalanDbContext>(new DbContextOptionsBuilder<SabalanDbContext>().Options);
             SabalanDbContext sabalanDbContext = dbContextMock.Object;
