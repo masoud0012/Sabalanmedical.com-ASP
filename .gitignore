@@ -1,0 +1,25 @@
+# Ignore build artifacts
+bin/
+obj/
+
+# Ignore user-specific settings
+*.suo
+*.user
+*.suo
+
+# Ignore NuGet package directory
+packages/
+
+# Ignore Visual Studio files
+.vs/
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+[Tt]emp/
+[Oo]bj/
+
+# Ignore application-specific config files (customize as needed)
+Web.config
+appsettings.json
