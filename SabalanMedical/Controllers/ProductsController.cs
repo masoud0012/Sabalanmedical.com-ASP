@@ -42,11 +42,13 @@ namespace SabalanMedical.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-           var allTypes = await _productTypeService.GetAllProductTypes();
+           //List<ProductTypeResponse>? allTypes = await _productTypeService.GetAllProductTypes();
 
-            ViewBag.products = _productService.GetAllProducts();
-            ViewBag.Types = allTypes;
-            return View();
+            List<ProductResponse> productResponses =await _productService.GetAllProducts();
+            List<ProductTypeResponse> types = await _productTypeService.GetAllProductTypes();
+            ViewBag.TypeList= types?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.TypeId.ToString() });
+            //ViewBag.Types = allTypes;
+            return View(productResponses);
         }
 
         [Route("[action]")]
@@ -191,7 +193,6 @@ namespace SabalanMedical.Controllers
         }
 
 
-
         [Route("[action]/DescriptionId")]
         [HttpGet]
         public async Task<IActionResult> DeleteDescription(Guid DescriptionId)
@@ -245,29 +246,32 @@ namespace SabalanMedical.Controllers
         [Route("[action]/{ProductId}")]
         public async Task<IActionResult> ProductImages(Guid? ProductId)
         {
-            if (ProductId==null || _productService.GetProductById(ProductId)==null)
+            if (ProductId==null)
             {
                 return RedirectToAction("Index");
             }
-            List<ProductImageResponse>? images=await _productImageService.GetProductImagesByProductID(ProductId);
-            TotalDTO dto = new TotalDTO()
+            ProductResponse? product = await _productService.GetProductById(ProductId);
+            if (product == null)
             {
-                ProductResponses =await _productService.GetProductById(ProductId),
-                ProductImageResponses = images
-            };
-            return View(dto);
+                return RedirectToAction("Index");
+            }
+            return View(product);
         }
 
         [Route("[action]/ImageId")]
         [HttpGet]
         public async  Task<IActionResult> DeleteImage(Guid? ImageId)
         {
+            if (ImageId==null)
+            {
+                throw new ArgumentNullException(nameof(ImageId));
+            }
             ProductImageResponse? Image= await _productImageService.GetProductImageByImageID(ImageId);
             if (Image==null)
             {
                 return RedirectToAction("Index");
             }
-            _productImageService.DeleteProductImage(ImageId);
+            await _productImageService.DeleteProductImage(ImageId);
             string? fileName = Image.ImageUrl;
             if(fileName==null)
             {
@@ -339,19 +343,19 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{productId}")]
         [HttpGet]
-        public IActionResult AddProperty(Guid? productId)
+        public async Task<IActionResult> AddProperty(Guid? productId)
         {
             if (productId == Guid.Empty)
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.Product=_productService.GetProductById(productId);
+            ViewBag.Product=await _productService.GetProductById(productId);
             return View();
         }
 
         [Route("[action]/{productId}")]
         [HttpPost]
-        public IActionResult AddProperty(ProductPropertyAddRequest request)
+        public async Task<IActionResult> AddProperty(ProductPropertyAddRequest request)
         {
             if (request==null)
             {
@@ -361,7 +365,7 @@ namespace SabalanMedical.Controllers
             {
                 return View();
             }
-            _productPropertyService.AddProductProperty(request);
+            await _productPropertyService.AddProductProperty(request);
             return RedirectToAction("ProductProperties", new { productId = request.ProductID });
         }
 
@@ -379,7 +383,7 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{propertyId}")]
         [HttpPost]
-        public IActionResult EditProperty(ProductPropertyUpdateRequest? request)
+        public async Task<IActionResult> EditProperty(ProductPropertyUpdateRequest? request)
         {
             if (request==null)
             {
@@ -389,19 +393,19 @@ namespace SabalanMedical.Controllers
             {
                 return View();
             }
-            _productPropertyService.UpdateProductProperty(request);
+           await _productPropertyService.UpdateProductProperty(request);
             return RedirectToAction("ProductProperties", new {productId=request.ProductID});
         }
 
         [Route("[action]/{propertyId}")]
         [HttpGet]
-        public IActionResult DeleteProperty(Guid? propertyId)
+        public async Task<IActionResult> DeleteProperty(Guid? propertyId)
         {
             if (propertyId==null)
             {
                 return RedirectToAction("index");
             }
-            var request=_productPropertyService.GetProductPropertyByPropertyID(propertyId);
+            ProductPropertyResponse request=await _productPropertyService.GetProductPropertyByPropertyID(propertyId);
    
             return View(request);
         }
@@ -427,7 +431,7 @@ namespace SabalanMedical.Controllers
 
         [Route("{action}")]
         [HttpPost]
-        public ActionResult GetFilteredProducts(Guid typeId,string searchBy, string searchKey)
+        public async Task<ActionResult> GetFilteredProducts(Guid typeId,string searchBy, string searchKey)
        {
 
             return ViewComponent("ProductTable", new { typeID = typeId,searchBy= searchBy, searchKey = searchKey});

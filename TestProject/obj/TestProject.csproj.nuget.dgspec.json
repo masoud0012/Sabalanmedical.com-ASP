@@ -71,6 +71,127 @@
         }
       }
     },
+    "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectName": "RepositoryContracts",
+        "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj",
+        "packagesPath": "C:\\Users\\masou\\.nuget\\packages\\",
+        "outputPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\masou\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj",
+        "projectName": "RepositoryServices",
+        "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj",
+        "packagesPath": "C:\\Users\\masou\\.nuget\\packages\\",
+        "outputPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\masou\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj"
+              },
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -157,6 +278,9 @@
               "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj": {
                 "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj"
               },
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj"
+              },
               "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj": {
                 "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj"
               }
@@ -176,6 +300,10 @@
             "CsvHelper": {
               "target": "Package",
               "version": "[30.0.1, )"
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.2.8, )"
             }
           },
           "imports": [
@@ -225,6 +353,12 @@
               "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj": {
                 "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\Entities\\Entities.csproj"
               },
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryContracts\\RepositoryContracts.csproj"
+              },
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\RepositoryServices\\RepositoryServices.csproj"
+              },
               "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj": {
                 "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\ServiceContracts\\ServiceContracts.csproj"
               },
@@ -244,9 +378,29 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoFixture": {
+              "target": "Package",
+              "version": "[4.18.0, )"
+            },
+            "EntityFrameworkCoreMock.Moq": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.5.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.69, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.11.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[116.0.5845.9600, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

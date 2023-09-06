@@ -1,5 +1,11 @@
-﻿using Entities;
+﻿using AutoFixture;
+using Entities;
+using EntityFrameworkCoreMock;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+using Moq;
+using RepositoryContracts;
+using RepositoryServices;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.DTO.ProductTypeDTO;
@@ -15,21 +21,27 @@ namespace TestProject
         private readonly IProductService _productService;
         private readonly ITestOutputHelper _testHelper;
         private readonly IProductTypeService _productTypeService;
-        private readonly SabalanDbContext _sabalanDbContext;
+        private readonly IFixture _fixture;
 
-        public ProductServiceTests(ITestOutputHelper testOutputHelper
-            ,IProductTypeService productTypeService
-            ,IProductService productService,
-            SabalanDbContext sabalanDbContext)
+        public ProductServiceTests(ITestOutputHelper testOutputHelper)
         {
-            _sabalanDbContext = sabalanDbContext;
-            _productService = productService;
+            Mock<ProductRepository> ProductRepositoryMock = new Mock<ProductRepository>();
+            Mock<ProductTypeRepository> ProducttyeRepositoryMock = new Mock<ProductTypeRepository>();
+            _fixture = new Fixture();
+/*            List<Product> products = new List<Product>() { };
+            List<ProductType> ProductTypes = new List<ProductType>() { };
+            DbContextMock<SabalanDbContext> dbContextMock = new DbContextMock<SabalanDbContext>
+                (new DbContextOptionsBuilder<SabalanDbContext>().Options);
+            SabalanDbContext sabalanDbContext = dbContextMock.Object;
+            dbContextMock.CreateDbSetMock(t => t.Products, products);
+            dbContextMock.CreateDbSetMock(t => t.ProductTypes, ProductTypes);*/
+            _productService = new ProductService(ProductRepositoryMock.Object);
             _testHelper = testOutputHelper;
-            _productTypeService = productTypeService;
+            _productTypeService = new ProductTypesService(ProducttyeRepositoryMock.Object);
         }
         #region AddProduct
         [Fact]
-        public  void AddProduct_ProductIsNull()
+        public void AddProduct_ProductIsNull()
         {
             //arrangement
             ProductAddRequest? request = null;
@@ -38,41 +50,33 @@ namespace TestProject
             //assert
             Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-               await _productService.AddProduct(request);
+                await _productService.AddProduct(request);
             });
         }
         [Fact]
         public async void AddProduct_ProductNameIsNull()
         {
             //arrangement
-            ProductAddRequest request = new ProductAddRequest()
-            {
-                ProductNameEn = null,
-                ProductNameFr = null
-            };
+            ProductAddRequest request = _fixture.Build<ProductAddRequest>().With(t => t.ProductNameEn, null as string)
+                .With(t => t.ProductNameFr, null as string).Create();
             //act
 
             //assert
-           await Assert.ThrowsAsync<ArgumentException>(async () =>
-            {
-                await _productService.AddProduct(request);
-            });
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+             {
+                 await _productService.AddProduct(request);
+             });
         }
 
         [Fact]
         public async void AddProduct_ProperProduct()
         {
-            ProductAddRequest request = new ProductAddRequest()
-            {
-                TypeId = Guid.NewGuid(),
-                ProductNameEn = "Reload",
-                ProductNameFr = "کارتریج",
-            };
+            ProductAddRequest request = _fixture.Create<ProductAddRequest>();
             //act
-            ProductResponse productResponse =await _productService.AddProduct(request);
+            ProductResponse productResponse = await _productService.AddProduct(request);
             //assert
             Assert.True(productResponse.ProductId != Guid.Empty);
-            Assert.Contains(productResponse,await _productService.GetAllProducts());
+            Assert.Contains(productResponse, await _productService.GetAllProducts());
         }
         #endregion
 
@@ -83,7 +87,7 @@ namespace TestProject
             //arrangement
             Guid? ProductId = null;
             //act
-            ProductResponse? response =await _productService.GetProductById(ProductId);
+            ProductResponse? response = await _productService.GetProductById(ProductId);
             //asser
             Assert.Null(response);
         }
@@ -91,13 +95,8 @@ namespace TestProject
         public async void GetPersonByID_properID()
         {
             //arrangment
-            ProductAddRequest request = new ProductAddRequest()
-            {
-                ProductNameEn = "Reload",
-                ProductNameFr = "کارتریج",
-                TypeId = Guid.NewGuid()
-            };
-            ProductResponse productResponse_FromAdd =await _productService.AddProduct(request);
+            ProductAddRequest request = _fixture.Create<ProductAddRequest>();
+            ProductResponse productResponse_FromAdd = await _productService.AddProduct(request);
             //act
             ProductResponse? productResponse_FromGetById = await _productService.GetProductById(productResponse_FromAdd.ProductId);
             //assert
@@ -117,17 +116,19 @@ namespace TestProject
             //arrangement
             List<ProductTypeAddRequest> productTypeAddRequests = new List<ProductTypeAddRequest>()
             {
-                new ProductTypeAddRequest(){TypeNameEN="ENT",TypeNameFr="محصولات بهداشتی"},
-                new ProductTypeAddRequest(){TypeNameEN="Surgery",TypeNameFr="محصولات عمل"},
+               _fixture.Create<ProductTypeAddRequest>(),
+               _fixture.Create<ProductTypeAddRequest>(),
             };
             ProductTypeResponse TypeResponse1 = await _productTypeService.AddProductType(productTypeAddRequests[0]);
             ProductTypeResponse TypeResponse2 = await _productTypeService.AddProductType(productTypeAddRequests[1]);
 
             List<ProductAddRequest> requests = new List<ProductAddRequest>()
             {
-                new ProductAddRequest(){ProductNameEn="Reload1",ProductNameFr="کارتریج1",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload2",ProductNameFr="کارتریج2",TypeId=TypeResponse2.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload3",ProductNameFr="3کارتریج",TypeId=TypeResponse1.TypeId}
+               _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+               _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+               _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
+               _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+               _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
             };
             List<Task<ProductResponse>> tasks = requests.Select(temp => _productService.AddProduct(temp)).ToList();
             IEnumerable<ProductResponse> responses_fromAdd = await Task.WhenAll(tasks);
@@ -139,7 +140,7 @@ namespace TestProject
             }
 
             //act
-            List<ProductResponse> responses_fromGelAll =await _productService.GetAllProducts();
+            List<ProductResponse> responses_fromGelAll = await _productService.GetAllProducts();
             _testHelper.WriteLine("all products frpm GetAllProducts Method");
             foreach (ProductResponse item in responses_fromGelAll)
             {
@@ -158,19 +159,21 @@ namespace TestProject
             List<ProductTypeAddRequest> productTypeAddRequests = new List<ProductTypeAddRequest>()
             {
                 new ProductTypeAddRequest(){TypeNameEN="ENT",TypeNameFr="محصولات بهداشتی"},
-                new ProductTypeAddRequest(){TypeNameEN="Surgery",TypeNameFr="محصولات عمل"},
+             _fixture.Create<ProductTypeAddRequest>(),
+             _fixture.Create<ProductTypeAddRequest>()
             };
-            ProductTypeResponse TypeResponse1 =await _productTypeService.AddProductType(productTypeAddRequests[0]);
-            ProductTypeResponse TypeResponse2 =await _productTypeService.AddProductType(productTypeAddRequests[1]);
+            ProductTypeResponse TypeResponse1 = await _productTypeService.AddProductType(productTypeAddRequests[0]);
+            ProductTypeResponse TypeResponse2 = await _productTypeService.AddProductType(productTypeAddRequests[1]);
 
             List<ProductAddRequest> requests = new List<ProductAddRequest>()
             {
-                new ProductAddRequest(){ProductNameEn="Reload1",ProductNameFr="کارتریج1",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload2",ProductNameFr="کارتریج2",TypeId=TypeResponse2.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload3",ProductNameFr="3کارتریج",TypeId=TypeResponse1.TypeId}
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
             };
             List<Task<ProductResponse>> tasks = requests.Select(temp => _productService.AddProduct(temp)).ToList();
-            IEnumerable<ProductResponse> responses_fromAdd =await Task.WhenAll(tasks);
+            IEnumerable<ProductResponse> responses_fromAdd = await Task.WhenAll(tasks);
             _testHelper.WriteLine("all products frpm responses_fromAdd Method");
 
             //act
@@ -194,27 +197,31 @@ namespace TestProject
             //arrangement
             List<ProductTypeAddRequest> productTypeAddRequests = new List<ProductTypeAddRequest>()
             {
-                new ProductTypeAddRequest(){TypeNameEN="ENT",TypeNameFr="محصولات بهداشتی"},
-                new ProductTypeAddRequest(){TypeNameEN="Surgery",TypeNameFr="محصولات عمل"},
+               _fixture.Create<ProductTypeAddRequest>(),
+               _fixture.Create<ProductTypeAddRequest>()
             };
-            ProductTypeResponse TypeResponse1 =await _productTypeService.AddProductType(productTypeAddRequests[0]);
+            ProductTypeResponse TypeResponse1 = await _productTypeService.AddProductType(productTypeAddRequests[0]);
             ProductTypeResponse TypeResponse2 = await _productTypeService.AddProductType(productTypeAddRequests[1]);
 
             List<ProductAddRequest> requests = new List<ProductAddRequest>()
             {
-                new ProductAddRequest(){ProductNameEn="Splint",ProductNameFr="اسپیلنت",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="ASplint",ProductNameFr="اسپیلنت",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="HMspE FIlter",ProductNameFr="فیلتر",TypeId=TypeResponse2.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload",ProductNameFr="3کارتریج",TypeId=TypeResponse1.TypeId}
+             _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+             _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+             _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
+             _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+             _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
             };
-            List<ProductTypeResponse> typeresponse =await _productTypeService.GetAllProductTypes();
-            List<Task<ProductResponse>> tasks = requests.Select(temp => _productService.AddProduct(temp)).ToList();
-            IEnumerable<ProductResponse> responses_fromAdd = await Task.WhenAll(tasks);
-
+            List<ProductTypeResponse> typeresponse = await _productTypeService.GetAllProductTypes();
+            List<ProductResponse> responses_fromAdd = new List<ProductResponse>();
+            foreach (var item in requests)
+            {
+                var re = await _productService.AddProduct(item);
+                responses_fromAdd.Add(re);
+            }
             //act
             List<ProductResponse>? responses_fromFilteredProducts =
-               await _productService.GetFilteredProduct(nameof(ProductResponse.TypeNameEN), "sp");
-            _testHelper.WriteLine("all products frpm GetAllProducts Method");
+               await _productService.GetFilteredProduct(nameof(ProductResponse.ProductNameEn), "sp");
+            _testHelper.WriteLine("all products from GetAllProducts Method");
             if (responses_fromFilteredProducts is not null)
             {
                 foreach (ProductResponse item in responses_fromFilteredProducts)
@@ -247,20 +254,21 @@ namespace TestProject
                 new ProductTypeAddRequest(){TypeNameEN="ENT",TypeNameFr="محصولات بهداشتی"},
                 new ProductTypeAddRequest(){TypeNameEN="Surgery",TypeNameFr="محصولات عمل"},
             };
-            ProductTypeResponse TypeResponse1 =await _productTypeService.AddProductType(productTypeAddRequests[0]);
-            ProductTypeResponse TypeResponse2 =await _productTypeService.AddProductType(productTypeAddRequests[1]);
+            ProductTypeResponse TypeResponse1 = await _productTypeService.AddProductType(productTypeAddRequests[0]);
+            ProductTypeResponse TypeResponse2 = await _productTypeService.AddProductType(productTypeAddRequests[1]);
 
             List<ProductAddRequest> requests = new List<ProductAddRequest>()
             {
-                new ProductAddRequest(){ProductNameEn="Splint",ProductNameFr="اسپیلنت",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="ASplint",ProductNameFr="بهداشتی",TypeId=TypeResponse1.TypeId},
-                new ProductAddRequest(){ProductNameEn="HMspE FIlter",ProductNameFr="فیلتر",TypeId=TypeResponse2.TypeId},
-                new ProductAddRequest(){ProductNameEn="Reload",ProductNameFr="کارتریج",TypeId=TypeResponse1.TypeId}
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse1.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create(),
+                _fixture.Build<ProductAddRequest>().With(t=>t.TypeId,TypeResponse2.TypeId).Create()
             };
 
             // List<ProductResponse> responses_fromAdd = requests.Select(temp =>_productService.AddProduct(temp)).ToList();
             List<ProductResponse> responses_fromAdd = new List<ProductResponse>();
-           
+
             foreach (ProductAddRequest item in requests)
             {
                 await _productService.AddProduct(item);
@@ -291,10 +299,10 @@ namespace TestProject
         public async Task UpdateProduct_RequestIsNull()
         {
             ProductUpdateRequest? request = null;
-           await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-            {
-              await  _productService.UpdateProduct(request);
-            });
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+             {
+                 await _productService.UpdateProduct(request);
+             });
         }
         [Fact]
         public async Task ProductUpdate_InvalidProductID()
@@ -307,11 +315,12 @@ namespace TestProject
                 ProductNameFr = "محصولات",
                 TypeId = Guid.NewGuid()
             };
+            var x = _productService.UpdateProduct(productUpdateRequest);
             //act
-           await Assert.ThrowsAsync<ArgumentException>(async () =>
-            {
-               await _productService.UpdateProduct(productUpdateRequest);
-            });
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+             {
+                 await _productService.UpdateProduct(productUpdateRequest);
+             });
             //assert
         }
         [Fact]
@@ -322,7 +331,7 @@ namespace TestProject
                 TypeNameEN = "ENT",
                 TypeNameFr = "محصولات"
             };
-            ProductTypeResponse typeResponse =await _productTypeService.AddProductType(productTypeAddRequest);
+            ProductTypeResponse typeResponse = await _productTypeService.AddProductType(productTypeAddRequest);
             ProductAddRequest productAddRequest = new ProductAddRequest()
             {
                 ProductNameEn = "ENT",
@@ -330,30 +339,22 @@ namespace TestProject
                 TypeId = typeResponse.TypeId
             };
 
-            ProductResponse productResponse =await _productService.AddProduct(productAddRequest);
+            ProductResponse productResponse = await _productService.AddProduct(productAddRequest);
             ProductUpdateRequest productUpdateRequest = productResponse.ToProductUpdateRequest();
             productUpdateRequest.ProductNameEn = null;
             //act
-           await Assert.ThrowsAsync<ArgumentException>(async () =>
-            {
-               await _productService.UpdateProduct(productUpdateRequest);
-            });
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+             {
+                 await _productService.UpdateProduct(productUpdateRequest);
+             });
         }
 
 
         [Fact]
         public async Task UpdateProduct_RequestIsProper()
         {
-            ProductTypeAddRequest typeRequest = new ProductTypeAddRequest() { TypeNameEN = "ENT", TypeNameFr = "محصولات" };
-
-            ProductTypeResponse typeResponse=await _productTypeService.AddProductType(typeRequest);
-
-            ProductAddRequest productRequest = new ProductAddRequest() { TypeId = typeResponse.TypeId, ProductNameEn = "Splint", ProductNameFr = "اسپیلنت" };
-
-            ProductResponse productResponse =await _productService.AddProduct(productRequest);
-            _testHelper.WriteLine("productResponse");
-            _testHelper.WriteLine(productResponse.ToString());
-
+            ProductAddRequest productAddRequest = _fixture.Create<ProductAddRequest>();
+            ProductResponse productResponse = await _productService.AddProduct(productAddRequest);
             ProductUpdateRequest productUpdateRequest = productResponse.ToProductUpdateRequest();
             productUpdateRequest.ProductNameEn = "BVF";
             productUpdateRequest.ProductNameFr = "بیهوشی تنفسی";
@@ -361,8 +362,8 @@ namespace TestProject
             _testHelper.WriteLine("productUpdateRequest");
             _testHelper.WriteLine(productUpdateRequest.ProductID + "--" + productUpdateRequest.ProductNameEn);
 
-            ProductResponse productResponse_FromUpdateMethod =await _productService.UpdateProduct(productUpdateRequest);
-            ProductResponse? productResponse_fromGetById =await _productService.GetProductById(productResponse_FromUpdateMethod.ProductId);
+            ProductResponse productResponse_FromUpdateMethod = await _productService.UpdateProduct(productUpdateRequest);
+            ProductResponse? productResponse_fromGetById = await _productService.GetProductById(productResponse_FromUpdateMethod.ProductId);
             _testHelper.WriteLine("productUpdateRequest");
             _testHelper.WriteLine(productUpdateRequest.ToString());
 
@@ -383,15 +384,15 @@ namespace TestProject
         public async Task DeleteProduct_ProductIdIsNull()
         {
             Guid? productID = null;
-           await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-            {
-               await _productService.DeleteProduct(productID);
-            });
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+             {
+                 await _productService.DeleteProduct(productID);
+             });
         }
         [Fact]
         public async Task DeleteProduct_InvalidProductId()
         {
-            bool isDeleted =await _productService.DeleteProduct(Guid.NewGuid());
+            bool isDeleted = await _productService.DeleteProduct(Guid.NewGuid());
             //assert
             Assert.False(isDeleted);
         }
@@ -404,17 +405,12 @@ namespace TestProject
                 TypeNameEN = "ENT",
                 TypeNameFr = "محصولات"
             };
-            ProductTypeResponse typeResponse =await _productTypeService.AddProductType(typeRequest);
-            ProductAddRequest productAddRequest = new ProductAddRequest()
-            {
-                ProductNameEn = "Ent",
-                ProductNameFr = "محصولات",
-                TypeId = typeResponse.TypeId
-            };
+            ProductTypeResponse typeResponse = await _productTypeService.AddProductType(typeRequest);
+            ProductAddRequest productAddRequest = _fixture.Build<ProductAddRequest>().With(t => t.TypeId, typeResponse.TypeId).Create();
 
-            ProductResponse response =await _productService.AddProduct(productAddRequest);
+            ProductResponse response = await _productService.AddProduct(productAddRequest);
             //arrangement
-            bool result =await _productService.DeleteProduct(response.ProductId);
+            bool result = await _productService.DeleteProduct(response.ProductId);
             //assert
             Assert.True(result);
         }

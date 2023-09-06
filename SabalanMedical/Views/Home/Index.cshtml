@@ -1,4 +1,5 @@
 ﻿@model List<ProductResponse>
+<a asp-controller="Home" asp-action="TestSelenium">test selenium</a>
 <section>
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -140,15 +141,17 @@
                         <div class="card myCard">
                             <a asp-action="Product" asp-controller="Home" asp-route-productUrl="@product.ProductUrl">
                                 <div class="cardImages">
-                                    @if (product.ImageUrl != null)
+                                    @if (product.productImgs.Count!=0)
                                     {
-                                        <img src="~/images/products/@product.ImageUrl" class="card-img-top " alt="@product.ProductNameFr" style="width: 100%;height: 20rem">
+                                        <img src="~/images/products/@product.productImgs?.FirstOrDefault().ImageUrl" class="card-img-top " alt="@product.productType.TypeNameFr" style="width: 100%;height: 20rem">
+                                    }else{
+                                        <img src="~/images/unKnownImage.jpg" class="card-img-top " alt="@product.productType.TypeNameFr" style="width: 100%;height: 20rem">
                                     }
                                 </div>
                             </a>
                             <div class="card-body">
 
-                                <p class="card-text text-center">@product.ProductNameEn</p>
+                                <p class="card-text text-center">@product.productType.TypeNameEN</p>
                             </div>
                         </div>
                     </div>
@@ -186,13 +189,15 @@
                 {
                     <div class="col">
                         <div class="myCard card">
-                            <a asp-action="ProductTypes" asp-controller="Home" asp-route-typeEn="@item.TypeNameEN">
+                            <a asp-action="ProductTypes" asp-controller="Home" asp-route-typeEn="@item.productType.TypeNameEN">
                                 <div class="cardImages">
-                                    <img src="images/products/@item.ImageUrl" class="card-img-top " alt="@item.TypeNameFr" style="width: 100%;height: 20rem">
+                                @if(item.productImgs.Count!=0){
+                                    <img src="images/products/@item.productImgs.FirstOrDefault().ImageUrl" class="card-img-top " alt="@item.productType.TypeNameFr" style="width: 100%;height: 20rem">
+                                    }
                                 </div>
                             </a>
                             <div class="card-body">
-                                <p class="card-text text-center">@item.TypeNameFr</p>
+                                <p class="card-text text-center">@item.productType.TypeNameFr</p>
                             </div>
                         </div>
                     </div>

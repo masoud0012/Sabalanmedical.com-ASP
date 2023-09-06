@@ -1,8 +1,15 @@
-﻿@{
-    foreach (ProductResponse item in ViewBag.products)
+﻿@model List<ProductResponse>
+@{
+    if (Model is null)
     {
         <tr>
-            <td>@item.TypeNameEN</td>
+            <td><p>هیچ محصولی پیدا نشد</p></td>
+        </tr>
+    }
+    foreach (ProductResponse item in Model)
+    {
+        <tr>
+            <td>@item.productType.TypeNameEN</td>
             <td>@item.ProductNameEn</td>
             <td>@item.ProductNameFr</td>
             @if (item.isHotSale == true)

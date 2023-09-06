@@ -14,11 +14,11 @@ namespace Entities
         {
 
         }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductType> ProductTypes { get; set; }
-        public DbSet<ProductDesc> ProductDescs { get; set; }
-        public DbSet<ProductProperty> ProductProperties { get; set; }
-        public DbSet<ProductImg> ProductImgs { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<ProductDesc> ProductDescs { get; set; }
+        public virtual DbSet<ProductProperty> ProductProperties { get; set; }
+        public virtual DbSet<ProductImg> ProductImgs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -28,7 +28,7 @@ namespace Entities
             modelBuilder.Entity<ProductProperty>().ToTable("ProductProperties");
             modelBuilder.Entity<ProductImg>().ToTable("ProductImgs");
 
-            string productsText = File.ReadAllText("wwwroot/json/tblproducts.json");
+           /* string productsText = File.ReadAllText("wwwroot/json/tblproducts.json");
             List<Product>? productList = System.Text.Json.JsonSerializer.Deserialize<List<Product>>(productsText);
             if (productList != null)
             {
@@ -77,12 +77,13 @@ namespace Entities
                     modelBuilder.Entity<ProductDesc>().HasData(item);
                 }
             }
-        }
+*/        }
 
         #region ProductStored Procedures
-        public List<Product> sp_GetAllProducts()
+        public async Task<List<Product>> sp_GetAllProducts()
         {
-            return Products.FromSqlRaw("EXECUTE GetAllProducts").ToList().OrderBy(t=>t.TypeId).OrderBy(t=>t.ProductNameEn).ToList();
+            List<Product> products = await Products.FromSqlRaw("EXECUTE GetAllProducts").ToListAsync();
+            return products.OrderBy(t => t.TypeId).ThenBy(t => t.ProductNameFr).ToList();
         }
         public int sp_AddProduct(Product product)
         {
@@ -118,13 +119,15 @@ namespace Entities
         public Product sp_GetProductById(Guid ProductId)
         {
             SqlParameter parameter = new SqlParameter("@ProductId", ProductId);
-            List<Product> product = Products.FromSqlRaw("EXECUTE GetProductById @ProductId", parameter).ToList();
+            List<Product>  product = Products.FromSqlRaw("EXECUTE GetProductById @ProductId", parameter).ToList();
             return product.FirstOrDefault();
         }
         #endregion
-        public List<ProductType> sp_GetAllProductTypes()
+        public async Task<List<ProductType>> sp_GetAllProductTypes()
         {
-            return ProductTypes.FromSqlRaw("EXECUTE GetAllProductTypes").ToList();
+            List<ProductType> allTypes = await ProductTypes.FromSqlRaw
+                ("EXECUTE GetAllProductTypes").ToListAsync();
+            return allTypes;
         }
 
         public List<ProductImg> sp_GetAllProductImages()

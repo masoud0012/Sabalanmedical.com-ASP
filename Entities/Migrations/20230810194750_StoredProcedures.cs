@@ -16,8 +16,6 @@ namespace Entities.Migrations
             END
             ";
             migrationBuilder.Sql(sp_GetAllProducts);
-
-
         }
 
         /// <inheritdoc />
