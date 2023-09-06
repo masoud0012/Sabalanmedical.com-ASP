@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical", "SabalanMedical\SabalanMedical.csproj", "{F30AB61A-750B-4EC8-A484-F0C1EC635217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical", "SabalanMedical\SabalanMedical.csproj", "{F30AB61A-750B-4EC8-A484-F0C1EC635217}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{57998A6A-3BE3-4398-9F33-04D446DE2D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{57998A6A-3BE3-4398-9F33-04D446DE2D8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{8DF1A6EA-04D9-43D5-A4C3-73E18FB61E2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{8DF1A6EA-04D9-43D5-A4C3-73E18FB61E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{C3B77F3A-B55D-42ED-9426-1E97F1706AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\TestProject.csproj", "{C3B77F3A-B55D-42ED-9426-1E97F1706AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{5E7F8AD3-1442-4A0D-BF64-4DE79B117B5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{5E7F8AD3-1442-4A0D-BF64-4DE79B117B5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{A95A7BA9-2C8C-4916-A991-BE973113E130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryServices", "RepositoryServices\RepositoryServices.csproj", "{4A2D3FA8-E8B8-44B9-9B2F-8D824A999545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{5E7F8AD3-1442-4A0D-BF64-4DE79B117B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E7F8AD3-1442-4A0D-BF64-4DE79B117B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E7F8AD3-1442-4A0D-BF64-4DE79B117B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A95A7BA9-2C8C-4916-A991-BE973113E130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A95A7BA9-2C8C-4916-A991-BE973113E130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A95A7BA9-2C8C-4916-A991-BE973113E130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A95A7BA9-2C8C-4916-A991-BE973113E130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A2D3FA8-E8B8-44B9-9B2F-8D824A999545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A2D3FA8-E8B8-44B9-9B2F-8D824A999545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A2D3FA8-E8B8-44B9-9B2F-8D824A999545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A2D3FA8-E8B8-44B9-9B2F-8D824A999545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

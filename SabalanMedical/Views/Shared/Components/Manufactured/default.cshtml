@@ -11,7 +11,7 @@
                     <div class="item manufactured-slider">
                         <div class="card ms-2" style="height: 100%">
                             <div class="cardImages">
-                                <img src="images/products/@item.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="height: 230px">
+                                <img src="images/products/@item.productImgs?.FirstOrDefault()?.ImageUrl" class="card-img-top" alt="@item.ProductNameFr" style="height: 230px">
                             </div>
                             <div class="card-body">
                                 <p class="card-text text-center w-100">@item.ProductNameFr</p>

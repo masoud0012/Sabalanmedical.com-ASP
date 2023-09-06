@@ -12,38 +12,17 @@ namespace SabalanMedical.ViewComponents
             _productService = productService;
         }
         public async Task<IViewComponentResult> InvokeAsync(Guid typeID, string searchBy, string searchKey)
-        {
-            List<ProductResponse> allProducts =await _productService.GetAllProducts();
-            List<ProductResponse> filteredProducts = allProducts;
-
-            if (typeID == Guid.Empty && String.IsNullOrEmpty(searchKey) && String.IsNullOrEmpty(searchBy))
+       {
+            List<ProductResponse> allProducts =new List<ProductResponse>();
+            if (typeID==Guid.Empty)
             {
-                ViewBag.products = allProducts;
+                allProducts = await _productService.GetFilteredProduct(searchBy, searchKey);
             }
-
             else
             {
-                if (typeID!=Guid.Empty)
-                {
-                    filteredProducts = allProducts.Where(t => t.TypeId == typeID).ToList();
-                }
-                if (!String.IsNullOrEmpty(searchKey))
-                {
-                    switch (searchBy)
-                    {
-                        case ("ProductNameEn"):
-                            filteredProducts = filteredProducts.Where(t => t.ProductNameEn.
-                            Contains(searchKey, StringComparison.OrdinalIgnoreCase)).ToList();
-                            break;
-                        case ("ProductNameFr"):
-                            filteredProducts = filteredProducts.Where(t => t.ProductNameFr.
-                            Contains(searchKey, StringComparison.OrdinalIgnoreCase)).ToList();
-                            break;
-                    };
-                }
+                allProducts = await _productService.GetFilteredProduct(typeID, searchBy, searchKey);
             }
-            ViewBag.products = filteredProducts;
-            return View();
+            return View(allProducts);
         }
     }
 }

@@ -12,12 +12,16 @@ namespace Entities
     {
         [Key]
         public Guid DesctiptionID { get; set; }
-        [ForeignKey(nameof(DesctiptionID))]
+
         public Guid ProductID { get; set; }
         [StringLength(200)]
         public string? DescTitle { get; set; } 
 
         public string? Description { get; set; }
+
+        [ForeignKey("ProductID")]
+        public Product? Product { get; set; }
+
 
     }
 }

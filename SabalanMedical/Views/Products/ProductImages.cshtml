@@ -1,23 +1,23 @@
-﻿@model TotalDTO
+﻿@model ProductResponse
 <div class="container">
-    <h3>@Model.ProductResponses.ProductNameFr</h3>
+    <h3>@Model.ProductNameFr</h3>
     <fieldset>
         <legend>images</legend>
         <form class="row" enctype="multipart/form-data" asp-action="AddImage" asp-controller="Products" method="post">
             <div class="mb-3">
                 <label for="formFile" class="form-label">عکس مورد نظر را بارگزاری کنید</label>
                 <input class="form-control" type="file" name="imageFile" accept="image/*">
-                <input name="ProductId" type="hidden" value="@Model.ProductResponses.ProductId">
+                <input name="ProductId" type="hidden" value="@Model.ProductId">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-3">Load Image</button>
             </div>
         </form>
         <div class="card-group">
-            @foreach (ProductImageResponse item in Model.ProductImageResponses)
+            @foreach (ProductImageResponse item in Model.productImgs)
             {
                 <div class="card productCard" style="width: 18rem;">
-                    <img src="~/images/products/@item.ImageUrl" class="card-img-top edit-img-admin" alt="@Model.ProductResponses.ProductNameFr">
+                    <img src="~/images/products/@item.ImageUrl" class="card-img-top edit-img-admin" alt="@Model.ProductNameFr">
                     <div class="card-body">
                         <a asp-action="DeleteImage" asp-controller="Products" asp-route-ImageId="@item.ImageID">
                             <p class="btn btn-danger"><i class="bi-trash"></i></p>

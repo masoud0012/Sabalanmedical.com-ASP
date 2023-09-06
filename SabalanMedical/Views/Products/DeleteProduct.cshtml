@@ -1,8 +1,9 @@
 ﻿@model ProductResponse
 <div class="container align-content-center">
     <h3>Are you sure to Delete @Model.ProductNameEn</h3>
-    @if(!String.IsNullOrEmpty(Model.ImageUrl)){
-        <img src="~/images/products/@Model.ImageUrl" class="card-img-top" alt="..." style="width: 100%;height: 20rem"/>
+    @if (Model.productImgs!=null)
+    {
+        <img src="~/images/products/@Model.productImgs.FirstOrDefault().ImageUrl" class="card-img-top" alt="..." style="width: 100%;height: 20rem"/>
     }
     else
     {
