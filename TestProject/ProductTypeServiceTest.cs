@@ -17,16 +17,17 @@ namespace TestProject
         private readonly IProductTypeService _productTypeSerivice;
         private readonly IFixture _fixture;
         private readonly IProductTypeRepository _productRepository;
-        public ProductTypeServiceTest(IProductTypeRepository productTypeRepository)
+        private readonly Mock<IProductTypeRepository> _repositoryMock;
+        public ProductTypeServiceTest()
         {
-            _productRepository = productTypeRepository;
-            Mock<ProductTypeRepository> repositoryMock = new Mock<ProductTypeRepository>();
-            _fixture = new Fixture();/*
-            List<ProductType> productTypes = new List<ProductType>() { };
+            _repositoryMock = new Mock<IProductTypeRepository>();
+            _productRepository = _repositoryMock.Object;
+            _fixture = new Fixture();
+            /*List<ProductType> productTypes = new List<ProductType>() { };
             DbContextMock<SabalanDbContext> dbContextMock = new DbContextMock<SabalanDbContext>(new DbContextOptionsBuilder<SabalanDbContext>().Options);
             SabalanDbContext sabalanDbContext = dbContextMock.Object;
             dbContextMock.CreateDbSetMock(t => t.ProductTypes, productTypes);*/
-            _productTypeSerivice = new ProductTypesService(repositoryMock.Object);
+            _productTypeSerivice = new ProductTypesService(_productRepository);
         }
         #region Add ProductType
         //ProductType is null.Throw ArgumentNullException
@@ -42,6 +43,7 @@ namespace TestProject
             {
                 await _productTypeSerivice.AddProductType(request);
             });
+                
         }
         //ProductType Name is null, Throw ArumentException
         [Fact]

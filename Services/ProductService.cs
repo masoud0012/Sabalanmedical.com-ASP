@@ -30,7 +30,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(productAddRequest));
             }
             ValidationHelper.ModelValidation(productAddRequest);
-            if (await _productRepository.GetProductByName(productAddRequest.ProductNameEn, productAddRequest.ProductNameFr) == null)
+            if (await _productRepository.GetProductByName(productAddRequest.ProductNameEn, productAddRequest.ProductNameFr) != null)
             {
                 throw new ArgumentException("Product Name is duplicated");
             }

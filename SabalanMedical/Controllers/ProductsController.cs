@@ -147,7 +147,6 @@ namespace SabalanMedical.Controllers
 
             return RedirectToAction("Index", "Products");
         }
-
         #endregion
 
         #region Description
