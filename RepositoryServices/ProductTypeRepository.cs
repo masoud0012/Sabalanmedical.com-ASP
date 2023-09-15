@@ -43,5 +43,10 @@ namespace RepositoryServices
         {
             throw new NotImplementedException();
         }
+
+        public async Task<ProductType> GetProductTypeByName(string name)
+        {
+           return await _sabalanDbContext.ProductTypes.FirstOrDefaultAsync(t => t.TypeNameEN == name);
+        }
     }
 }

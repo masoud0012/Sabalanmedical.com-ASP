@@ -48,7 +48,7 @@ namespace Services
         {
             if (productID == null)
             {
-                throw new ArgumentException(nameof(productID));
+                return null;
             }
             Product? product = await _productRepository.GetProductById(productID.Value);
             // Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);

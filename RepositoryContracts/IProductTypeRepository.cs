@@ -10,5 +10,7 @@ namespace RepositoryContracts
         Task<bool> DeleteProductType(Guid typeID);
         Task<ProductType>? GetProductTypeByID(Guid? guid);
 
+        Task<ProductType> GetProductTypeByName(string name);
+
     }
 }

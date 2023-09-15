@@ -70,9 +70,9 @@ namespace ServiceContracts.DTO.ProductsDTO
                 ProductUrl = product.ProductUrl,
                 isManufactured = product.isManufactured,
                 productType=product.ProductType,
-                productDescs=product.ProductDescriptions.Select(t=>t.ToProductDescResponse())?.ToList(),
+                productDescs=product.ProductDescriptions?.Select(t=>t.ToProductDescResponse())?.ToList(),
                 productImgs=product.ProductImages?.Select(t=>t.ToProductImgResponse()).ToList(),
-                productProperties=product.ProductProperties.Select(t=>t.ToProductPropertyResponse())?.ToList()
+                productProperties=product.ProductProperties?.Select(t=>t.ToProductPropertyResponse())?.ToList()
             };
         }
     }
