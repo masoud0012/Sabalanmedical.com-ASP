@@ -30,7 +30,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(productAddRequest));
             }
             ValidationHelper.ModelValidation(productAddRequest);
-            if (await _productRepository.GetProductByName(productAddRequest.ProductNameEn, productAddRequest.ProductNameFr) == null)
+            if (await _productRepository.GetProductByName(productAddRequest.ProductNameEn, productAddRequest.ProductNameFr) != null)
             {
                 throw new ArgumentException("Product Name is duplicated");
             }
@@ -48,7 +48,7 @@ namespace Services
         {
             if (productID == null)
             {
-                throw new ArgumentException(nameof(productID));
+                return null;
             }
             Product? product = await _productRepository.GetProductById(productID.Value);
             // Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);

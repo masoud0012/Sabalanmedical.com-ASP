@@ -9,7 +9,7 @@ namespace Services
     public class ProductTypesService : IProductTypeService
     {
         private readonly IProductTypeRepository _productTypeRepository;
-        public ProductTypesService( IProductTypeRepository productTypeRepository)
+        public ProductTypesService(IProductTypeRepository productTypeRepository)
         {
             _productTypeRepository = productTypeRepository;
         }
@@ -24,9 +24,8 @@ namespace Services
                 throw new ArgumentException(nameof(productTypeAddRequest.TypeNameEN) + "or" +
                     nameof(ProductTypeAddRequest.TypeNameFr));
             }
-            List<ProductType> allTypes=await _productTypeRepository.GetAllProductTypes();
-            if (allTypes.Count(t => t.TypeNameEN == productTypeAddRequest.TypeNameEN
-            || t.TypeNameFr == productTypeAddRequest.TypeNameFr) > 0)
+            var type = await _productTypeRepository.GetProductTypeByName(productTypeAddRequest.TypeNameEN);
+            if (type!=null)
             {
                 throw new ArgumentException($"{productTypeAddRequest.TypeNameEN} or {productTypeAddRequest.TypeNameFr} is alraedy excisted");
             }
@@ -56,6 +55,17 @@ namespace Services
             // List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
             List<ProductType> productTypes = await _productTypeRepository.GetAllProductTypes();
             return productTypes.Select(t => t.ToProductTypeResponse()).ToList();
+        }
+
+        public async Task<ProductTypeResponse>? GetProductTypeByName(string? name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            ProductType type = await _productTypeRepository.GetProductTypeByName(name);
+           
+            return type.ToProductTypeResponse();
         }
     }
 };

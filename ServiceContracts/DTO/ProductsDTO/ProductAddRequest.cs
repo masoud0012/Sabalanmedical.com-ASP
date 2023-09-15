@@ -24,7 +24,7 @@ namespace ServiceContracts.DTO.ProductsDTO
                 TypeId = TypeId,
                 ProductNameEn = ProductNameEn,
                 ProductNameFr = ProductNameFr,
-                ProductUrl = ProductNameEn.Replace(" ","-"),
+                ProductUrl = ProductNameEn?.Replace(" ","-"),
                 isHotSale = isHotSale,
                 isManufactured = isManufactured
             };

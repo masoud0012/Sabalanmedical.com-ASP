@@ -24,6 +24,8 @@ namespace ServiceContracts
         /// </summary>
         /// <returns>returns productType as a productTypeResponse</returns>
         Task<ProductTypeResponse>? GetProductTypeByID(Guid? guid);
+
+        Task<ProductTypeResponse>? GetProductTypeByName(string? name);
     }
     
 }
