@@ -31,7 +31,7 @@ namespace ServiceContracts.DTO.ProductTypeDTO
         {
             return new ProductTypeResponse()
             {
-                TypeId = productType.TypeId,
+                TypeId = productType.Id,
                 TypeNameEn = productType.TypeNameEN,
                 TypeNameFr = productType.TypeNameFr,
             };

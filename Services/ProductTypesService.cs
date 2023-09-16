@@ -1,16 +1,19 @@
 ﻿using Entities;
+using IRepository;
+using IRepository2;
 using Microsoft.EntityFrameworkCore;
-using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductTypeDTO;
 
 namespace Services
 {
-    public class ProductTypesService : IProductTypeService
+    public class ProductTypesService:IProductTypeService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductTypeRepository _productTypeRepository;
-        public ProductTypesService(IProductTypeRepository productTypeRepository)
+        public ProductTypesService(IProductTypeRepository productTypeRepository,IUnitOfWork unitOfWork)
         {
+            _unitOfWork=unitOfWork;
             _productTypeRepository = productTypeRepository;
         }
         public async Task<ProductTypeResponse> AddProductType(ProductTypeAddRequest? productTypeAddRequest)
@@ -31,8 +34,8 @@ namespace Services
             }
 
             ProductType productType = productTypeAddRequest.ToProductType();
-            await _productTypeRepository.AddProductType(productType);
-
+            await _productTypeRepository.Add(productType);
+            await _unitOfWork.SaveChanges();
             return productType.ToProductTypeResponse();
         }
 
@@ -42,7 +45,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(typeId));
             }
-            ProductType? response = await _productTypeRepository.GetProductTypeByID(typeId);
+            ProductType? response = await _productTypeRepository.GetById(typeId.Value);
             if (response is null)
             {
                 throw new ArgumentException(nameof(response));
@@ -52,8 +55,7 @@ namespace Services
 
         public async Task<List<ProductTypeResponse>>? GetAllProductTypes()
         {
-            // List<ProductType> productTypes = await _sabalanDbContext.sp_GetAllProductTypes();
-            List<ProductType> productTypes = await _productTypeRepository.GetAllProductTypes();
+            List<ProductType> productTypes = (await _productTypeRepository.GetAllAsync()).ToList();
             return productTypes.Select(t => t.ToProductTypeResponse()).ToList();
         }
 

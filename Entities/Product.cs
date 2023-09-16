@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Product
+
+    public class Product:BaseEntity
     {
-        [Key]
-        public Guid ProductID { get; set; }
+       /* [Key]
+        public Guid ProductID { get; set; }*/
 
         public Guid TypeId { get; set; }
         [StringLength(100)]

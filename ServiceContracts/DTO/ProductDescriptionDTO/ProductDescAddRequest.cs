@@ -19,7 +19,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
         {
             return new ProductDesc()
             {
-                DesctiptionID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 ProductID = this.ProductID,
                 DescTitle = this.DescTitle,
                 Description = this.Description

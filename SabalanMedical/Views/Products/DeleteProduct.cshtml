@@ -1,7 +1,7 @@
 ﻿@model ProductResponse
 <div class="container align-content-center">
     <h3>Are you sure to Delete @Model.ProductNameEn</h3>
-    @if (Model.productImgs.Count != 0)
+    @if (Model.productImgs!= null && Model.productImgs.Count!=0)
     {
         <img src="~/images/products/@Model.productImgs.FirstOrDefault().ImageUrl" class="card-img-top" alt="..." style="width: 100%;height: 20rem" />
     }

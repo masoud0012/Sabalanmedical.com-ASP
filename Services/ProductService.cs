@@ -9,22 +9,29 @@ using System.Globalization;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using RepositoryContracts;
+using IRepository2;
+using IRepository;
+using RepositoryServices;
+using RepositoryServices2;
 
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
     public class ProductService : IProductService
 
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _productRepository;
-        //Constractor
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
+            this._unitOfWork = unitOfWork;
         }
         public async Task<ProductResponse> AddProduct(ProductAddRequest? productAddRequest)
         {
+
             if (productAddRequest is null)
             {
                 throw new ArgumentNullException(nameof(productAddRequest));
@@ -35,14 +42,16 @@ namespace Services
                 throw new ArgumentException("Product Name is duplicated");
             }
             Product product = productAddRequest.ToProduct();
-            // _sabalanDbContext.sp_AddProduct(product);
-            await _productRepository.AddProduct(product);
+            await _productRepository.Add(product);
+            await _unitOfWork.SaveChanges();
             return product.ToProductResponse();
         }
         public async Task<List<ProductResponse>> GetAllProducts()
         {
-            List<Product> products = await _productRepository.GetAllProducts();
-            return products.Select(t => t.ToProductResponse()).ToList();
+            var task = (await _productRepository.GetAllAsync()).Include("ProductType").Include("ProductImages")
+                .Include("ProductDescriptions")
+                .Include("ProductProperties").ToList();
+            return task.Select(t => t.ToProductResponse()).ToList();
         }
         public async Task<ProductResponse>? GetProductById(Guid? productID)
         {
@@ -50,55 +59,62 @@ namespace Services
             {
                 return null;
             }
-            Product? product = await _productRepository.GetProductById(productID.Value);
-            // Product? product = _sabalanDbContext.sp_GetProductById(productID ?? Guid.Empty);
+            Product? product = await _productRepository.GetById(productID.Value);
             if (product == null)
             {
                 return null;
             }
             return product.ToProductResponse();
         }
-        public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string searchKey="c")
+        public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string searchKey = "")
         {
-            searchKey= searchKey ?? "";
+            searchKey = searchKey ?? "";
             List<Product>? products = searchBy switch
             {
                 nameof(ProductResponse.ProductNameEn) =>
-                await _productRepository.GetFilteredProduct(t => t.ProductNameEn.Contains(searchKey)),
-                nameof(ProductResponse.ProductNameFr) => await _productRepository.GetFilteredProduct(t =>
-                t.ProductNameFr.Contains(searchKey)),
-                nameof(ProductResponse.ProductUrl) => await _productRepository.GetFilteredProduct(t =>
-               t.ProductUrl.Contains(searchKey)),
-                nameof(Product.ProductType.TypeNameEN) => await _productRepository.GetFilteredProduct(t =>
-                t.ProductType.TypeNameEN.Contains(searchKey)),
-                nameof(Product.ProductType.TypeNameFr) => await _productRepository.GetFilteredProduct(t =>
-               t.ProductType.TypeNameFr.Contains(searchKey)),
-                nameof(ProductResponse.isManufactured) => await _productRepository.GetFilteredProduct(t =>
-                t.isManufactured.ToString() == searchKey),
-                nameof(ProductResponse.isHotSale) => await _productRepository.GetFilteredProduct(t =>
-               t.isHotSale.ToString() == searchKey),
+                (await _productRepository.GetFilteredProduct(t =>
 
-                _ => await _productRepository.GetAllProducts()
+                t.ProductNameEn.Contains(searchKey)))?.ToList(),
+
+                nameof(ProductResponse.ProductNameFr) => (await _productRepository.GetFilteredProduct(t =>
+                t.ProductNameFr.Contains(searchKey)))?.ToList(),
+
+                nameof(ProductResponse.ProductUrl) => (await _productRepository.GetFilteredProduct(t =>
+               t.ProductUrl.Contains(searchKey)))?.ToList(),
+
+                nameof(Product.ProductType.TypeNameEN) => (await _productRepository.GetFilteredProduct(t =>
+                t.ProductType.TypeNameEN.Contains(searchKey)))?.ToList(),
+
+                nameof(Product.ProductType.TypeNameFr) => (await _productRepository.GetFilteredProduct(t =>
+               t.ProductType.TypeNameFr.Contains(searchKey)))?.ToList(),
+
+                nameof(ProductResponse.isManufactured) => (await _productRepository.GetFilteredProduct(t =>
+                t.isManufactured.ToString() == searchKey))?.ToList(),
+
+                nameof(ProductResponse.isHotSale) => (await _productRepository.GetFilteredProduct(t =>
+               t.isHotSale.ToString() == searchKey))?.ToList(),
+
+                _ => (await _productRepository.GetAllAsync()).ToList()
             };
             return products.Select(t => t.ToProductResponse()).ToList();
         }
-        public async Task<List<ProductResponse>>? GetFilteredProduct(Guid typeId, string searchBy, string searchKey="")
+        public async Task<List<ProductResponse>>? GetFilteredProduct(Guid typeId, string searchBy, string searchKey = "")
         {
 
-            if (typeId==null&&string.IsNullOrEmpty(searchKey)&&string.IsNullOrEmpty(searchKey))
+            if (typeId == null && string.IsNullOrEmpty(searchKey) && string.IsNullOrEmpty(searchKey))
             {
-                return (await _productRepository.GetAllProducts()).Select(t => t.ToProductResponse()).ToList();
+                return (await _productRepository.GetAllAsync(0, 50)).Select(t => t.ToProductResponse()).ToList();
             }
-           searchKey = searchKey ?? "";
+            searchKey = searchKey ?? "";
             List<Product>? filteredProducts = searchBy switch
             {
-                nameof(Product.ProductNameEn) => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)),
-                nameof(Product.ProductNameFr) => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)),
-                nameof(Product.ProductUrl) => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)),
-                nameof(Product.ProductType.TypeNameEN) => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)),
-                nameof(Product.ProductType.TypeNameFr) => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)),
+                nameof(Product.ProductNameEn) => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)))?.ToList(),
+                nameof(Product.ProductNameFr) => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)))?.ToList(),
+                nameof(Product.ProductUrl) => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)))?.ToList(),
+                nameof(Product.ProductType.TypeNameEN) => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)))?.ToList(),
+                nameof(Product.ProductType.TypeNameFr) => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId && t.ProductNameEn.Contains(searchKey)))?.ToList(),
 
-                _ => await _productRepository.GetFilteredProduct(t => t.TypeId == typeId)
+                _ => (await _productRepository.GetFilteredProduct(t => t.TypeId == typeId, 0, 50))?.ToList()
             }; ;
             return filteredProducts.Select(t => t.ToProductResponse()).ToList();
         }
@@ -132,15 +148,13 @@ namespace Services
                 throw new ArgumentNullException(nameof(productUpdateRequest));
             }
             ValidationHelper.ModelValidation(productUpdateRequest);
-            Product? matchedProduct = await _productRepository.GetProductById(productUpdateRequest.ProductID);
+            Product? matchedProduct = await _productRepository.GetById(productUpdateRequest.ProductID);
             if (matchedProduct == null)
             {
                 throw new ArgumentException("No Product was found in the list");
             }
-
-            //_sabalanDbContext.sp_UpdateProduct(productUpdateRequest.ToProduct());
-
-            await _productRepository.UpdateProduct(productUpdateRequest.ToProduct());
+            await _productRepository.Update(matchedProduct);
+            await _unitOfWork.SaveChanges();
             return matchedProduct.ToProductResponse();
         }
         public async Task<bool> DeleteProduct(Guid? productId)
@@ -149,12 +163,15 @@ namespace Services
             {
                 throw new ArgumentNullException("ProductId can not be null");
             }
-            Product? mathedProduct = await _productRepository.GetProductById(productId ?? Guid.Empty);
+            Product? mathedProduct = await _productRepository.GetById(productId ?? Guid.Empty);
             if (mathedProduct == null)
             {
                 return false;
             }
-            return await _productRepository.DeleteProduct(mathedProduct);
+            await _productRepository.Delete(mathedProduct);
+            await _unitOfWork.SaveChanges();
+            return true;
+
         }
 
         public async Task<ProductResponse>? GetProductByProductUrl(string? productUrl)
@@ -185,7 +202,7 @@ namespace Services
                 }
             }
             csvWriter.NextRecord();
-            List<Product> products = await _productRepository.GetAllProducts();
+            List<Product>? products = (await _productRepository.GetAllAsync(0, 50))?.ToList();
             List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
             foreach (var item in productResponses)
             {

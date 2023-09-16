@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
-    public class ProductImg
+    public class ProductImg : BaseEntity
     {
-        [Key]
-        public Guid ImageID { get; set; }
+/*        [Key]
+        public Guid ImageID { get; set; }*/
 
         public Guid ProductID { get; set; }
         [StringLength(500)]

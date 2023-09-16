@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
-    public class ProductProperty
+    public class ProductProperty : BaseEntity
     {
-        [Key]
-        public Guid propertyID { get; set; }
+/*        [Key]
+        public Guid propertyID { get; set; }*/
 
         public Guid ProductID { set; get; }
         [StringLength(100)]

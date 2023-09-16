@@ -1,6 +1,7 @@
 ﻿using Entities;
+using IRepository;
+using IRepository2;
 using Microsoft.EntityFrameworkCore;
-using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductsDTO;
@@ -11,11 +12,12 @@ namespace Services
 {
     public class ProductImageService : IProductImageService
     {
-        private readonly IProductImageRepository _productImageRepository;
-        //constractor
-        public ProductImageService(IProductImageRepository productImageRepository)
+        private readonly IProductImgRepository _productImageRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductImageService(IProductImgRepository productImageRepository, IUnitOfWork unitOfWork)
         {
             _productImageRepository = productImageRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ProductImageResponse>? AddProductImage(ProductImageAddRequest? request)
@@ -26,7 +28,8 @@ namespace Services
             }
             ValidationHelper.ModelValidation(request);
             ProductImg productImage = request.ToProductImage();
-            await _productImageRepository.AddProductImage(request.ToProductImage());
+            await _productImageRepository.Add(request.ToProductImage());
+            await _unitOfWork.SaveChanges();
             return productImage.ToProductImgResponse();
         }
 
@@ -37,18 +40,19 @@ namespace Services
                 throw new ArgumentNullException(nameof(imageID));
             }
 
-            ProductImg? response =await _productImageRepository.GetProductImageByImageID(imageID.Value);
+            ProductImg? response =await _productImageRepository.GetById(imageID.Value);
             if (response is null)
             {
                 return false;
             }
-            await _productImageRepository.DeleteProductImage(imageID.Value);
+            await _productImageRepository.Delete(response);
+            await _unitOfWork.SaveChanges();
             return true;
         }
 
         public async Task<List<ProductImageResponse>>? GetAllProductImages()
         {
-            return (await _productImageRepository.GetAllProductImages()).Select(t => t.ToProductImgResponse()).ToList();
+            return (await _productImageRepository.GetAllAsync(0,10)).Select(t => t.ToProductImgResponse()).ToList();
         }
 
         public async Task<ProductImageResponse>? GetProductImageByImageID(Guid? imageID)
@@ -57,7 +61,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(imageID));
             }
-            ProductImg? productImg = await _productImageRepository.GetProductImageByImageID(imageID.Value);
+            ProductImg? productImg = await _productImageRepository.GetById(imageID.Value);
             if (productImg == null)
             {
                 throw new ArgumentException("No image was found!");
@@ -71,7 +75,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(productId));
             }
-            List<ProductImg>? response =await _productImageRepository.GetProductImagesByProductID(productId.Value);
+            List<ProductImg>? response =(await _productImageRepository.GetByProductID(productId.Value)).ToList();
             if (response == null)
             {
                 return null;
@@ -84,12 +88,13 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductImg? response =await _productImageRepository.GetProductImageByImageID(updateRequest.ImageID);
+            ProductImg? response =await _productImageRepository.GetById(updateRequest.ImageID);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");
             }
-            await _productImageRepository.UpdateProductImage(response);
+            await _productImageRepository.Update(response);
+            await _unitOfWork.SaveChanges();
             return response.ToProductImgResponse();
         }
     }

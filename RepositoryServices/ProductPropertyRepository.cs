@@ -7,8 +7,8 @@ namespace RepositoryServices
 {
     public class ProductPropertyRepository : IProductPropertiesRepository
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductPropertyRepository(SabalanDbContext sabalanDbContext)
+        private readonly Entities.SabalanDbContext _sabalanDbContext;
+        public ProductPropertyRepository(Entities.SabalanDbContext sabalanDbContext)
         {
             _sabalanDbContext = sabalanDbContext;
         }
@@ -38,12 +38,12 @@ namespace RepositoryServices
 
         public async Task<ProductProperty>? GetProductPropertyByPropertyID(Guid propertyId)
         {
-            return await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.propertyID == propertyId);
+            return await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.Id == propertyId);
         }
 
         public async Task<ProductProperty>? UpdateProductProperty(ProductProperty updateRequest)
         {
-            ProductProperty productProperty = await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.propertyID == updateRequest.propertyID);
+            ProductProperty productProperty = await _sabalanDbContext.ProductProperties.FirstOrDefaultAsync(t => t.Id == updateRequest.Id);
             productProperty.PropertyDetail = updateRequest.PropertyDetail;
             productProperty.PropertyTitle = updateRequest.PropertyTitle;
             _sabalanDbContext.SaveChangesAsync();

@@ -27,7 +27,7 @@ namespace ServiceContracts.DTO.ProductsDTO
         {
             return new Product()
             {
-                ProductID = ProductID,
+                Id = ProductID,
                 TypeId = TypeId,
                 ProductNameEn = ProductNameEn,
                 ProductNameFr = ProductNameFr,

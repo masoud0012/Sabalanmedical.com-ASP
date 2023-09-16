@@ -11,8 +11,8 @@ namespace RepositoryServices
 {
     public class ProductTypeRepository : IProductTypeRepository
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductTypeRepository(SabalanDbContext sabalanDbContext)
+        private readonly Entities.SabalanDbContext _sabalanDbContext;
+        public ProductTypeRepository(Entities.SabalanDbContext sabalanDbContext)
         {
             _sabalanDbContext = sabalanDbContext;
         }
@@ -30,7 +30,7 @@ namespace RepositoryServices
 
         public async Task<ProductType>? GetProductTypeByID(Guid? guid)
         {
-            ProductType productType = await _sabalanDbContext.ProductTypes.FirstOrDefaultAsync(t => t.TypeId == guid);
+            ProductType productType = await _sabalanDbContext.ProductTypes.FirstOrDefaultAsync(t => t.Id == guid);
             return productType;
         }
 

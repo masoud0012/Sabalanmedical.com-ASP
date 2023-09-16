@@ -1,6 +1,7 @@
 ﻿using Entities;
+using IRepository;
+using IRepository2;
 using Microsoft.EntityFrameworkCore;
-using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using Services.Helpers;
@@ -10,10 +11,12 @@ namespace Services
 {
     public class ProductDescService : IProductDescService
     {
-        private readonly IProductDescriptionRepository _productDescriptionRepository;
-        public ProductDescService(IProductDescriptionRepository productDescriptionRepository)
+        private readonly IProductDescRepository _productDescriptionRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductDescService(IProductDescRepository productDescriptionRepository, IUnitOfWork unitOfWork)
         {
             _productDescriptionRepository = productDescriptionRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<ProductDescResponse>? AddProductDesc(ProductDescAddRequest? request)
         {
@@ -23,7 +26,8 @@ namespace Services
             }
             ValidationHelper.ModelValidation(request);
             ProductDesc productDesc = request.ToProductDesc();
-            await _productDescriptionRepository.AddProductDesc(productDesc);
+            await _productDescriptionRepository.Add(productDesc);
+            await _unitOfWork.SaveChanges();
             return productDesc.ToProductDescResponse();
         }
 
@@ -33,18 +37,19 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? response = await _productDescriptionRepository.GetProductDescByDescID(id.Value);
+            ProductDesc? response = await _productDescriptionRepository.GetById(id.Value);
             if (response is null)
             {
                 return false;
             }
-            await _productDescriptionRepository.DeleteProductDesc(response.ProductID);
+            await _productDescriptionRepository.Delete(response);
+            await _unitOfWork.SaveChanges();
             return true;
         }
 
         public async Task<List<ProductDescResponse>>? GetAllProductDesc()
         {
-            return (await _productDescriptionRepository.GetAllProductDesc()).Select(t => t.ToProductDescResponse()).ToList();
+            return (await _productDescriptionRepository.GetAllAsync(0, 50)).Select(t => t.ToProductDescResponse()).ToList();
         }
 
         public async Task<ProductDescResponse>? GetProductDescByDescID(Guid? id)
@@ -53,7 +58,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? productDesc = await _productDescriptionRepository.GetProductDescByDescID(id.Value);
+            ProductDesc? productDesc = await _productDescriptionRepository.GetById(id.Value);
             if (productDesc == null)
             {
                 throw new ArgumentException("No Description was found!");
@@ -63,7 +68,7 @@ namespace Services
 
         public async Task<List<ProductDescResponse>>? GetProductDescByProductID(Guid? productID)
         {
-            List<ProductDesc>? productDescResponses = await _productDescriptionRepository.GetProductDescByProductID(productID.Value);
+            List<ProductDesc>? productDescResponses = (await _productDescriptionRepository.GetByProductID(productID.Value)).ToList();
             return productDescResponses.Select(t => t.ToProductDescResponse()).ToList();
         }
 
@@ -73,12 +78,13 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductDesc? response = await _productDescriptionRepository.GetProductDescByDescID(updateRequest.DesctiptionID);
+            ProductDesc? response = await _productDescriptionRepository.GetById(updateRequest.DesctiptionID);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");
             }
-            await _productDescriptionRepository.UpdateProductDesc(response);
+            await _productDescriptionRepository.Update(response);
+            await _unitOfWork.SaveChanges();
             return response.ToProductDescResponse();
         }
     }

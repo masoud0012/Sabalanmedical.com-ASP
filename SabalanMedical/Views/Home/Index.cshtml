@@ -141,7 +141,7 @@
                         <div class="card myCard">
                             <a asp-action="Product" asp-controller="Home" asp-route-productUrl="@product.ProductUrl">
                                 <div class="cardImages">
-                                    @if (product.productImgs.Count!=0)
+                                    @if (product.productImgs?.Count!=0)
                                     {
                                         <img src="~/images/products/@product.productImgs?.FirstOrDefault().ImageUrl" class="card-img-top " alt="@product.productType.TypeNameFr" style="width: 100%;height: 20rem">
                                     }else{

@@ -6,10 +6,11 @@ using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using AutoFixture;
 using ServiceContracts.DTO.ProductsDTO;
-using RepositoryContracts;
 using Moq;
 using RepositoryServices;
 using FluentAssertions;
+using IRepository2;
+using IRepository;
 
 namespace TestProject
 {
@@ -19,12 +20,17 @@ namespace TestProject
         private readonly IFixture _fixture;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly Mock<IProductTypeRepository> _repositoryMoq;
+        
         public ProductTypeServiceTest()
         {
             _repositoryMoq = new Mock<IProductTypeRepository>();
             _productTypeRepository = _repositoryMoq.Object;
             _fixture = new Fixture();
-            _productTypeSerivice = new ProductTypesService(_productTypeRepository);
+            _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            Mock<IUnitOfWork> unit=new Mock<IUnitOfWork>(); 
+            _productTypeSerivice = new ProductTypesService(_productTypeRepository, unit.Object);
 
         }
         #region Add ProductType
@@ -56,7 +62,7 @@ namespace TestProject
             };
             ProductType type = request.ToProductType();
             //Act
-            _repositoryMoq.Setup(t => t.AddProductType(It.IsAny<ProductType>())).ReturnsAsync(type);
+            _repositoryMoq.Setup(t => t.Add(It.IsAny<ProductType>())).ReturnsAsync(type);
             Func<Task> action = async () =>
             {
                 await _productTypeSerivice.AddProductType(request);
@@ -75,7 +81,7 @@ namespace TestProject
             ProductType productType1 = request1.ToProductType();
             ProductType productType2 = request2.ToProductType();
 
-            _repositoryMoq.Setup(t => t.AddProductType(It.IsAny<ProductType>())).ReturnsAsync(productType1);
+            _repositoryMoq.Setup(t => t.Add(It.IsAny<ProductType>())).ReturnsAsync(productType1);
             _repositoryMoq.Setup(t => t.GetProductTypeByName(It.IsAny<String>())).ReturnsAsync(null as ProductType);
 
             ProductTypeResponse productTypeResponse = await _productTypeSerivice.AddProductType(request1);
@@ -83,7 +89,7 @@ namespace TestProject
             //act
             Func<Task> action = async () =>
             {
-                _repositoryMoq.Setup(t => t.AddProductType(It.IsAny<ProductType>())).ReturnsAsync(productType1);
+                _repositoryMoq.Setup(t => t.Add(It.IsAny<ProductType>())).ReturnsAsync(productType1);
                 _repositoryMoq.Setup(t => t.GetProductTypeByName(It.IsAny<string>())).ReturnsAsync(productType1);
                 await _productTypeSerivice.AddProductType(request2);
             };
@@ -99,7 +105,7 @@ namespace TestProject
             ProductType productType = request.ToProductType();
             ProductTypeResponse expexted_type = productType.ToProductTypeResponse();
             //Act
-            _repositoryMoq.Setup(t => t.AddProductType(It.IsAny<ProductType>())).ReturnsAsync(productType);
+            _repositoryMoq.Setup(t => t.Add(It.IsAny<ProductType>())).ReturnsAsync(productType);
             ProductTypeResponse response = await _productTypeSerivice.AddProductType(request);
             expexted_type.TypeId = response.TypeId;
             //Assert
@@ -113,7 +119,7 @@ namespace TestProject
         {
             //arrangement
             List<ProductType> productTypes = new List<ProductType>();
-            _repositoryMoq.Setup(t => t.GetAllProductTypes()).ReturnsAsync(productTypes);
+            _repositoryMoq.Setup(t => t.GetAllAsync(0,100)).ReturnsAsync(productTypes.AsQueryable());
             //act
             List<ProductTypeResponse>? productTypeList = await _productTypeSerivice.GetAllProductTypes();
             //assert
@@ -131,7 +137,7 @@ namespace TestProject
 
             };
             List<ProductTypeResponse> productTypeResponses = productTypes.Select(t => t.ToProductTypeResponse()).ToList();
-            _repositoryMoq.Setup(t => t.GetAllProductTypes()).ReturnsAsync(productTypes);
+            _repositoryMoq.Setup(t => t.GetAllAsync(0,50)).ReturnsAsync(productTypes.AsQueryable());
             //act
             List<ProductTypeResponse>? productTypeList_fromGetMethod = await _productTypeSerivice.GetAllProductTypes();
             //assert
@@ -144,7 +150,7 @@ namespace TestProject
         {
             //Arrangment
             Guid? ProductTypId = null;
-            _repositoryMoq.Setup(t => t.GetProductTypeByID(It.IsAny<Guid>())).ReturnsAsync(null as ProductType);
+            _repositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as ProductType);
             //Act
             Func<Task> action = async () => await _productTypeSerivice.GetProductTypeByID(ProductTypId);
             //Assert
@@ -156,9 +162,9 @@ namespace TestProject
             //arrange
             ProductType productType = _fixture.Build<ProductType>().With(t => t.Products, null as List<Product>).Create();
             ProductTypeResponse productTypeResponse = productType.ToProductTypeResponse();
-            _repositoryMoq.Setup(t => t.GetProductTypeByID(It.IsAny<Guid>())).ReturnsAsync(productType);
+            _repositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(productType);
             //act
-            ProductTypeResponse? response = await _productTypeSerivice.GetProductTypeByID(productType.TypeId);
+            ProductTypeResponse? response = await _productTypeSerivice.GetProductTypeByID(productType.Id);
             //assert
             response.Should().Be(productTypeResponse);
         }

@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RepositoryContracts\RepositoryContracts.csproj" />
-    <ProjectReference Include="..\RepositoryServices\RepositoryServices.csproj" />
+    <ProjectReference Include="..\Repositories\RepositoryServices\RepositoryServices.csproj" />
+    <ProjectReference Include="..\Repository\IRepository\IRepositoryContract.csproj" />
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>

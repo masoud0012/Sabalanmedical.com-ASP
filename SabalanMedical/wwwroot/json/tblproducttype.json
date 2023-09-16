@@ -1,21 +1,21 @@
 [
   {
-    "TypeId": "15F8DFC3-5C88-4A9E-BE20-3AC476192583",
+    "Id": "15F8DFC3-5C88-4A9E-BE20-3AC476192583",
     "TypeNameEN": "Laparascopy",
     "TypeNameFr": "محصولات لاپاراسکوپی"
   },
   {
-    "TypeId": "F464F47B-664F-476E-8D31-372B5CC6D488",
+    "Id": "F464F47B-664F-476E-8D31-372B5CC6D488",
     "TypeNameEN": "ENT",
     "TypeNameFr": "محصولات ENT"
   },
   {
-    "TypeId": "65D34326-CE95-474E-96F7-850A6154FEFB",
+    "Id": "65D34326-CE95-474E-96F7-850A6154FEFB",
     "TypeNameEN": "respiratory-anesthesia",
     "TypeNameFr": "محصولات بیهوشی تنفسی"
   },
   {
-    "TypeId": "E1B3D3C4-4B0B-4D86-A943-2CACC55CE7D2",
+    "Id": "E1B3D3C4-4B0B-4D86-A943-2CACC55CE7D2",
     "TypeNameEN": "surgery",
     "TypeNameFr": "محصولات جراحی"
   }

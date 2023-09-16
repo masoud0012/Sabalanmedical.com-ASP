@@ -6,8 +6,8 @@ namespace RepositoryServices
 {
     public class ProductDescriptionRepository : IProductDescriptionRepository
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductDescriptionRepository(SabalanDbContext sabalanDbContext)
+        private readonly Entities.SabalanDbContext _sabalanDbContext;
+        public ProductDescriptionRepository(Entities.SabalanDbContext sabalanDbContext)
         {
             _sabalanDbContext = sabalanDbContext;
         }
@@ -33,7 +33,7 @@ namespace RepositoryServices
 
         public async Task<ProductDesc>? GetProductDescByDescID(Guid descID)
         {
-            return await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.DesctiptionID == descID);
+            return await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.Id == descID);
         }
 
         public async Task<List<ProductDesc>>? GetProductDescByProductID(Guid productID)
@@ -43,7 +43,7 @@ namespace RepositoryServices
 
         public async Task<ProductDesc>? UpdateProductDesc(ProductDesc updateRequest)
         {
-            ProductDesc productDesc=await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.DesctiptionID == updateRequest.DesctiptionID);
+            ProductDesc productDesc=await _sabalanDbContext.ProductDescs.FirstOrDefaultAsync(t => t.Id == updateRequest.Id);
             productDesc.DescTitle=updateRequest.DescTitle;
             productDesc.Description = updateRequest.Description;
             await _sabalanDbContext.SaveChangesAsync();

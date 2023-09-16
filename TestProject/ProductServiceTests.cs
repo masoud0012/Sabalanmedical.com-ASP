@@ -3,11 +3,12 @@ using Entities;
 using EntityFrameworkCoreMock;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using IRepository;
+using IRepository2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Moq;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using RepositoryContracts;
 using RepositoryServices;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
@@ -39,9 +40,9 @@ namespace TestProject
             _fixture = new Fixture();
             _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-            _productService = new ProductService(_productRepositoryMoq.Object);
-
-            _productTypeService = new ProductTypesService(_produtTypeRepositoryMoq.Object);
+            Mock<IUnitOfWork> unit = new Mock<IUnitOfWork>();
+            _productService = new ProductService(_productRepositoryMoq.Object, unit.Object);
+            _productTypeService = new ProductTypesService(_produtTypeRepositoryMoq.Object, unit.Object);
         }
         #region AddProduct
         [Fact]
@@ -64,7 +65,7 @@ namespace TestProject
             ProductAddRequest request = _fixture.Build<ProductAddRequest>().With(t => t.ProductNameEn, null as string)
                 .With(t => t.ProductNameFr, null as string).Create();
             //act
-            _productRepositoryMoq.Setup(t => t.AddProduct(It.IsAny<Product>())).ReturnsAsync(request.ToProduct());
+            _productRepositoryMoq.Setup(t => t.Add(It.IsAny<Product>())).ReturnsAsync(request.ToProduct());
 
             Func<Task> action = async () =>
             {
@@ -82,9 +83,9 @@ namespace TestProject
             Product product = request.ToProduct();
 
             //act
-            _productRepositoryMoq.Setup(t => t.AddProduct(It.IsAny<Product>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.Add(It.IsAny<Product>())).ReturnsAsync(product);
             ProductResponse productResponse = await _productService.AddProduct(request);
-            product.ProductID = productResponse.ProductId;
+            product.Id = productResponse.ProductId;
 
             //assert
             productResponse.ProductId.Should().NotBe(Guid.Empty);
@@ -109,9 +110,9 @@ namespace TestProject
             //arrangment
             ProductAddRequest request = _fixture.Create<ProductAddRequest>();
             Product product = request.ToProduct();
-            _productRepositoryMoq.Setup(t => t.GetProductById(It.IsAny<Guid>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(product);
             //act
-            ProductResponse? response = await _productService.GetProductById(product.ProductID);
+            ProductResponse? response = await _productService.GetProductById(product.Id);
             //assert
             response.Should().Be(product.ToProductResponse());
         }
@@ -123,7 +124,7 @@ namespace TestProject
         {
             //Arrange
             List<Product> products = new List<Product>();
-            _productRepositoryMoq.Setup(t => t.GetAllProducts()).ReturnsAsync(products);
+            _productRepositoryMoq.Setup(t => t.GetAllAsync(0,50)).ReturnsAsync(products.AsQueryable());
 
             //Act
             List<ProductResponse> responses = await _productService.GetAllProducts();
@@ -143,7 +144,7 @@ namespace TestProject
                 _fixture.Create<Product>()
             };
             List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
-            _productRepositoryMoq.Setup(t => t.GetAllProducts()).ReturnsAsync(products);
+            _productRepositoryMoq.Setup(t => t.GetAllAsync(0,50)).ReturnsAsync(products.AsQueryable());
 
             //Act
             List<ProductResponse> responses_fromGelAll = await _productService.GetAllProducts();
@@ -169,7 +170,8 @@ namespace TestProject
              _fixture.Create<Product>(),
             };
             List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
-            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>())).ReturnsAsync(products);
+            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(),0,50))
+                .ReturnsAsync(products);
             _testHelper.WriteLine("Expected products ");
             foreach (Product item in products)
             {
@@ -212,7 +214,8 @@ namespace TestProject
             {
                 _testHelper.WriteLine(item.ToString() + ",\n");
             }
-            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>())).ReturnsAsync(products);
+            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(),0,50))
+                .ReturnsAsync(products);
             //Act
             List<ProductResponse>? responses_fromFilteredProducts =
                await _productService.GetFilteredProduct(nameof(ProductResponse.ProductNameEn), "Re");
@@ -283,8 +286,8 @@ namespace TestProject
         public async Task ProductUpdate_InvalidProductID()
         {
             //Arrange
-            Product product = _fixture.Build<Product>().With(t => t.ProductID, Guid.Empty).Create();
-            _productRepositoryMoq.Setup(t => t.UpdateProduct(It.IsAny<Product>())).ReturnsAsync(product);
+            Product product = _fixture.Build<Product>().With(t => t.Id, Guid.Empty).Create();
+            _productRepositoryMoq.Setup(t => t.Update(It.IsAny<Product>())).ReturnsAsync(product);
             ProductResponse productResponse = product.ToProductResponse();
 
             //Act
@@ -302,7 +305,7 @@ namespace TestProject
             //Arrange
             Product product = _fixture.Build<Product>().With(t => t.ProductNameEn, null as string).Create();
             ProductResponse productResponse = product.ToProductResponse();
-            _productRepositoryMoq.Setup(t => t.UpdateProduct(It.IsAny<Product>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.Update(It.IsAny<Product>())).ReturnsAsync(product);
             //Act
             Func<Task> action = async () =>
             {
@@ -319,8 +322,8 @@ namespace TestProject
             //Arrange
             Product product = _fixture.Create<Product>();
             ProductResponse productResponse = product.ToProductResponse();
-            _productRepositoryMoq.Setup(t => t.UpdateProduct(It.IsAny<Product>())).ReturnsAsync(product);
-            _productRepositoryMoq.Setup(t => t.GetProductById(It.IsAny<Guid>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.Update(It.IsAny<Product>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(product);
             //Act
 
             ProductResponse productResponse_from_update_methos = await _productService.UpdateProduct(productResponse.ToProductUpdateRequest());
@@ -353,6 +356,7 @@ namespace TestProject
         {
             //Arrange
             Guid productId = Guid.NewGuid();
+            _productRepositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as Product);
             //Act
             bool isDeleted = await _productService.DeleteProduct(productId);
             //assert
@@ -364,8 +368,8 @@ namespace TestProject
             //Arrange
             Product product = _fixture.Create<Product>();
             ProductResponse productResponse = product.ToProductResponse();
-            _productRepositoryMoq.Setup(t => t.GetProductById(It.IsAny<Guid>())).ReturnsAsync(product);
-            _productRepositoryMoq.Setup(t => t.DeleteProduct(It.IsAny<Product>())).ReturnsAsync(true);
+            _productRepositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(product);
+            _productRepositoryMoq.Setup(t => t.Delete(It.IsAny<Product>())).ReturnsAsync(true);
             //Arrange
             bool result = await _productService.DeleteProduct(productResponse.ProductId);
             //assert

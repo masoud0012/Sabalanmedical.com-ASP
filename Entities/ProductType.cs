@@ -6,10 +6,10 @@ namespace Entities
     /// <summary>
     /// Domain Model For Types of Products
     /// </summary>
-    public class ProductType
+    public class ProductType : BaseEntity
     {
-        [Key]
-        public Guid TypeId { get; set; }
+/*        [Key]
+        public Guid TypeId { get; set; }*/
 
         [StringLength(200)]
         public string? TypeNameEN { get; set; }

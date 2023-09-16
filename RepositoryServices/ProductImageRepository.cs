@@ -6,8 +6,8 @@ namespace RepositoryServices
 {
     public class ProductImageRepository : IProductImageRepository
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductImageRepository(SabalanDbContext sabalanDbContext)
+        private readonly Entities.SabalanDbContext _sabalanDbContext;
+        public ProductImageRepository(Entities.SabalanDbContext sabalanDbContext)
         {
             _sabalanDbContext = sabalanDbContext;
         }
@@ -20,7 +20,7 @@ namespace RepositoryServices
 
         public async Task<bool> DeleteProductImage(Guid ImageId)
         {
-            ProductImg? productImg = await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.ImageID == ImageId);
+            ProductImg? productImg = await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.Id == ImageId);
             _sabalanDbContext.Remove(productImg);
             return await _sabalanDbContext.SaveChangesAsync() > 0;
 
@@ -33,7 +33,7 @@ namespace RepositoryServices
 
         public async Task<ProductImg>? GetProductImageByImageID(Guid ImageId)
         {
-            return await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.ImageID == ImageId);
+            return await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.Id == ImageId);
         }
 
         public async Task<List<ProductImg>>? GetProductImagesByProductID(Guid productId)
@@ -43,7 +43,7 @@ namespace RepositoryServices
 
         public async Task<ProductImg>? UpdateProductImage(ProductImg updateRequest)
         {
-            ProductImg productImg = await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.ImageID == updateRequest.ImageID);
+            ProductImg productImg = await _sabalanDbContext.ProductImgs.FirstOrDefaultAsync(t => t.Id == updateRequest.Id);
             productImg.ImageUrl = updateRequest.ImageUrl;
             await _sabalanDbContext.SaveChangesAsync();
             return updateRequest;

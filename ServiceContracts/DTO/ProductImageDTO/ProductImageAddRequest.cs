@@ -19,7 +19,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
         {
             return new ProductImg()
             {
-                ImageID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 ProductID = ProductID,
                 ImageUrl = ImageUrl
             };

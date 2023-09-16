@@ -1,7 +1,8 @@
 ﻿using Entities;
+using IRepository;
+using IRepository2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductPropertyDTO;
 using Services.Helpers;
@@ -12,10 +13,12 @@ namespace Services
 {
     public class ProductPropertyService : IProductPropertyService
     {
-        private readonly IProductPropertiesRepository _productPropertyRepository;
-        public ProductPropertyService(IProductPropertiesRepository productPropertyRepository)
+        private readonly IProductPropertyRepository _productPropertyRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductPropertyService(IProductPropertyRepository productPropertyRepository, IUnitOfWork unitOfWork)
         {
             _productPropertyRepository = productPropertyRepository;
+            this._unitOfWork = unitOfWork;
         }
         public async Task<ProductPropertyResponse>? AddProductProperty(ProductPropertyAddRequest request)
         {
@@ -25,7 +28,8 @@ namespace Services
                 throw new ArgumentNullException(nameof(request));
             }
             ValidationHelper.ModelValidation(request);
-            await _productPropertyRepository.AddProductProperty(request.ToProductProperty());
+            await _productPropertyRepository.Add(request.ToProductProperty());
+            await _unitOfWork.SaveChanges();
             return request.ToProductProperty().ToProductPropertyResponse();
         }
 
@@ -35,27 +39,28 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
-            ProductProperty? property =await _productPropertyRepository.GetProductPropertyByPropertyID(propertyId.Value);
+            ProductProperty? property = await _productPropertyRepository.GetById(propertyId.Value);
             if (property == null) { return false; }
-            await _productPropertyRepository.DeleteProductProperty(property);
+            await _productPropertyRepository.Delete(property);
+            await _unitOfWork.SaveChanges();
             return true;
         }
 
         public async Task<List<ProductPropertyResponse>>? GetAllProductProperty()
         {
-            List<ProductProperty>? productProperties = await _productPropertyRepository.GetAllProductProperty();
+            List<ProductProperty>? productProperties = (await _productPropertyRepository.GetAllAsync(0,100)).ToList();
             return productProperties.Select(t => t.ToProductPropertyResponse()).ToList();
         }
 
         public async Task<List<ProductPropertyResponse>>? GetProductPropertiesByProductID(Guid? productId)
         {
             List<ProductProperty>? properties;
-            if (productId==null)
+            if (productId == null)
             {
                 throw new ArgumentException(nameof(productId));
             }
-            List<ProductProperty>? productProperties = await _productPropertyRepository.GetProductPropertiesByProductID(productId.Value);
-            return productProperties.Select(t=>t.ToProductPropertyResponse()).ToList();
+            List<ProductProperty>? productProperties = (await _productPropertyRepository.GetByProductID(productId.Value)).ToList();
+            return productProperties.Select(t => t.ToProductPropertyResponse()).ToList();
         }
 
         public async Task<ProductPropertyResponse>? GetProductPropertyByPropertyID(Guid? propertyId)
@@ -64,7 +69,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
-            ProductProperty? property = await _productPropertyRepository.GetProductPropertyByPropertyID(propertyId.Value);
+            ProductProperty? property = await _productPropertyRepository.GetById(propertyId.Value);
             if (property == null)
             {
                 throw new ArgumentException("The product property was not found!");
@@ -79,12 +84,13 @@ namespace Services
                 throw new ArgumentNullException(nameof(updateRequest));
             }
             ValidationHelper.ModelValidation(updateRequest);
-            ProductProperty? property =await _productPropertyRepository.GetProductPropertyByPropertyID(updateRequest.propertyID);
+            ProductProperty? property = await _productPropertyRepository.GetById(updateRequest.propertyID);
             if (property == null)
             {
                 throw new ArgumentException("No property was found!");
             }
-            await _productPropertyRepository.UpdateProductProperty(updateRequest.ToProductProperty());
+            await _productPropertyRepository.Update(updateRequest.ToProductProperty());
+            await _unitOfWork.SaveChanges();
             return property.ToProductPropertyResponse();
         }
     }

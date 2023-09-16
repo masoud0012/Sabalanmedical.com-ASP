@@ -23,7 +23,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
         {
             return new ProductProperty()
             {
-                propertyID = propertyID,
+                Id = propertyID,
                 ProductID = ProductID,
                 PropertyTitle = PropertyTitle,
                 PropertyDetail = PropertyDetail

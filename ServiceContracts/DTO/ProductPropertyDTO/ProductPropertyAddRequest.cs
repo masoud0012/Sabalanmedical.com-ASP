@@ -14,7 +14,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
         {
             return new ProductProperty()
             {
-                propertyID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 ProductID = this.ProductID,
                 PropertyTitle = this.PropertyTitle,
                 PropertyDetail = this.PropertyDetail

@@ -19,7 +19,7 @@ namespace ServiceContracts.DTO.ProductTypeDTO
         {
             return new ProductType()
             {
-                TypeId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 TypeNameEN = TypeNameEN,
                 TypeNameFr = TypeNameFr
             };

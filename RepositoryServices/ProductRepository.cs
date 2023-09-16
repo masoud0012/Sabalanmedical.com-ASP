@@ -8,8 +8,8 @@ namespace RepositoryServices
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly SabalanDbContext _sabalanDbContext;
-        public ProductRepository(SabalanDbContext sabalanDbContext)
+        private readonly Entities.SabalanDbContext _sabalanDbContext;
+        public ProductRepository(Entities.SabalanDbContext sabalanDbContext)
         {
             _sabalanDbContext = sabalanDbContext;
         }
@@ -47,7 +47,7 @@ namespace RepositoryServices
         public async Task<Product?> GetProductById(Guid guid)
         {
             return await _sabalanDbContext.Products.Include("ProductType").Include("ProductDescriptions")
-                              .Include("ProductImages").Include("ProductProperties").FirstOrDefaultAsync(t => t.ProductID == guid);
+                              .Include("ProductImages").Include("ProductProperties").FirstOrDefaultAsync(t => t.Id == guid);
         }
 
         public async Task<Product?> GetProductByName(string? productNameEN, string? productNameFr)
@@ -65,7 +65,7 @@ namespace RepositoryServices
 
         public async Task<Product?> UpdateProduct(Product product)
         {
-            Product? result = await _sabalanDbContext.Products.FirstOrDefaultAsync(t => t.ProductID == product.ProductID);
+            Product? result = await _sabalanDbContext.Products.FirstOrDefaultAsync(t => t.Id == product.Id);
             if (result is null)
             {
                 return product;
