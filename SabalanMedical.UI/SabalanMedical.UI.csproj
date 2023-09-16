@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SAbalanMedical.Core\SAbalanMedical.Core.csproj" />
+    <ProjectReference Include="..\SAbalanMedical.Core\SabalanMedical.Core.csproj" />
     <ProjectReference Include="..\SabalanMedical.Infrastracture\SabalanMedical.Infrastracture.csproj" />
   </ItemGroup>
 

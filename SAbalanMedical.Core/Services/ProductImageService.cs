@@ -51,7 +51,7 @@ namespace Services
 
         public async Task<List<ProductImageResponse>>? GetAllProductImages()
         {
-            return (await _productImageRepository.GetAllAsync(0,10)).Select(t => t.ToProductImgResponse()).ToList();
+            return (await _productImageRepository.GetAllAsync()).Select(t => t.ToProductImgResponse()).ToList();
         }
 
         public async Task<ProductImageResponse>? GetProductImageByImageID(Guid? imageID)
