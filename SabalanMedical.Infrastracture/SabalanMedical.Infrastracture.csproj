@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SAbalanMedical.Core\SAbalanMedical.Core.csproj" />
+    <ProjectReference Include="..\SAbalanMedical.Core\SabalanMedical.Core.csproj" />
   </ItemGroup>
 
 </Project>

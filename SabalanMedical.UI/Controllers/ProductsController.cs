@@ -246,6 +246,8 @@ namespace SabalanMedical.Controllers
                 return RedirectToAction("Index");
             }
             ProductResponse? product = await _productService.GetProductById(ProductId);
+            List<ProductImageResponse> images =await _productImageService.GetProductImagesByProductID(product.ProductId);
+            product.productImgs = images;
             if (product == null)
             {
                 return RedirectToAction("Index");

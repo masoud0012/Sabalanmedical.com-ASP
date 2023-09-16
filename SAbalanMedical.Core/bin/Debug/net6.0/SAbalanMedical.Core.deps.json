@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "SAbalanMedical.Core/1.0.0": {
+      "SabalanMedical.Core/1.0.0": {
         "dependencies": {
           "CsvHelper": "30.0.1",
           "EPPlus": "6.2.9",
@@ -17,7 +17,7 @@
           "SerilogTimings": "3.0.1"
         },
         "runtime": {
-          "SAbalanMedical.Core.dll": {}
+          "SabalanMedical.Core.dll": {}
         }
       },
       "CsvHelper/30.0.1": {
@@ -1076,7 +1076,7 @@
     }
   },
   "libraries": {
-    "SAbalanMedical.Core/1.0.0": {
+    "SabalanMedical.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

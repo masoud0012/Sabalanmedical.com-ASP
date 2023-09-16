@@ -12,7 +12,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.11",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.11",
           "Rotativa.AspNetCore": "1.2.0",
-          "SAbalanMedical.Core": "1.0.0",
+          "SabalanMedical.Core": "1.0.0",
           "SabalanMedical.Infrastracture": "1.0.0",
           "Serilog": "3.0.1",
           "Serilog.Sinks.MSSqlServer": "6.3.0",
@@ -2169,7 +2169,7 @@
           "System.Xml.XPath": "4.3.0"
         }
       },
-      "SAbalanMedical.Core/1.0.0": {
+      "SabalanMedical.Core/1.0.0": {
         "dependencies": {
           "CsvHelper": "30.0.1",
           "EPPlus": "6.2.9",
@@ -2180,14 +2180,14 @@
           "SerilogTimings": "3.0.1"
         },
         "runtime": {
-          "SAbalanMedical.Core.dll": {}
+          "SabalanMedical.Core.dll": {}
         }
       },
       "SabalanMedical.Infrastracture/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "7.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.11",
-          "SAbalanMedical.Core": "1.0.0"
+          "SabalanMedical.Core": "1.0.0"
         },
         "runtime": {
           "SabalanMedical.Infrastracture.dll": {}
@@ -3762,7 +3762,7 @@
       "path": "system.xml.xpath.xdocument/4.3.0",
       "hashPath": "system.xml.xpath.xdocument.4.3.0.nupkg.sha512"
     },
-    "SAbalanMedical.Core/1.0.0": {
+    "SabalanMedical.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

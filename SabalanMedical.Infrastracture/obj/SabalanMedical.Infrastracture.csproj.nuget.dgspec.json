@@ -4,12 +4,12 @@
     "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SabalanMedical.Infrastracture\\SabalanMedical.Infrastracture.csproj": {}
   },
   "projects": {
-    "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SAbalanMedical.Core.csproj": {
+    "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SabalanMedical.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SAbalanMedical.Core.csproj",
-        "projectName": "SAbalanMedical.Core",
-        "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SAbalanMedical.Core.csproj",
+        "projectUniqueName": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SabalanMedical.Core.csproj",
+        "projectName": "SabalanMedical.Core",
+        "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SabalanMedical.Core.csproj",
         "packagesPath": "C:\\Users\\masou\\.nuget\\packages\\",
         "outputPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\obj\\",
         "projectStyle": "PackageReference",
@@ -113,8 +113,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SAbalanMedical.Core.csproj": {
-                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SAbalanMedical.Core.csproj"
+              "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SabalanMedical.Core.csproj": {
+                "projectPath": "D:\\drive\\Reza-Masoud\\websites\\Sabalanmedical.com-ASP\\SAbalanMedical.Core\\SabalanMedical.Core.csproj"
               }
             }
           }

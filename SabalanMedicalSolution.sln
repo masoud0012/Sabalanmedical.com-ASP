@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.UI", "SabalanMedical.UI\SabalanMedical.UI.csproj", "{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.UI", "SabalanMedical.UI\SabalanMedical.UI.csproj", "{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9AE93FD0-AD0D-415B-8ABD-FB7E11E82324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAbalanMedical.Core", "SAbalanMedical.Core\SAbalanMedical.Core.csproj", "{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.Core", "SAbalanMedical.Core\SabalanMedical.Core.csproj", "{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.Infrastracture", "SabalanMedical.Infrastracture\SabalanMedical.Infrastracture.csproj", "{1D9970D4-38DE-462E-A158-069A2BC86CD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.Infrastracture", "SabalanMedical.Infrastracture\SabalanMedical.Infrastracture.csproj", "{1D9970D4-38DE-462E-A158-069A2BC86CD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.ControllerTest", "SabalanMedical.ControllerTest\SabalanMedical.ControllerTest.csproj", "{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.ServiceTest", "SabalanMedical.ServiceTest\SabalanMedical.ServiceTest.csproj", "{14F29582-3557-4666-BB4F-EC62FC1EC02F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,14 @@ Global
 		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F29582-3557-4666-BB4F-EC62FC1EC02F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F29582-3557-4666-BB4F-EC62FC1EC02F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F29582-3557-4666-BB4F-EC62FC1EC02F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F29582-3557-4666-BB4F-EC62FC1EC02F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +51,8 @@ Global
 		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
 		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
 		{1D9970D4-38DE-462E-A158-069A2BC86CD9} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
+		{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908} = {9AE93FD0-AD0D-415B-8ABD-FB7E11E82324}
+		{14F29582-3557-4666-BB4F-EC62FC1EC02F} = {9AE93FD0-AD0D-415B-8ABD-FB7E11E82324}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18B7CC13-BFE1-4CD3-AA81-25D9F646CFBB}

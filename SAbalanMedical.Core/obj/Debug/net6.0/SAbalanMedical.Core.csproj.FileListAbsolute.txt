@@ -10,3 +10,15 @@ D:\drive\Reza-Masoud\websites\SabalanMedicalSolution\SAbalanMedical.Core\obj\Deb
 D:\drive\Reza-Masoud\websites\SabalanMedicalSolution\SAbalanMedical.Core\obj\Debug\net6.0\refint\SAbalanMedical.Core.dll
 D:\drive\Reza-Masoud\websites\SabalanMedicalSolution\SAbalanMedical.Core\obj\Debug\net6.0\SAbalanMedical.Core.pdb
 D:\drive\Reza-Masoud\websites\SabalanMedicalSolution\SAbalanMedical.Core\obj\Debug\net6.0\ref\SAbalanMedical.Core.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\bin\Debug\net6.0\SabalanMedical.Core.deps.json
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\bin\Debug\net6.0\SabalanMedical.Core.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\bin\Debug\net6.0\SabalanMedical.Core.pdb
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.csproj.AssemblyReference.cache
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.AssemblyInfoInputs.cache
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.AssemblyInfo.cs
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.csproj.CoreCompileInputs.cache
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\refint\SabalanMedical.Core.dll
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\SabalanMedical.Core.pdb
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SAbalanMedical.Core\obj\Debug\net6.0\ref\SabalanMedical.Core.dll
