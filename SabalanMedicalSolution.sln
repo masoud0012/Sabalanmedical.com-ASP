@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.UI", "SabalanMedical.UI\SabalanMedical.UI.csproj", "{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9AE93FD0-AD0D-415B-8ABD-FB7E11E82324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAbalanMedical.Core", "SAbalanMedical.Core\SAbalanMedical.Core.csproj", "{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.Infrastracture", "SabalanMedical.Infrastracture\SabalanMedical.Infrastracture.csproj", "{1D9970D4-38DE-462E-A158-069A2BC86CD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9970D4-38DE-462E-A158-069A2BC86CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D7EC3006-7EE9-4BB3-898A-4EB13DF93ABC} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
+		{F1A69CC5-30B8-4125-8663-11A7AC5AE34E} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
+		{1D9970D4-38DE-462E-A158-069A2BC86CD9} = {0AB810CD-7F0D-4AEE-B677-8C2307D03AAC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18B7CC13-BFE1-4CD3-AA81-25D9F646CFBB}
+	EndGlobalSection
+EndGlobal
