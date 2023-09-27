@@ -13,7 +13,9 @@ using System.Reflection;
 using IRepository;
 using IRepository;
 using System.Linq;
-
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
 
 namespace Services
 {
@@ -22,26 +24,33 @@ namespace Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, ILogger<ProductService> logger)
         {
+            _logger = logger;
             _productRepository = productRepository;
             this._unitOfWork = unitOfWork;
         }
         public async Task<ProductResponse> AddProduct(ProductAddRequest? productAddRequest)
         {
+            _logger.LogInformation("Start AddProduct");
 
             if (productAddRequest is null)
             {
+                _logger.LogError($"{nameof(productAddRequest)} is null");
                 throw new ArgumentNullException(nameof(productAddRequest));
             }
             ValidationHelper.ModelValidation(productAddRequest);
             if (await _productRepository.GetProductByName(productAddRequest.ProductNameEn, productAddRequest.ProductNameFr) != null)
             {
+                _logger.LogError("Duplicate product add request!");
                 throw new ArgumentException("Product Name is duplicated");
             }
             Product product = productAddRequest.ToProduct();
             await _productRepository.Add(product);
+            _logger.LogInformation("Back From Add repository");
             await _unitOfWork.SaveChanges();
+            _logger.LogInformation("Add Saved ");
             return product.ToProductResponse();
         }
         public async Task<List<ProductResponse>> GetAllProducts()
@@ -63,6 +72,26 @@ namespace Services
                 return null;
             }
             return product.ToProductResponse();
+        }
+        public async Task<List<ProductResponse>>? GetProductByTypeName(string? type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+            var productsByType = await _productRepository.GetProductsByTypeName(type);
+
+            return productsByType.Select(t => t.ToProductResponse()).ToList();
+        }
+        public async Task<List<ProductResponse>>? GetProductByTypeId(Guid? typeId)
+        {
+            if (typeId is null || typeId==Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(typeId));
+            }
+            var productsByType = await _productRepository.GetProductsByTypeId(typeId.Value);
+
+            return productsByType.Select(t => t.ToProductResponse()).ToList();
         }
         public async Task<List<ProductResponse>>? GetFilteredProduct(string searchBy, string searchKey = "")
         {
@@ -151,23 +180,34 @@ namespace Services
             {
                 throw new ArgumentException("No Product was found in the list");
             }
+            matchedProduct.TypeId = productUpdateRequest.TypeId;
+            matchedProduct.isManufactured = productUpdateRequest.isManufactured;
+            matchedProduct.ProductNameFr = productUpdateRequest.ProductNameFr;
+            matchedProduct.ProductNameEn = productUpdateRequest.ProductNameEn;
+            matchedProduct.ProductUrl = productUpdateRequest.ProductUrl;
+            matchedProduct.isHotSale = productUpdateRequest.isHotSale;
             await _productRepository.Update(matchedProduct);
             await _unitOfWork.SaveChanges();
             return matchedProduct.ToProductResponse();
         }
         public async Task<bool> DeleteProduct(Guid? productId)
         {
+            _logger.LogWarning("Try to Delete a Product");
             if (productId == null)
             {
+                _logger.LogError("ProductId is null an exception");
                 throw new ArgumentNullException("ProductId can not be null");
             }
             Product? mathedProduct = await _productRepository.GetById(productId ?? Guid.Empty);
             if (mathedProduct == null)
             {
+                _logger.LogError("No Product was found to be deleted");
                 return false;
             }
+            _logger.LogWarning($"try to delete {mathedProduct.ProductNameFr} from database!");
             await _productRepository.Delete(mathedProduct);
             await _unitOfWork.SaveChanges();
+            _logger.LogWarning($" {mathedProduct.ProductNameFr} was deleted from database!");
             return true;
 
         }
@@ -223,5 +263,7 @@ namespace Services
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

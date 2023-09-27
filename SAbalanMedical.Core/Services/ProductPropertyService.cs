@@ -25,15 +25,17 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(request));
             }
+
             ValidationHelper.ModelValidation(request);
             await _productPropertyRepository.Add(request.ToProductProperty());
             await _unitOfWork.SaveChanges();
+
             return request.ToProductProperty().ToProductPropertyResponse();
         }
 
         public async Task<bool> DeleteProductProperty(Guid? propertyId)
         {
-            if (propertyId is null)
+            if (propertyId is null || propertyId==Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
@@ -46,24 +48,24 @@ namespace Services
 
         public async Task<List<ProductPropertyResponse>>? GetAllProductProperty()
         {
-            List<ProductProperty>? productProperties = (await _productPropertyRepository.GetAllAsync(0,100)).ToList();
+            List<ProductProperty> productProperties = (await _productPropertyRepository.GetAllAsync()).ToList();
             return productProperties.Select(t => t.ToProductPropertyResponse()).ToList();
         }
 
         public async Task<List<ProductPropertyResponse>>? GetProductPropertiesByProductID(Guid? productId)
         {
-            List<ProductProperty>? properties;
-            if (productId == null)
+            if (productId == null || productId==Guid.Empty)
             {
-                throw new ArgumentException(nameof(productId));
+                throw new ArgumentNullException(nameof(productId));
             }
             List<ProductProperty>? productProperties = (await _productPropertyRepository.GetByProductID(productId.Value)).ToList();
+
             return productProperties.Select(t => t.ToProductPropertyResponse()).ToList();
         }
 
         public async Task<ProductPropertyResponse>? GetProductPropertyByPropertyID(Guid? propertyId)
         {
-            if (propertyId is null)
+            if (propertyId is null || propertyId==Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
@@ -87,7 +89,10 @@ namespace Services
             {
                 throw new ArgumentException("No property was found!");
             }
-            await _productPropertyRepository.Update(updateRequest.ToProductProperty());
+            property.ProductID = updateRequest.ProductID;
+            property.PropertyDetail = updateRequest.PropertyDetail;
+            property.PropertyTitle = updateRequest.PropertyTitle;
+            await _productPropertyRepository.Update(property);
             await _unitOfWork.SaveChanges();
             return property.ToProductPropertyResponse();
         }

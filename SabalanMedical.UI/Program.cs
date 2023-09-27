@@ -1,7 +1,9 @@
 using Entities;
 using IRepository;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using RepositoryServices;
+using Serilog;
 using ServiceContracts;
 using Services;
 
@@ -20,13 +22,32 @@ builder.Services.AddScoped<IProductImgRepository, ProductImageRepository>();
 builder.Services.AddScoped<IProductPropertyRepository, ProductPropertyRepository>();
 builder.Services.AddScoped<IProductDescRepository, ProductDescriptionRepository>();
 
+//Configure Databse
 builder.Services.AddDbContext<SabalanDbContext>(options => options.UseSqlServer(
                builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Config Serilog
+builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider service, LoggerConfiguration loggerConfiguration) =>
+{
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration)//Read Configuration setting from built in IConfiguration
+    .ReadFrom.Services(service);//Read out current app's Services and make them available to serilog
+});
+
+//Config Logging
+builder.Services.AddHttpLogging(option =>
+{
+    option.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders;
+});
+
+
 var app = builder.Build();
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+app.UseHttpLogging();
 //configure Rotativa-Convert to pdf- the directory in which wkhtmltox.exe is available
 Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 app.UseStaticFiles();

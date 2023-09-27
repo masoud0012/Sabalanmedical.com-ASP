@@ -1,9 +1,4 @@
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\CoverletSourceRootsMapping
-D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.csproj.AssemblyReference.cache
-D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.GeneratedMSBuildEditorConfig.editorconfig
-D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.AssemblyInfoInputs.cache
-D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.AssemblyInfo.cs
-D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.csproj.CoreCompileInputs.cache
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\testhost.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\SabalanMedical.UI.deps.json
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\SabalanMedical.UI.runtimeconfig.json
@@ -185,6 +180,11 @@ D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\SabalanMedical.Infrastracture.pdb
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\SabalanMedical.UI.pdb
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\bin\Debug\net6.0\SabalanMedical.Core.pdb
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.csproj.AssemblyReference.cache
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.GeneratedMSBuildEditorConfig.editorconfig
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.AssemblyInfoInputs.cache
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.AssemblyInfo.cs
+D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.csproj.CoreCompileInputs.cache
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.csproj.CopyComplete
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\SabalanMedical.ServiceTest.dll
 D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.ServiceTest\obj\Debug\net6.0\refint\SabalanMedical.ServiceTest.dll

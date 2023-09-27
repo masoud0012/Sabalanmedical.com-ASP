@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.Core", "SAba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.Infrastracture", "SabalanMedical.Infrastracture\SabalanMedical.Infrastracture.csproj", "{1D9970D4-38DE-462E-A158-069A2BC86CD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.ControllerTest", "SabalanMedical.ControllerTest\SabalanMedical.ControllerTest.csproj", "{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.ControllerTest", "SabalanMedical.ControllerTest\SabalanMedical.ControllerTest.csproj", "{CDA4EEE7-6244-4EDE-B319-8D2F46A1D908}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SabalanMedical.ServiceTest", "SabalanMedical.ServiceTest\SabalanMedical.ServiceTest.csproj", "{14F29582-3557-4666-BB4F-EC62FC1EC02F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SabalanMedical.ServiceTest", "SabalanMedical.ServiceTest\SabalanMedical.ServiceTest.csproj", "{14F29582-3557-4666-BB4F-EC62FC1EC02F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

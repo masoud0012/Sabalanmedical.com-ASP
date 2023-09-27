@@ -1,6 +1,7 @@
 ﻿using Entities;
 using IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepositoryServices;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace RepositoryServices
     public class ProductImageRepository:RepositoryGeneric<ProductImg,SabalanDbContext>,IProductImgRepository
     {
         private readonly DbSet<ProductImg> _dbSet;
-        public ProductImageRepository(SabalanDbContext context):base(context)
+        private readonly ILogger<ProductImageRepository> _logger;
+        public ProductImageRepository(SabalanDbContext context, ILogger<ProductImageRepository> logger) :base(context, logger)
         {
             _dbSet=context.Set<ProductImg>();   
+            _logger=logger;
         }
 
         public async Task<IQueryable<ProductImg>>? GetByProductID(Guid productId)

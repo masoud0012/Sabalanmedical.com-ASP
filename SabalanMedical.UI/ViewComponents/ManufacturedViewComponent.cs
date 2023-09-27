@@ -16,8 +16,8 @@ namespace SabalanMedical.UI.ViewComponents
         {
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
 
-
-            return View(allProducts.Where(t => t.isManufactured == true).ToList());//shared/Components/Manufactured/default.cshtml
+           List<ProductResponse> manufacturedProducts =allProducts.Where(t => t.isManufactured == true).ToList();
+            return View(manufacturedProducts);//shared/Components/Manufactured/default.cshtml
         }
     }
 }

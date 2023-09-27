@@ -34,7 +34,7 @@ namespace TestProject
             _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             Mock<IUnitOfWork> unit = new Mock<IUnitOfWork>();
-            _productService = new ProductService(_productRepositoryMoq.Object, unit.Object);
+            _productService = new ProductService(_productRepositoryMoq.Object, unit.Object,null);
             _productTypeService = new ProductTypesService(_produtTypeRepositoryMoq.Object, unit.Object);
         }
         #region AddProduct

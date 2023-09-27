@@ -15,13 +15,13 @@
         @foreach (ProductResponse item in Model)
         {
             <div class="myCard card me-3 mt-3 p-1 shadow-sm" style="flex: none;width: 350px">
-                <a asp-action="Shop" asp-controller="Home" asp-route-data="">
+                <a asp-action="Product" asp-controller="Home" asp-route-productUrl="@item.ProductUrl">
                     <div class="cardImages">
-                        <img src="~/images/products/@item.productImgs.FirstOrDefault()" class="card-img-top" alt="@item.ProductNameFr" style="height: 15rem; width: 100%">
+                        <img src="~/images/products/@item?.productImgs?[0]?.ImageUrl" class="card-img-top" alt="@item?.ProductNameFr" style="height: 15rem; width: 100%">
                     </div>
                 </a>
                 <div class="card-body">
-                    <p class="card-text text-center">@item.ProductNameFr</p>
+                    <p class="card-text text-center">@item?.ProductNameFr</p>
                 </div>
             </div>
         }

@@ -10,7 +10,9 @@
     {
         foreach (ProductTypeResponse item in ViewBag.Types)
         {
-            <li><i class="bi-bricks"></i><a href="/our-products/#">@item.TypeNameFr</a></li>
+            <li><i class="bi-bricks"></i>
+                <a asp-controller="Home" asp-action="ProductTypes" asp-route-typeEn="@item.TypeNameEn">@item.TypeNameFr</a>
+            </li>
         }
     }
 

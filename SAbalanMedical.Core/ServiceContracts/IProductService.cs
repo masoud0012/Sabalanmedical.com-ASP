@@ -26,6 +26,14 @@ namespace ServiceContracts
         /// <param name="guid">ProductID</param>
         /// <returns>returns a product object as ProductResponse</returns>
         Task<ProductResponse>? GetProductById(Guid? guid);
+        /// <summary>
+        /// take type En as a string and returns all products whose type is typeEn
+        /// </summary>
+        /// <param name="type">string typeEn</param>
+        /// <returns>a list of ProductResponse objects</returns>
+        Task<List<ProductResponse>>? GetProductByTypeName(string? type);
+        Task<List<ProductResponse>>? GetProductByTypeId(Guid? typeId);
+
         Task<ProductResponse>? GetProductByProductUrl(string? productUrl);
 
         /// <summary>

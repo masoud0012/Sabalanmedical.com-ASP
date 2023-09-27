@@ -9,6 +9,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
         [Required(ErrorMessage ="Product Id can not be blank")]
         public Guid ProductID { set; get; }
         public string? PropertyTitle { get; set; }
+        [Required]
         public string? PropertyDetail { get; set; }
         public ProductProperty ToProductProperty()
         {

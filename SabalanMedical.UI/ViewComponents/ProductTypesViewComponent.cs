@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts;
-using ServiceContracts.DTO.ProductTypeDTO;
-
 namespace SabalanMedical.UI.ViewComponents
 {
     public class ProductTypesViewComponent : ViewComponent

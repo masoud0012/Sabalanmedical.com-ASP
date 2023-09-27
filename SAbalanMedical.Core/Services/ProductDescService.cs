@@ -82,6 +82,9 @@ namespace Services
             {
                 throw new ArgumentException("No description was found");
             }
+            response.ProductID = updateRequest.ProductID;
+            response.DescTitle = updateRequest.DescTitle;
+            response.Description = updateRequest.Description;
             await _productDescriptionRepository.Update(response);
             await _unitOfWork.SaveChanges();
             return response.ToProductDescResponse();

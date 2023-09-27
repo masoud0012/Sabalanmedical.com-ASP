@@ -32,5 +32,18 @@ namespace IRepository
         /// <param name="productNameEN">productNameEN</param>
         /// <returns>Product</returns>
         Task<Product?> GetProductByName(string productNameEN, string productNameFr);
+
+        /// <summary>
+        /// Returns a list of Product whose typeId is matched with the given typeId
+        /// </summary>
+        /// <param name="type">typeId</param>
+        /// <returns>A list of Product</returns>
+        public Task<List<Product>> GetProductsByTypeId(Guid typeId);
+        /// <summary>
+        /// Returns a list of Product whose typeId is matched with the given typeName
+        /// </summary>
+        /// <param name="type">typeNameEN</param>
+        /// <returns>A list of Product</returns>
+        public Task<List<Product>> GetProductsByTypeName(string typeName);
     }
 }

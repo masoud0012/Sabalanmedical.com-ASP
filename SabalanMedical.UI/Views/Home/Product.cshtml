@@ -17,11 +17,11 @@
             <ul class="shop-img">
                 <li>
                     <div class="card" style="width: 21rem;">
-                        <img src="~/images/products/@Model.productImgs.FirstOrDefault()" class="card-img-top" alt="@Model.ProductNameFr">
+                        <img src="~/images/products/@Model.productImgs?.FirstOrDefault()?.ImageUrl" class="card-img-top" alt="@Model.ProductNameEn">
                     </div>
                 </li>
                 <li>
-                    @foreach (ProductImageResponse item in Model.productImgs)
+                    @foreach (ProductImageResponse item in Model?.productImgs)
                     {
                         <img src="~/images/products/@item.ImageUrl" style="width: 65px">
                     }

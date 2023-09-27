@@ -1,4 +1,4 @@
-﻿
+﻿@model List<ProductResponse>
 <section>
     <div class="container mb-5 mt-5 border-top pt-2">
         <h5>تولیدات ما</h5>
@@ -11,11 +11,11 @@
                     <div class="item manufactured-slider">
                         <div class="card ms-2" style="height: 100%">
                             <div class="cardImages">
-                                <img src="images/products/bvf-1653421286.jpg" class="card-img-top" alt="نام فارسی" style="height: 230px">
+                                <img src="images/products/bvf-1653421286.jpg" class="card-img-top" alt="" style="height: 230px">
                             </div>
                             <div class="card-body">
                                 <p class="card-text text-center w-100">نام فارسی</p>
-                                <a href="#" class="btn btn-danger w-100">بیشتر</a>
+                                <a asp-action="Producttypes" asp-controller="Home" asp-route-tpeEn="" class="btn btn-danger w-100">بیشتر</a>
                             </div>
                         </div>
                     </div>

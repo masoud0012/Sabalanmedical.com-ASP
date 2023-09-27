@@ -1,6 +1,7 @@
 ﻿using Entities;
 using IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepositoryServices;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace RepositoryServices
     public class ProductPropertyRepository : RepositoryGeneric<ProductProperty, SabalanDbContext>, IProductPropertyRepository
     {
         private readonly DbSet<ProductProperty> _dbSet;
-        public ProductPropertyRepository(SabalanDbContext context) : base(context)
+        private readonly ILogger<ProductPropertyRepository> _logger;
+        public ProductPropertyRepository(SabalanDbContext context, ILogger<ProductPropertyRepository> logger) : base(context,logger)
         {
             _dbSet=context.Set<ProductProperty>();
+            _logger=logger;
         }
 
         public async Task<IQueryable<ProductProperty>>? GetByProductID(Guid productId)
