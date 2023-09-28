@@ -32,6 +32,7 @@
             </tr>
         </thead>
         <tbody>
+            @if (Model.productDescs!=null)
             @foreach (ProductDescResponse item in Model.productDescs)
             {
                 <tr>

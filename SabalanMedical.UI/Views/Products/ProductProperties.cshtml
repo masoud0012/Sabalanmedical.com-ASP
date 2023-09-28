@@ -32,6 +32,8 @@
             </tr>
         </thead>
         <tbody>
+            @if (Model.productProperties!=null)
+           
             @foreach (ProductPropertyResponse item in Model.productProperties)
             {
                 <tr>
@@ -49,6 +51,7 @@
                     </th>
                 </tr>
             }
+
         </tbody>
     </table>
 </div>

@@ -40,13 +40,14 @@ namespace RepositoryServices
         public async Task<IQueryable<TEntity>> GetAllAsync(int start = 0, int length = 50)
         {
             _logger.LogInformation($"GetAllAsync method executed-TEntity={typeof(TEntity)}");
-            var data = _dbSet.Skip(start).Take(length).OrderBy(t=>t.Id).AsQueryable();
+            var data = _dbSet.Skip(start).Take(length).OrderBy(t => t.Id).AsQueryable();
             _logger.LogDebug($"{data.Count()} obj was found to be returned for {typeof(TEntity)}");
             return data;
         }
 
-        public async Task<TEntity?> GetById(Guid guid)
+        public async Task<TEntity> GetById(Guid guid)
         {
+
             _logger.LogInformation($"GetById method executed-TEntity={typeof(TEntity)}");
             return _dbSet.Single(t => t.Id == guid);
         }
