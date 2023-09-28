@@ -1,14 +1,14 @@
 ﻿using AutoFixture;
+using Castle.Core.Logging;
 using Entities;
 using FluentAssertions;
-using FluentAssertions.Execution;
 using IRepository;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using ServiceContracts.Enums;
 using Services;
-using System;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
 
@@ -25,6 +25,7 @@ namespace TestProject
 
         public ProductServiceTests(ITestOutputHelper testOutputHelper)
         {
+
             _testHelper = testOutputHelper;
 
             _productRepositoryMoq = new Mock<IProductRepository>();
@@ -34,8 +35,8 @@ namespace TestProject
             _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             Mock<IUnitOfWork> unit = new Mock<IUnitOfWork>();
-            _productService = new ProductService(_productRepositoryMoq.Object, unit.Object,null);
-            _productTypeService = new ProductTypesService(_produtTypeRepositoryMoq.Object, unit.Object);
+            _productService = new ProductService(_productRepositoryMoq.Object, unit.Object, new Mock<ILogger<ProductService>>().Object);
+            _productTypeService = new ProductTypesService(_produtTypeRepositoryMoq.Object, unit.Object, new Mock<ILogger<ProductTypesService>>().Object);
         }
         #region AddProduct
         [Fact]
@@ -78,10 +79,10 @@ namespace TestProject
             //act
             _productRepositoryMoq.Setup(t => t.Add(It.IsAny<Product>())).ReturnsAsync(product);
             ProductResponse productResponse = await _productService.AddProduct(request);
-            product.Id = productResponse.ProductId;
+            product.Id = productResponse.Id;
 
             //assert
-            productResponse.ProductId.Should().NotBe(Guid.Empty);
+            productResponse.Id.Should().NotBe(Guid.Empty);
             productResponse.Should().Be(product.ToProductResponse());
         }
         #endregion
@@ -117,7 +118,7 @@ namespace TestProject
         {
             //Arrange
             List<Product> products = new List<Product>();
-            _productRepositoryMoq.Setup(t => t.GetAllAsync(0,50)).ReturnsAsync(products.AsQueryable());
+            _productRepositoryMoq.Setup(t => t.GetAllAsync(0, 50)).ReturnsAsync(products.AsQueryable());
 
             //Act
             List<ProductResponse> responses = await _productService.GetAllProducts();
@@ -137,7 +138,7 @@ namespace TestProject
                 _fixture.Create<Product>()
             };
             List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
-            _productRepositoryMoq.Setup(t => t.GetAllAsync(0,50)).ReturnsAsync(products.AsQueryable());
+            _productRepositoryMoq.Setup(t => t.GetAllAsync(0, 50)).ReturnsAsync(products.AsQueryable());
 
             //Act
             List<ProductResponse> responses_fromGelAll = await _productService.GetAllProducts();
@@ -163,7 +164,7 @@ namespace TestProject
              _fixture.Create<Product>(),
             };
             List<ProductResponse> productResponses = products.Select(t => t.ToProductResponse()).ToList();
-            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(),0,50))
+            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(), 0, 50))
                 .ReturnsAsync(products);
             _testHelper.WriteLine("Expected products ");
             foreach (Product item in products)
@@ -207,7 +208,7 @@ namespace TestProject
             {
                 _testHelper.WriteLine(item.ToString() + ",\n");
             }
-            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(),0,50))
+            _productRepositoryMoq.Setup(t => t.GetFilteredProduct(It.IsAny<Expression<Func<Product, bool>>>(), 0, 50))
                 .ReturnsAsync(products);
             //Act
             List<ProductResponse>? responses_fromFilteredProducts =
@@ -364,7 +365,7 @@ namespace TestProject
             _productRepositoryMoq.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(product);
             _productRepositoryMoq.Setup(t => t.Delete(It.IsAny<Product>())).ReturnsAsync(true);
             //Arrange
-            bool result = await _productService.DeleteProduct(productResponse.ProductId);
+            bool result = await _productService.DeleteProduct(productResponse.Id);
             //assert
             result.Should().BeTrue();
         }

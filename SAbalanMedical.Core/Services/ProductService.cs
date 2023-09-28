@@ -175,7 +175,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(productUpdateRequest));
             }
             ValidationHelper.ModelValidation(productUpdateRequest);
-            Product? matchedProduct = await _productRepository.GetById(productUpdateRequest.ProductID);
+            Product? matchedProduct = await _productRepository.GetById(productUpdateRequest.Id);
             if (matchedProduct == null)
             {
                 throw new ArgumentException("No Product was found in the list");

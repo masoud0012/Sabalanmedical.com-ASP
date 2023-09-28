@@ -7,6 +7,7 @@ using Moq;
 using FluentAssertions;
 using IRepository;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
 
 namespace TestProject
 {
@@ -17,8 +18,11 @@ namespace TestProject
         //private readonly IProductTypeRepository _productTypeRepository;
         private readonly Mock<IProductTypeRepository> _typeRepositoryMock;
 
+        private readonly Mock<ILogger<ProductTypesService>> _loggerMock;
+
         public ProductTypeServiceTest()
         {
+            _loggerMock = new Mock<ILogger<ProductTypesService>>();
             _fixture = new Fixture();
             _typeRepositoryMock = new Mock<IProductTypeRepository>();
             //_productTypeRepository = _typeRepositoryMock.Object;
@@ -26,7 +30,7 @@ namespace TestProject
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             Mock<IUnitOfWork> unit = new Mock<IUnitOfWork>();
-            _productTypeSerivice = new ProductTypesService(_typeRepositoryMock.Object, unit.Object);
+            _productTypeSerivice = new ProductTypesService(_typeRepositoryMock.Object, unit.Object, _loggerMock.Object);
 
         }
         #region Add ProductType Tests
@@ -103,10 +107,10 @@ namespace TestProject
             //Act
             _typeRepositoryMock.Setup(t => t.Add(It.IsAny<ProductType>())).ReturnsAsync(productType);
             ProductTypeResponse response = await _productTypeSerivice.AddProductType(request);
-            expexted_type.TypeId = response.TypeId;
+            expexted_type.Id = response.Id;
 
             //Assert
-            response.TypeId.Should().NotBe(Guid.Empty);
+            response.Id.Should().NotBe(Guid.Empty);
             response.Should().Be(expexted_type);
         }
         #endregion

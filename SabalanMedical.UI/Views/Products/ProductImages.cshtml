@@ -7,19 +7,20 @@
             <div class="mb-3">
                 <label for="formFile" class="form-label">عکس مورد نظر را بارگزاری کنید</label>
                 <input class="form-control" type="file" name="imageFile" accept="image/*">
-                <input name="ProductId" type="hidden" value="@Model.ProductId">
+                <input name="ProductId" type="hidden" value="@Model.Id">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-3">Load Image</button>
             </div>
         </form>
         <div class="card-group">
+            @if (Model.productImgs!=null)
             @foreach (ProductImageResponse item in Model.productImgs)
             {
                 <div class="card productCard" style="width: 18rem;">
                     <img src="~/images/products/@item.ImageUrl" class="card-img-top edit-img-admin" alt="@Model.ProductNameFr">
                     <div class="card-body">
-                        <a asp-action="DeleteImage" asp-controller="Products" asp-route-ImageId="@item.ImageID">
+                        <a asp-action="DeleteImage" asp-controller="Products" asp-route-ImageId="@item.Id">
                             <p class="btn btn-danger"><i class="bi-trash"></i></p>
                         </a>
                     </div>

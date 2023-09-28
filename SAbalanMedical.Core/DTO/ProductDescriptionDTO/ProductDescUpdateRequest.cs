@@ -9,7 +9,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
 {
     public class ProductDescUpdateRequest
     {
-        public Guid DesctiptionID { get; set; }
+        public Guid Id { get; set; }
         public Guid ProductID { get; set; }
         public string? DescTitle { get; set; }
         public string? Description { get; set; }
@@ -18,7 +18,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
         {
             return new ProductDesc()
             {
-                Id =this.DesctiptionID,
+                Id =this.Id,
                 ProductID = this.ProductID,
                 DescTitle = this.DescTitle,
                 Description = this.Description

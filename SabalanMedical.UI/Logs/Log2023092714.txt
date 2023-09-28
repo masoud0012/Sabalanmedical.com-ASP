@@ -481,3 +481,387 @@ Content-Type: text/html; charset=utf-8
 2023-09-27 14:17:57.892 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/_framework/aspnetcore-browser-refresh.js - - - 200 12003 application/javascript;+charset=utf-8 22.2443ms
 2023-09-27 14:17:57.969 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/_vs/browserLink - -
 2023-09-27 14:17:58.090 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 120.6407ms
+2023-09-27 14:38:26.498 -04:00 [INF] User profile is available. Using 'C:\Users\masou\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-09-27 14:38:27.431 -04:00 [INF] Now listening on: http://localhost:5279
+2023-09-27 14:38:27.464 -04:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-09-27 14:38:27.482 -04:00 [INF] Hosting environment: Development
+2023-09-27 14:38:27.487 -04:00 [INF] Content root path: D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.UI\
+2023-09-27 14:38:30.340 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/ - -
+2023-09-27 14:38:30.637 -04:00 [INF] Request:
+Protocol: HTTP/1.1
+Method: GET
+Scheme: http
+PathBase: 
+Path: /
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Connection: keep-alive
+Host: localhost:5279
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.5
+Cookie: [Redacted]
+Upgrade-Insecure-Requests: [Redacted]
+Sec-Fetch-Dest: [Redacted]
+Sec-Fetch-Mode: [Redacted]
+Sec-Fetch-Site: [Redacted]
+Sec-Fetch-User: [Redacted]
+2023-09-27 14:38:30.902 -04:00 [INF] Executing endpoint 'SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI)'
+2023-09-27 14:38:31.187 -04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SabalanMedical.Controllers.HomeController (SabalanMedical.UI).
+2023-09-27 14:38:40.037 -04:00 [INF] Index method was excecued!
+2023-09-27 14:38:40.077 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:38:42.704 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:42.717 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:50.657 -04:00 [INF] Executed DbCommand (520ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:51.101 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:51.110 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:51.730 -04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-09-27 14:38:51.872 -04:00 [INF] Executed DbCommand (60ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:38:52.606 -04:00 [INF] Executing ViewResult, running view Index.
+2023-09-27 14:38:52.922 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:38:52.938 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:52.972 -04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:38:53.246 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:38:53.254 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:53.286 -04:00 [INF] Executed DbCommand (17ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:38:53.347 -04:00 [INF] GetAllTypes executed
+2023-09-27 14:38:53.353 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.ProductType
+2023-09-27 14:38:53.359 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:53.364 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:53.378 -04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:53.393 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:53.396 -04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2023-09-27 14:38:53.414 -04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[TypeNameEN], [t].[TypeNameFr]
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+ORDER BY [t].[Id]
+2023-09-27 14:38:53.509 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:38:53.517 -04:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:53.546 -04:00 [INF] Executed DbCommand (15ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:38:53.578 -04:00 [INF] GetAllTypes executed
+2023-09-27 14:38:53.584 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.ProductType
+2023-09-27 14:38:53.589 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:38:53.600 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[TypeNameEN], [t].[TypeNameFr]
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+ORDER BY [t].[Id]
+2023-09-27 14:38:54.096 -04:00 [INF] Executed ViewResult - view Index executed in 1491.426ms.
+2023-09-27 14:38:54.134 -04:00 [INF] Executed action SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI) in 22936.1965ms
+2023-09-27 14:38:54.149 -04:00 [INF] Executed endpoint 'SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI)'
+2023-09-27 14:38:54.162 -04:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/html; charset=utf-8
+2023-09-27 14:38:54.427 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/ - - - 200 - text/html;+charset=utf-8 24110.2238ms
+2023-09-27 14:42:52.153 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/ - -
+2023-09-27 14:42:52.166 -04:00 [INF] Request:
+Protocol: HTTP/1.1
+Method: GET
+Scheme: http
+PathBase: 
+Path: /
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Connection: keep-alive
+Host: localhost:5279
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.5
+Cookie: [Redacted]
+Upgrade-Insecure-Requests: [Redacted]
+Sec-Fetch-Dest: [Redacted]
+Sec-Fetch-Mode: [Redacted]
+Sec-Fetch-Site: [Redacted]
+Sec-Fetch-User: [Redacted]
+2023-09-27 14:42:52.218 -04:00 [INF] Executing endpoint 'SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI)'
+2023-09-27 14:42:52.241 -04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SabalanMedical.Controllers.HomeController (SabalanMedical.UI).
+2023-09-27 14:42:52.468 -04:00 [INF] Index method was excecued!
+2023-09-27 14:42:52.507 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:42:52.533 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:52.581 -04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:42:52.660 -04:00 [INF] Executing ViewResult, running view Index.
+2023-09-27 14:42:52.672 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:42:52.680 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:52.735 -04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:42:52.801 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:42:52.811 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:52.874 -04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:42:52.916 -04:00 [INF] GetAllTypes executed
+2023-09-27 14:42:52.922 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.ProductType
+2023-09-27 14:42:52.932 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:52.955 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[TypeNameEN], [t].[TypeNameFr]
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+ORDER BY [t].[Id]
+2023-09-27 14:42:52.985 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.Product
+2023-09-27 14:42:52.992 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:53.041 -04:00 [INF] Executed DbCommand (20ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[ProductNameEn], [t].[ProductNameFr], [t].[ProductUrl], [t].[TypeId], [t].[isHotSale], [t].[isManufactured], [p0].[Id], [p0].[TypeNameEN], [p0].[TypeNameFr], [p1].[Id], [p1].[ImageUrl], [p1].[ProductID], [p2].[Id], [p2].[DescTitle], [p2].[Description], [p2].[ProductID], [p3].[Id], [p3].[ProductID], [p3].[PropertyDetail], [p3].[PropertyTitle]
+FROM (
+    SELECT [p].[Id], [p].[ProductNameEn], [p].[ProductNameFr], [p].[ProductUrl], [p].[TypeId], [p].[isHotSale], [p].[isManufactured]
+    FROM [Products] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [ProductTypes] AS [p0] ON [t].[TypeId] = [p0].[Id]
+LEFT JOIN [ProductImgs] AS [p1] ON [t].[Id] = [p1].[ProductID]
+LEFT JOIN [ProductDescs] AS [p2] ON [t].[Id] = [p2].[ProductID]
+LEFT JOIN [ProductProperties] AS [p3] ON [t].[Id] = [p3].[ProductID]
+ORDER BY [t].[Id], [p0].[Id], [p1].[Id], [p2].[Id]
+2023-09-27 14:42:53.198 -04:00 [INF] GetAllTypes executed
+2023-09-27 14:42:53.205 -04:00 [INF] GetAllAsync method executed-TEntity=Entities.ProductType
+2023-09-27 14:42:53.214 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+2023-09-27 14:42:53.248 -04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[TypeNameEN], [t].[TypeNameFr]
+FROM (
+    SELECT [p].[Id], [p].[TypeNameEN], [p].[TypeNameFr]
+    FROM [ProductTypes] AS [p]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+ORDER BY [t].[Id]
+2023-09-27 14:42:53.317 -04:00 [INF] Executed ViewResult - view Index executed in 657.4057ms.
+2023-09-27 14:42:53.327 -04:00 [INF] Executed action SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI) in 1075.704ms
+2023-09-27 14:42:53.342 -04:00 [INF] Executed endpoint 'SabalanMedical.Controllers.HomeController.Index (SabalanMedical.UI)'
+2023-09-27 14:42:53.360 -04:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/html; charset=utf-8
+2023-09-27 14:42:53.414 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/ - - - 200 - text/html;+charset=utf-8 1267.4481ms
+2023-09-27 14:42:53.771 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/css/owl.carousel.min.css - -
+2023-09-27 14:42:53.778 -04:00 [INF] Request:
+Protocol: HTTP/1.1
+Method: GET
+Scheme: http
+PathBase: 
+Path: /css/owl.carousel.min.css
+Accept: text/css,*/*;q=0.1
+Connection: keep-alive
+Host: localhost:5279
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.5
+Cookie: [Redacted]
+Referer: [Redacted]
+Sec-Fetch-Dest: [Redacted]
+Sec-Fetch-Mode: [Redacted]
+Sec-Fetch-Site: [Redacted]
+2023-09-27 14:42:53.782 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/_framework/aspnetcore-browser-refresh.js - -
+2023-09-27 14:42:53.898 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 116.4016ms
+2023-09-27 14:42:53.931 -04:00 [INF] Sending file. Request path: '/css/owl.carousel.min.css'. Physical path: 'D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.UI\wwwroot\css\owl.carousel.min.css'
+2023-09-27 14:42:53.938 -04:00 [INF] Response:
+StatusCode: 200
+Content-Type: text/css
+Accept-Ranges: bytes
+ETag: [Redacted]
+Last-Modified: Fri, 20 Apr 2018 02:52:10 GMT
+Content-Length: 3351
+2023-09-27 14:42:53.957 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/css/owl.carousel.min.css - - - 0 3351 text/css 186.0633ms
+2023-09-27 14:42:54.101 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/_vs/browserLink - -
+2023-09-27 14:42:54.637 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 535.6218ms
+2023-09-27 14:42:54.736 -04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5279/fonts/bnazanin.ttf - -
+2023-09-27 14:42:54.742 -04:00 [INF] Request:
+Protocol: HTTP/1.1
+Method: GET
+Scheme: http
+PathBase: 
+Path: /fonts/bnazanin.ttf
+Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+Connection: keep-alive
+Host: localhost:5279
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.5
+Cookie: [Redacted]
+Referer: [Redacted]
+Sec-Fetch-Dest: [Redacted]
+Sec-Fetch-Mode: [Redacted]
+Sec-Fetch-Site: [Redacted]
+2023-09-27 14:42:54.823 -04:00 [INF] Sending file. Request path: '/fonts/bnazanin.ttf'. Physical path: 'D:\drive\Reza-Masoud\websites\Sabalanmedical.com-ASP\SabalanMedical.UI\wwwroot\fonts\bnazanin.ttf'
+2023-09-27 14:42:54.840 -04:00 [INF] Response:
+StatusCode: 200
+Content-Type: application/x-font-ttf
+Accept-Ranges: bytes
+ETag: [Redacted]
+Last-Modified: Fri, 25 Jun 2021 12:33:54 GMT
+Content-Length: 56052
+2023-09-27 14:42:54.890 -04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5279/fonts/bnazanin.ttf - - - 0 56052 application/x-font-ttf 154.0479ms

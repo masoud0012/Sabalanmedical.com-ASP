@@ -84,7 +84,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(updateRequest));
             }
             ValidationHelper.ModelValidation(updateRequest);
-            ProductProperty? property = await _productPropertyRepository.GetById(updateRequest.propertyID);
+            ProductProperty? property = await _productPropertyRepository.GetById(updateRequest.Id);
             if (property == null)
             {
                 throw new ArgumentException("No property was found!");

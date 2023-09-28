@@ -77,7 +77,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductDesc? response = await _productDescriptionRepository.GetById(updateRequest.DesctiptionID);
+            ProductDesc? response = await _productDescriptionRepository.GetById(updateRequest.Id);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");

@@ -9,7 +9,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
 {
     public class ProductImageResponse
     {
-        public Guid ImageID { get; set; }
+        public Guid Id { get; set; }
         public Guid ProductID { get; set; }
         //public Guid ProductTypeID { get; set; } 
         public string? ImageUrl { get; set; }
@@ -17,7 +17,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
         {
             return new ProductImageUpdateRequest()
             {
-                ImageID = ImageID,
+                Id = Id,
                 ProductID = ProductID,
                 ImageUrl = ImageUrl
             };
@@ -31,7 +31,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
             return new ProductImageResponse()
             {
                 ProductID = productImg.ProductID,
-                ImageID = productImg.Id,
+                Id = productImg.Id,
                 ImageUrl = productImg.ImageUrl,
             };
         }

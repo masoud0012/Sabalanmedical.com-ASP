@@ -9,26 +9,26 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
 {
     public class ProductPropertyResponse
     {
-        public Guid propertyID { get; set; }
+        public Guid Id { get; set; }
         public Guid ProductID { set; get; }
         public string? PropertyTitle { get; set; }
         public string? PropertyDetail { get; set; }
         public override string ToString()
         {
-            return $"PropertID={propertyID},\t productId={ProductID},\t PRoductTitle={PropertyTitle},\t PropertyDetails={PropertyDetail}";
+            return $"PropertID={Id},\t productId={ProductID},\t PRoductTitle={PropertyTitle},\t PropertyDetails={PropertyDetail}";
         }
         public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType()!=typeof(ProductPropertyResponse)) return false;
             ProductPropertyResponse property = (ProductPropertyResponse)obj;
-            return property.propertyID == propertyID && property.ProductID == ProductID && property.PropertyTitle == PropertyTitle && property.PropertyDetail == PropertyDetail;
+            return property.Id == Id && property.ProductID == ProductID && property.PropertyTitle == PropertyTitle && property.PropertyDetail == PropertyDetail;
         }
 
         public ProductPropertyUpdateRequest ToProductPropertyUpdateRequest()
         {
             return new ProductPropertyUpdateRequest()
             {
-                propertyID = propertyID,
+                Id = Id,
                 ProductID = ProductID,
                 PropertyTitle = PropertyTitle,
                 PropertyDetail = PropertyDetail
@@ -41,7 +41,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
         {
             return new ProductPropertyResponse()
             {
-                propertyID = productProperty.Id,
+                Id = productProperty.Id,
                 ProductID = productProperty.ProductID,
                 PropertyTitle = productProperty.PropertyTitle,
                 PropertyDetail = productProperty.PropertyDetail,

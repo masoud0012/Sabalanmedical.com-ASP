@@ -11,7 +11,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
     public class ProductImageUpdateRequest
     {
         [Required(ErrorMessage = "{0} can not be null or blank")]
-        public Guid ImageID { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "{0} can not be null or blank")]
         public Guid ProductID { get; set; }
         [Required(ErrorMessage = "{0} can not be null or blank")]
@@ -21,7 +21,7 @@ namespace ServiceContracts.DTO.ProductImageDTO
         {
             return new ProductImg()
             {
-                Id = ImageID,
+                Id = Id,
                 ProductID = ProductID,
                 ImageUrl = ImageUrl
             };

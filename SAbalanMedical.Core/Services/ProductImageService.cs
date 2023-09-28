@@ -87,7 +87,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductImg? response =await _productImageRepository.GetById(updateRequest.ImageID);
+            ProductImg? response =await _productImageRepository.GetById(updateRequest.Id);
             if (response == null)
             {
                 throw new ArgumentException("No description was found");

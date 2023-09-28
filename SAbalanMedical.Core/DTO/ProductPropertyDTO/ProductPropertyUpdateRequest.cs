@@ -11,7 +11,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
     public class ProductPropertyUpdateRequest
     {
         [Required(ErrorMessage = "id can not be blank")]
-        public Guid propertyID { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Product Id can not be blank")]
         public Guid ProductID { set; get; }
 
@@ -23,7 +23,7 @@ namespace ServiceContracts.DTO.ProductPropertyDTO
         {
             return new ProductProperty()
             {
-                Id = propertyID,
+                Id = Id,
                 ProductID = ProductID,
                 PropertyTitle = PropertyTitle,
                 PropertyDetail = PropertyDetail

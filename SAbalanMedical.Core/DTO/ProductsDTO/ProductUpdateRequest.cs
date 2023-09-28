@@ -9,7 +9,7 @@ namespace ServiceContracts.DTO.ProductsDTO
     public class ProductUpdateRequest
     {
         [Required(ErrorMessage = "ProductShould have an ID")]
-        public Guid ProductID { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Product Type can not be empty")]
         public Guid TypeId { get; set; }
 
@@ -27,7 +27,7 @@ namespace ServiceContracts.DTO.ProductsDTO
         {
             return new Product()
             {
-                Id = ProductID,
+                Id = Id,
                 TypeId = TypeId,
                 ProductNameEn = ProductNameEn,
                 ProductNameFr = ProductNameFr,

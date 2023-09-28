@@ -67,7 +67,7 @@ namespace SabalanMedical.ServiceTest
             //Act
             _PropertyRepositoryMock.Setup(t => t.Add(It.IsAny<ProductProperty>())).ReturnsAsync(property);
             var propertyResponse = await _productPropertyService.AddProductProperty(request);
-            propertyResponse.propertyID = expectedProperty.propertyID;
+            propertyResponse.Id = expectedProperty.Id;
             _outputHelperMock.WriteLine("Expected:");
             _outputHelperMock.WriteLine(expectedProperty.ToString());
             _outputHelperMock.WriteLine("Actual:");
@@ -202,7 +202,7 @@ namespace SabalanMedical.ServiceTest
             _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(property);
             //Act
             ProductPropertyResponse actual= await _productPropertyService.GetProductPropertyByPropertyID(property.Id);
-            actual.propertyID = property.Id;
+            actual.Id = property.Id;
             //Assert
             actual.Should().Be(expected);
         }

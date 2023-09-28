@@ -8,7 +8,7 @@ namespace ServiceContracts.DTO.ProductTypeDTO
     /// </summary>
     public class ProductTypeResponse
     {
-        public Guid TypeId { get; set; }
+        public Guid Id { get; set; }
         public string? TypeNameEn { get; set; }
         public string? TypeNameFr { get; set; }
         public override bool Equals(object? obj)
@@ -18,7 +18,7 @@ namespace ServiceContracts.DTO.ProductTypeDTO
                 return false;
             }
             ProductTypeResponse productType = (ProductTypeResponse)obj;
-            return productType.TypeId == TypeId && productType.TypeNameFr == TypeNameFr && productType.TypeNameEn == TypeNameEn;
+            return productType.Id == Id && productType.TypeNameFr == TypeNameFr && productType.TypeNameEn == TypeNameEn;
         }
         public override int GetHashCode()
         {
@@ -31,7 +31,7 @@ namespace ServiceContracts.DTO.ProductTypeDTO
         {
             return new ProductTypeResponse()
             {
-                TypeId = productType.Id,
+                Id = productType.Id,
                 TypeNameEn = productType.TypeNameEN,
                 TypeNameFr = productType.TypeNameFr,
             };

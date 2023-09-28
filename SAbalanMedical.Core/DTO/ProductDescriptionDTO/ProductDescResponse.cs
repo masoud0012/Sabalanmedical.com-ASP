@@ -9,7 +9,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
 {
     public class ProductDescResponse
     {
-        public Guid DesctiptionID { get; set; }
+        public Guid Id { get; set; }
         public Guid ProductID { get; set; }
         public string? DescTitle { get; set; }
         public string? Description { get; set; }
@@ -18,7 +18,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
            
             return new ProductDescUpdateRequest()
             {
-                DesctiptionID = this.DesctiptionID,
+                Id = this.Id,
                 ProductID = this.ProductID,
                 DescTitle = this.DescTitle,
                 Description = this.Description
@@ -31,7 +31,7 @@ namespace ServiceContracts.DTO.ProductDescriptionDTO
         {
             return new ProductDescResponse()
             {
-                DesctiptionID = productDesc.Id,
+                Id = productDesc.Id,
                 ProductID = productDesc.ProductID,
                 DescTitle = productDesc.DescTitle,
                 Description = productDesc.Description

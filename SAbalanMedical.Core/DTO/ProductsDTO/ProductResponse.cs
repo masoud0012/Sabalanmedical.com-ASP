@@ -7,7 +7,7 @@ namespace ServiceContracts.DTO.ProductsDTO
 {
     public class ProductResponse
     {
-        public Guid ProductId { get; set; }
+        public Guid Id { get; set; }
         public Guid TypeId { get; set; }
         public string? ProductNameEn { get; set; }
         public string? ProductNameFr { get; set; }
@@ -26,7 +26,7 @@ namespace ServiceContracts.DTO.ProductsDTO
                 return false;
             }
             ProductResponse response = (ProductResponse)obj;
-            return response.ProductId == ProductId
+            return response.Id == Id
                 && response.TypeId == TypeId
                 && response.ProductNameEn == ProductNameEn
                 && response.ProductNameFr == ProductNameFr
@@ -40,13 +40,13 @@ namespace ServiceContracts.DTO.ProductsDTO
         }
         public override string ToString()
         {
-            return $"TypeId:{TypeId} -- ProductName: {ProductNameEn} --/Farsi: {ProductNameFr}-- IsHotsale: {isHotSale} --ProductId:{ProductId}";
+            return $"TypeId:{TypeId} -- ProductName: {ProductNameEn} --/Farsi: {ProductNameFr}-- IsHotsale: {isHotSale} --ProductId:{Id}";
         }
         public ProductUpdateRequest ToProductUpdateRequest()
         {
             return new ProductUpdateRequest()
             {
-                ProductID = ProductId,
+                Id = Id,
                 TypeId = TypeId,
                 ProductNameEn = ProductNameEn,
                 ProductNameFr = ProductNameFr,
@@ -62,7 +62,7 @@ namespace ServiceContracts.DTO.ProductsDTO
         {
             return new ProductResponse()
             {
-                ProductId = product.Id,
+                Id = product.Id,
                 TypeId = product.TypeId,
                 ProductNameEn = product.ProductNameEn,
                 ProductNameFr = product.ProductNameFr,
