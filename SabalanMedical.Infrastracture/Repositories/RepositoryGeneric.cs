@@ -45,11 +45,11 @@ namespace RepositoryServices
             return data;
         }
 
-        public async Task<TEntity> GetById(Guid guid)
+        public async Task<IQueryable<TEntity>> GetById(Guid guid)
         {
 
             _logger.LogInformation($"GetById method executed-TEntity={typeof(TEntity)}");
-            return _dbSet.Single(t => t.Id == guid);
+            return _dbSet.Where(t => t.Id == guid).AsQueryable();
         }
 
         public async Task<TEntity?> Update(TEntity obj)

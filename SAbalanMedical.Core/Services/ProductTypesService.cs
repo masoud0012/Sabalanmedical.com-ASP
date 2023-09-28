@@ -55,7 +55,7 @@ namespace Services
                 _logger.LogError("Id is null");
                 throw new ArgumentNullException(nameof(typeId));
             }
-            ProductType? response = await _productTypeRepository.GetById(typeId.Value);
+            ProductType? response = (await _productTypeRepository.GetById(typeId.Value)).SingleOrDefault();
             if (response is null)
             {
                 _logger.LogError($"Id:{typeId} is not valid and did not find in database");

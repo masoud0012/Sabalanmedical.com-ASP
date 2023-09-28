@@ -66,7 +66,9 @@ namespace Services
             {
                 return null;
             }
-            Product? product = await _productRepository.GetById(productID.Value);
+            Product? product = (await _productRepository.GetById(productID.Value)).Include("ProductType").Include("ProductImages")
+                .Include("ProductDescriptions")
+                .Include("ProductProperties").SingleOrDefault();
             if (product == null)
             {
                 return null;
@@ -85,7 +87,7 @@ namespace Services
         }
         public async Task<List<ProductResponse>>? GetProductByTypeId(Guid? typeId)
         {
-            if (typeId is null || typeId==Guid.Empty)
+            if (typeId is null || typeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(typeId));
             }
@@ -175,7 +177,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(productUpdateRequest));
             }
             ValidationHelper.ModelValidation(productUpdateRequest);
-            Product? matchedProduct = await _productRepository.GetById(productUpdateRequest.Id);
+            Product? matchedProduct = (await _productRepository.GetById(productUpdateRequest.Id)).SingleOrDefault();
             if (matchedProduct == null)
             {
                 throw new ArgumentException("No Product was found in the list");
@@ -198,7 +200,7 @@ namespace Services
                 _logger.LogError("ProductId is null an exception");
                 throw new ArgumentNullException("ProductId can not be null");
             }
-            Product? mathedProduct = await _productRepository.GetById(productId ?? Guid.Empty);
+            Product? mathedProduct = (await _productRepository.GetById(productId ?? Guid.Empty)).SingleOrDefault();
             if (mathedProduct == null)
             {
                 _logger.LogError("No Product was found to be deleted");

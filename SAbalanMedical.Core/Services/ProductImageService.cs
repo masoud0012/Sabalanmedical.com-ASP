@@ -39,7 +39,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(imageID));
             }
 
-            ProductImg? response =await _productImageRepository.GetById(imageID.Value);
+            ProductImg? response =(await _productImageRepository.GetById(imageID.Value)).SingleOrDefault();
             if (response is null)
             {
                 return false;
@@ -60,7 +60,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(imageID));
             }
-            ProductImg? productImg = await _productImageRepository.GetById(imageID.Value);
+            ProductImg? productImg = (await _productImageRepository.GetById(imageID.Value)).SingleOrDefault();
             if (productImg == null)
             {
                 throw new ArgumentException("No image was found!");
@@ -87,7 +87,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductImg? response =await _productImageRepository.GetById(updateRequest.Id);
+            ProductImg? response =(await _productImageRepository.GetById(updateRequest.Id)).SingleOrDefault();
             if (response == null)
             {
                 throw new ArgumentException("No description was found");

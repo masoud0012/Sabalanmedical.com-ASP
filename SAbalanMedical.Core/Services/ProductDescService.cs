@@ -36,7 +36,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? response = await _productDescriptionRepository.GetById(id.Value);
+            ProductDesc? response = (await _productDescriptionRepository.GetById(id.Value)).SingleOrDefault();
             if (response is null)
             {
                 return false;
@@ -57,7 +57,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            ProductDesc? productDesc = await _productDescriptionRepository.GetById(id.Value);
+            ProductDesc? productDesc = (await _productDescriptionRepository.GetById(id.Value)).SingleOrDefault();
             if (productDesc == null)
             {
                 throw new ArgumentException("No Description was found!");
@@ -77,7 +77,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(updateRequest));
             }
-            ProductDesc? response = await _productDescriptionRepository.GetById(updateRequest.Id);
+            ProductDesc? response = (await _productDescriptionRepository.GetById(updateRequest.Id)).SingleOrDefault();
             if (response == null)
             {
                 throw new ArgumentException("No description was found");

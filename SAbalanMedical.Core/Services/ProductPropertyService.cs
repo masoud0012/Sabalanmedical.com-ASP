@@ -39,7 +39,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
-            ProductProperty? property = await _productPropertyRepository.GetById(propertyId.Value);
+            ProductProperty? property = (await _productPropertyRepository.GetById(propertyId.Value)).SingleOrDefault();
             if (property == null) { return false; }
             await _productPropertyRepository.Delete(property);
             await _unitOfWork.SaveChanges();
@@ -69,7 +69,7 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(propertyId));
             }
-            ProductProperty? property = await _productPropertyRepository.GetById(propertyId.Value);
+            ProductProperty? property = (await _productPropertyRepository.GetById(propertyId.Value)).SingleOrDefault();
             if (property == null)
             {
                 throw new ArgumentException("The product property was not found!");
@@ -84,7 +84,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(updateRequest));
             }
             ValidationHelper.ModelValidation(updateRequest);
-            ProductProperty? property = await _productPropertyRepository.GetById(updateRequest.Id);
+            ProductProperty? property = (await _productPropertyRepository.GetById(updateRequest.Id)).SingleOrDefault();
             if (property == null)
             {
                 throw new ArgumentException("No property was found!");
