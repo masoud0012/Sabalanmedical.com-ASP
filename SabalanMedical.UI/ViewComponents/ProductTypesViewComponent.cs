@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
-namespace SabalanMedical.UI.ViewComponents
+namespace TestProject.UI.ViewComponents
 {
     public class ProductTypesViewComponent : ViewComponent
     {

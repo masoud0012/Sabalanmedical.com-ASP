@@ -42,8 +42,8 @@ namespace ServiceContracts
         /// <param name="searchBy">Product properties</param>
         /// <param name="searchKey">String Keyword</param>
         /// <returns>a list a ProductResponse</returns>
-        Task<List<ProductResponse>>? GetFilteredProduct(string searchBy,string? searchKey);
-        Task<List<ProductResponse>>? GetFilteredProduct(Guid typeId,string searchBy,string? searchKey);
+        Task<List<ProductResponse>>? GetFilteredProduct(string searchBy,string searchKey="");
+        Task<List<ProductResponse>>? GetFilteredProduct(Guid? typeId,string searchBy,string searchKey="");
         /// <summary>
         /// Sorts all Products based on property ond SortOrder Option Ascending or Descending
         /// </summary>

@@ -1,11 +1,8 @@
 ﻿using Entities;
 using IRepository;
-using IRepository;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductImageDTO;
-using ServiceContracts.DTO.ProductsDTO;
 using Services.Helpers;
-using System;
 
 namespace Services
 {

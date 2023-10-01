@@ -21,7 +21,6 @@ builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
 builder.Services.AddScoped<IProductImgRepository, ProductImageRepository>();
 builder.Services.AddScoped<IProductPropertyRepository, ProductPropertyRepository>();
 builder.Services.AddScoped<IProductDescRepository, ProductDescriptionRepository>();
-
 //Configure Databse
 builder.Services.AddDbContext<SabalanDbContext>(options => options.UseSqlServer(
                builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -41,13 +40,15 @@ builder.Services.AddHttpLogging(option =>
 
 
 var app = builder.Build();
+app.UseSerilogRequestLogging();//Used for IDiagnostic end loging
 
 
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-app.UseHttpLogging();
+
+app.UseHttpLogging();//for logging ILoger
 //configure Rotativa-Convert to pdf- the directory in which wkhtmltox.exe is available
 Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 app.UseStaticFiles();

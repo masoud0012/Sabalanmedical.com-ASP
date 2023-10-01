@@ -37,7 +37,7 @@ namespace RepositoryServices
             return Task.FromResult(true);
         }
 
-        public async Task<IQueryable<TEntity>> GetAllAsync(int start = 0, int length = 50)
+        public async Task<IQueryable<TEntity>> GetAllAsync(int start, int length)
         {
             _logger.LogInformation($"GetAllAsync method executed-TEntity={typeof(TEntity)}");
             var data = _dbSet.Skip(start).Take(length).OrderBy(t => t.Id).AsQueryable();
@@ -49,7 +49,7 @@ namespace RepositoryServices
         {
 
             _logger.LogInformation($"GetById method executed-TEntity={typeof(TEntity)}");
-            return _dbSet.Where(t => t.Id == guid).AsQueryable();
+            return  _dbSet.Where(t => t.Id == guid).AsQueryable();
         }
 
         public async Task<TEntity?> Update(TEntity obj)

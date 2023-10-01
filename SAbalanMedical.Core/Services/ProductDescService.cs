@@ -1,10 +1,8 @@
 ﻿using Entities;
 using IRepository;
-using IRepository;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using Services.Helpers;
-using System;
 
 namespace Services
 {

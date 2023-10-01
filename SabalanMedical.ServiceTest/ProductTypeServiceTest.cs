@@ -8,6 +8,7 @@ using FluentAssertions;
 using IRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace TestProject
 {
@@ -15,22 +16,19 @@ namespace TestProject
     {
         private readonly IFixture _fixture;
         private readonly IProductTypeService _productTypeSerivice;
-        //private readonly IProductTypeRepository _productTypeRepository;
         private readonly Mock<IProductTypeRepository> _typeRepositoryMock;
 
-        private readonly Mock<ILogger<ProductTypesService>> _loggerMock;
 
         public ProductTypeServiceTest()
         {
-            _loggerMock = new Mock<ILogger<ProductTypesService>>();
             _fixture = new Fixture();
             _typeRepositoryMock = new Mock<IProductTypeRepository>();
-            //_productTypeRepository = _typeRepositoryMock.Object;
             _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             Mock<IUnitOfWork> unit = new Mock<IUnitOfWork>();
-            _productTypeSerivice = new ProductTypesService(_typeRepositoryMock.Object, unit.Object, _loggerMock.Object);
+            _productTypeSerivice = new ProductTypesService(_typeRepositoryMock.Object, unit.Object
+                , new Mock<ILogger<ProductTypesService>>().Object,new Mock<IDiagnosticContext>().Object);
 
         }
         #region Add ProductType Tests
@@ -151,19 +149,20 @@ namespace TestProject
         {
             //Arrangment
             Guid? ProductTypId = null;
-            _typeRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as ProductType);
+            //_typeRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as ProductType);
+            _typeRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns<IQueryable>(null);
             //Act
             Func<Task> action = async () => await _productTypeSerivice.GetProductTypeByID(ProductTypId);
             //Assert
             action.Should().ThrowAsync<ArgumentNullException>();
         }
         [Fact]
-        public async void GetProductTypeByID_ValidID()
+        public async Task GetProductTypeByID_ValidID()
         {
             //arrange
             ProductType productType = _fixture.Build<ProductType>().With(t => t.Products, null as List<Product>).Create();
             ProductTypeResponse productTypeResponse = productType.ToProductTypeResponse();
-            _typeRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(productType);
+            _typeRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns(productType.As<IQueryable>);
             //act
             ProductTypeResponse? response = await _productTypeSerivice.GetProductTypeByID(productType.Id);
             //assert

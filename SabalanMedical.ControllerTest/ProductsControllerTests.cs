@@ -2,7 +2,7 @@
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
-using SabalanMedical.Controllers;
+using TestProject.Controllers;
 using ServiceContracts.DTO.ProductTypeDTO;
 using Microsoft.AspNetCore.Mvc;
 using FluentAssertions;

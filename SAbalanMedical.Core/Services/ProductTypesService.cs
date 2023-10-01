@@ -1,6 +1,7 @@
 ﻿using Entities;
 using IRepository;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductTypeDTO;
 
@@ -11,9 +12,11 @@ namespace Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly ILogger<ProductTypesService> _logger;
+        private readonly IDiagnosticContext _diagnostic;
         public ProductTypesService(IProductTypeRepository productTypeRepository,IUnitOfWork unitOfWork,
-            ILogger<ProductTypesService> logger)
+            ILogger<ProductTypesService> logger,IDiagnosticContext diagnostic)
         {
+            _diagnostic = diagnostic;
             _unitOfWork = unitOfWork;
             _productTypeRepository = productTypeRepository;
             _logger = logger;
@@ -44,6 +47,7 @@ namespace Services
             await _productTypeRepository.Add(productType);
             await _unitOfWork.SaveChanges();
             _logger.LogInformation($"{productTypeAddRequest.TypeNameEN} was added to database");
+            _diagnostic.Set("AddedProduct", type);
             return productType.ToProductTypeResponse();
         }
 
@@ -62,6 +66,7 @@ namespace Services
                 throw new ArgumentException(nameof(response));
             }
             _logger.LogDebug($"{response.TypeNameEN} was found");
+            _diagnostic.Set("GetTypeById", response);
             return response.ToProductTypeResponse();
         }
 
@@ -69,7 +74,7 @@ namespace Services
         {
             _logger.LogInformation("GetAllTypes executed");
             List<ProductType> productTypes = (await _productTypeRepository.GetAllAsync()).ToList();
-            _logger.LogDebug($"{productTypes.Count} types was found in databse");
+            _diagnostic.Set("AllTypes", productTypes);
             return productTypes.Select(t => t.ToProductTypeResponse()).ToList();
         }
 
@@ -84,7 +89,7 @@ namespace Services
             }
             
             ProductType type = await _productTypeRepository.GetProductTypeByName(name);
-            _logger.LogDebug($"{type.ToString} is found and redy to return");
+            _diagnostic.Set("GetTypeByName", type);
             return type.ToProductTypeResponse();
         }
     }

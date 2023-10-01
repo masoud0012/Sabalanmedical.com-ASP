@@ -1,15 +1,9 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Mvc;
-using Rotativa.AspNetCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using ServiceContracts;
-using ServiceContracts.DTO;
-using ServiceContracts.DTO.ProductDescriptionDTO;
-using ServiceContracts.DTO.ProductImageDTO;
-using ServiceContracts.DTO.ProductPropertyDTO;
 using ServiceContracts.DTO.ProductsDTO;
-using ServiceContracts.DTO.ProductTypeDTO;
 
-namespace SabalanMedical.Controllers
+namespace TestProject.Controllers
 {
     public class HomeController : Controller
     {
@@ -19,6 +13,7 @@ namespace SabalanMedical.Controllers
         private readonly IProductDescService _productDescService;
         private readonly IProductPropertyService _productPropertyService;
         private readonly ILogger<HomeController> _logger;
+        
         public HomeController(IProductTypeService productTypeService,
             IProductService productService,
             IProductImageService productImageService,

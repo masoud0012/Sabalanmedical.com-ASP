@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
-
-    public class Product:BaseEntity
+    public class Product : BaseEntity
     {
-       /* [Key]
-        public Guid ProductID { get; set; }*/
-
         public Guid TypeId { get; set; }
         [StringLength(100)]
         public string? ProductNameEn { get; set; }
@@ -22,7 +13,7 @@ namespace Entities
 
         [StringLength(200)]
         public string? ProductUrl { get; set; }
-        public bool isHotSale { get; set; }=false;
+        public bool isHotSale { get; set; } = false;
 
         public bool isManufactured { get; set; } = false;
 
@@ -32,5 +23,10 @@ namespace Entities
         public virtual ICollection<ProductImg>? ProductImages { get; set; }
         public virtual ICollection<ProductProperty>? ProductProperties { get; set; }
         public virtual ICollection<ProductDesc>? ProductDescriptions { get; set; }
+        public override string ToString()
+        {
+            return $"ProductName={ProductNameEn}" +
+                $"\tProdctNameFr={ProductNameFr}\tisMAnufactured={isManufactured}\tisHotsale={isHotSale}";
+        }
     }
 }

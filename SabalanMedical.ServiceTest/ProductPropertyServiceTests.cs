@@ -9,7 +9,7 @@ using ServiceContracts.DTO.ProductTypeDTO;
 using Services;
 using Xunit.Abstractions;
 
-namespace SabalanMedical.ServiceTest
+namespace TestProject
 {
 
     public class ProductPropertyServiceTests
@@ -29,6 +29,7 @@ namespace SabalanMedical.ServiceTest
             Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
             _productPropertyService = new ProductPropertyService(_PropertyRepositoryMock.Object, unitOfWork.Object);
         }
+
         #region AddProperty
         [Fact]
         public async Task AddProductProperty_RequestIsNull_ThroeNullException()
@@ -77,6 +78,7 @@ namespace SabalanMedical.ServiceTest
             propertyResponse.Should().Be(expectedProperty);
         }
         #endregion
+
         #region DeleteProperty
         [Fact]
         public async Task DeleteProductProperty_IdIsNull_ThrowNullException()
@@ -97,7 +99,7 @@ namespace SabalanMedical.ServiceTest
             //Arrange
             Guid id = Guid.NewGuid();
             //Act
-            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as ProductProperty);
+            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns<IQueryable>(null);
             bool action = await _productPropertyService.DeleteProductProperty(id);
             //Assert
 
@@ -109,12 +111,13 @@ namespace SabalanMedical.ServiceTest
             //Arrange
             ProductProperty productProperty = _fixture.Create<ProductProperty>();
             //Act
-            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(productProperty);
+            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns(productProperty.As<IQueryable>);
             bool response = await _productPropertyService.DeleteProductProperty(productProperty.Id);
             //Assert
             response.Should().BeTrue();
         }
         #endregion
+
         #region AllProperties
         [Fact]
         public async Task GetAllProductProperty_EmptyList_SholdReturnEmpty()
@@ -131,12 +134,8 @@ namespace SabalanMedical.ServiceTest
         public async Task GetAllProductProperty_SomePropertyObjects()
         {
             //Arrangement
-            List<ProductProperty> productProperties = new List<ProductProperty>()
-            {
-                _fixture.Create<ProductProperty>(),
-                _fixture.Create<ProductProperty>(),
-                _fixture.Create<ProductProperty>(),
-            };
+            List<ProductProperty> productProperties = _fixture.Create<List<ProductProperty>>();
+            
             List<ProductPropertyResponse> expected = productProperties.Select(t => t.ToProductPropertyResponse()).ToList();
             //Act
             _PropertyRepositoryMock.Setup(t => t.GetAllAsync(0, 50)).ReturnsAsync(productProperties.AsQueryable());
@@ -145,6 +144,7 @@ namespace SabalanMedical.ServiceTest
             response.Should().BeEquivalentTo(expected);
         }
         #endregion
+
         #region GetProductPropertiesByProductID
         [Fact]
         public async Task GetProductPropertiesByProductID_IdIsNull()
@@ -170,6 +170,7 @@ namespace SabalanMedical.ServiceTest
             actual.Should().BeEquivalentTo(propertyResponses);
         }
         #endregion
+
         #region GetProductPropertyByPropertyID
         [Fact]
         public async Task GetProductPropertyByPropertyID_IdisNull_throwExc()
@@ -186,7 +187,7 @@ namespace SabalanMedical.ServiceTest
         {
             //Arrangement
             Guid Id = new Guid();
-            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(null as ProductProperty);
+            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns<IQueryable>(null);
             //Act
             Func<Task> action = async () => { await _productPropertyService.GetProductPropertyByPropertyID(Id); };
             //Assert
@@ -199,16 +200,17 @@ namespace SabalanMedical.ServiceTest
             //Arrangement
             ProductProperty property = _fixture.Create<ProductProperty>();
             ProductPropertyResponse expected = property.ToProductPropertyResponse();
-            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).ReturnsAsync(property);
+            _PropertyRepositoryMock.Setup(t => t.GetById(It.IsAny<Guid>())).Returns(property.As<IQueryable>);
             //Act
-            ProductPropertyResponse actual= await _productPropertyService.GetProductPropertyByPropertyID(property.Id);
+            ProductPropertyResponse actual = await _productPropertyService.GetProductPropertyByPropertyID(property.Id);
             actual.Id = property.Id;
             //Assert
             actual.Should().Be(expected);
         }
         #endregion
+
         #region UpdateProductProperty
-        
+
         #endregion
     }
 }

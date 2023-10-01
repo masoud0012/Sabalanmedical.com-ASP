@@ -1,21 +1,13 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 using Rotativa.AspNetCore;
 using ServiceContracts;
-using ServiceContracts.DTO;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductPropertyDTO;
 using ServiceContracts.DTO.ProductsDTO;
-using ServiceContracts.DTO.ProductTypeDTO;
-using System.IO;
 
-namespace SabalanMedical.Controllers
+namespace TestProject.Controllers
 {
     [Route("[Controller]")]
     public class ProductsController : Controller
