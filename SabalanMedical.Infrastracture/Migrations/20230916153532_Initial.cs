@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace TestProject.Infrastracture.Migrations
+namespace SabalanMedical.Infrastracture.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

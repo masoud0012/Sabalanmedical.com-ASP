@@ -12,9 +12,6 @@ using IRepository;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SerilogTimings;
-using Microsoft.AspNetCore.Mvc;
-using SabalanMedical.Core.Filters.ActionFilters;
-
 namespace Services
 {
     public class ProductService : IProductService
@@ -57,7 +54,6 @@ namespace Services
             return product.ToProductResponse();
         }
 
-        [TypeFilter(typeof(ProductListActionFilter))]
         public async Task<List<ProductResponse>> GetAllProducts()
         {
             _logger.LogInformation("GetAllProducts was called");

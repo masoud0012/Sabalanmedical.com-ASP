@@ -29,11 +29,11 @@
                 <td><input type="checkbox" disabled /></td>
             }
             <td>@item.ProductUrl</td>
-            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-ProductId="@item.Id"><i class="bi-trash text-danger"></i></a></td>
-            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-ProductId="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
-            <td><a asp-controller="Products" asp-action="ProductImages" asp-route-ProductId="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
-            <td><a asp-controller="Products" asp-action="ProductDescriptions" asp-route-ProductId="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
-            <td><a asp-controller="Products" asp-action="ProductProperties" asp-route-ProductId="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="DeleteProduct" asp-route-Id="@item.Id"><i class="bi-trash text-danger"></i></a></td>
+            <td><a asp-controller="Products" asp-action="EditProduct" asp-route-Id="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductImages" asp-route-Id="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductDescriptions" asp-route-Id="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
+            <td><a asp-controller="Products" asp-action="ProductProperties" asp-route-Id="@item.Id"><i class="bi-pencil-fill text-success"></i></a></td>
         </tr>
     }
 }

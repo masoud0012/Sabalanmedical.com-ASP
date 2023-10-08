@@ -18,7 +18,7 @@
         }
     </div>
     <div>
-        <a asp-controller="Products" asp-action="AddDescription" asp-route-productID="@Model.Id">
+        <a asp-controller="Products" asp-action="AddDescription" asp-route-Id="@Model.Id">
             <i style="cursor: pointer" class="bi-file-plus fs-3 text-success">جدید</i>
         </a>
     </div>
@@ -39,12 +39,12 @@
                     <th><div id="desc_title">@item.DescTitle</div></th>
                     <th><div id="desc_text">@item.Description</div></th>
                     <th>
-                        <a asp-action="EditDescription" asp-controller="Products" asp-route-DescriptionId="@item.Id">
+                        <a asp-action="EditDescription" asp-controller="Products" asp-route-Id="@item.Id">
                             <i class="bi-pencil-fill"> </i>
                         </a>
                     </th>
                     <th>
-                        <a asp-action="DeleteDescription" asp-controller="Products" asp-route-DescriptionId="@item.Id">
+                        <a asp-action="DeleteDescription" asp-controller="Products" asp-route-Id="@item.Id">
                             <i class="bi-trash text-danger"></i>
                         </a>
                     </th>

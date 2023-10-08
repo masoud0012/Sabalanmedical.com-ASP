@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace TestProject.Infrastracture.Migrations
+namespace SabalanMedical.Infrastracture.Migrations
 {
     [DbContext(typeof(SabalanDbContext))]
     [Migration("20230916153532_Initial")]

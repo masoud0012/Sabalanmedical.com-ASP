@@ -20,7 +20,7 @@
                 <div class="card productCard" style="width: 18rem;">
                     <img src="~/images/products/@item.ImageUrl" class="card-img-top edit-img-admin" alt="@Model.ProductNameFr">
                     <div class="card-body">
-                        <a asp-action="DeleteImage" asp-controller="Products" asp-route-ImageId="@item.Id">
+                        <a asp-action="DeleteImage" asp-controller="Products" asp-route-Id="@item.Id">
                             <p class="btn btn-danger"><i class="bi-trash"></i></p>
                         </a>
                     </div>

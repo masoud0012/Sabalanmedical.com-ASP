@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
+using SabalanMedical.UI.Filters.ActionFilters;
+using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductPropertyDTO;
 using ServiceContracts.DTO.ProductsDTO;
 
-namespace TestProject.Controllers
+namespace SabalanMedical.Controllers
 {
     [Route("[Controller]")]
+    [TypeFilter(typeof(ExecutedLogActionFilter))]
     public class ProductsController : Controller
     {
         private readonly IWebHostEnvironment _environement;
@@ -19,13 +22,14 @@ namespace TestProject.Controllers
         private readonly IProductDescService _productDescService;
         private readonly IProductPropertyService _productPropertyService;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IDiagnosticContext _diagnosticContext;
         public ProductsController(IProductService productService,
             IProductTypeService productTypeService,
             IProductImageService productImageService,
             IProductDescService productDescService,
             IProductPropertyService productPropertyService,
             IWebHostEnvironment environment,
-            ILogger<ProductsController> logger)
+            ILogger<ProductsController> logger, IDiagnosticContext diagnosticContext)
         {
             _productService = productService;
             _productTypeService = productTypeService;
@@ -34,6 +38,7 @@ namespace TestProject.Controllers
             _productPropertyService = productPropertyService;
             _environement = environment;
             _logger = logger;
+            _diagnosticContext = diagnosticContext;
         }
         #region Products
         [Route("[action]")]
@@ -52,22 +57,17 @@ namespace TestProject.Controllers
         {
             _logger.LogInformation("AddProduct Action get method executed");
             var allTypes = await _productTypeService.GetAllProductTypes();
-
             ViewBag.TypeList = allTypes?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.Id.ToString() });
             return View();
         }
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductAddRequest request)
+        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
+        public async Task<IActionResult> AddProduct(ProductAddRequest? request)
         {
             _logger.LogInformation("AddProduct action Post method executed");
-            if (request is null)
-            {
-                _logger.LogError("requset is null");
-                throw new ArgumentNullException(nameof(request));
-            }
-            _logger.LogDebug($"-{request?.ProductNameEn}- received to be checked to be added");
+
             if (!ModelState.IsValid)
             {
                 _logger.LogError("Validation for the product add reaquest object failed");
@@ -75,37 +75,28 @@ namespace TestProject.Controllers
                 ViewBag.Errors = ModelState.Values.SelectMany(t => t.Errors).Select(t => t.ErrorMessage).ToList();
                 return View();
             }
+
             await _productService.AddProduct(request);
-            _logger.LogDebug($"the request seccesfully added to databse:{request.ToString()}");
+            _diagnosticContext.Set("Addrequest", request);
             return RedirectToAction("Index", "Products");
         }
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]
         [HttpGet]
-        public async Task<IActionResult> EditProduct(Guid? ProductId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> EditProduct(Guid Id)
         {
-            _logger.LogInformation("Edit action get method executed!");
-            if (ProductId == null || ProductId == Guid.Empty)
-            {
-                _logger.LogError("Id is null");
-                throw new ArgumentNullException(nameof(ProductId));
-            }
-            ProductResponse? response = await _productService.GetProductById(ProductId);
-            if (response is null)
-            {
-                _logger.LogError($"No product was found for id= {ProductId} to be updated");
-                return RedirectToAction("index", "Products");
-            }
+            ProductResponse? response = await _productService.GetProductById(Id);
             var allTypes = await _productTypeService.GetAllProductTypes();
             ViewBag.TypeList = allTypes?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.Id.ToString() });
             return View(response.ToProductUpdateRequest());
         }
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]//Id: method get and post method has to have the same route
         [HttpPost]
-        public async Task<IActionResult> EditProduct(ProductUpdateRequest request)
+        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
+        public async Task<IActionResult> EditProduct(ProductUpdateRequest? request)
         {
-            _logger.LogInformation("EditProduct post action method executed");
             if (request is null || _productService.GetProductById(request.Id) == null)
             {
                 _logger.LogError("requset is null");
@@ -121,43 +112,39 @@ namespace TestProject.Controllers
             return View(request);
         }
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]
         [HttpGet]
-        public async Task<IActionResult> DeleteProduct(Guid? ProductId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> DeleteProduct(Guid? Id)
         {
-            _logger.LogInformation("Delete action get method executed");
-            if (ProductId == null)
-            {
-                _logger.LogError("Id is null");
-                return RedirectToAction("Index", "Products");
-            }
-            ProductResponse? response = await _productService.GetProductById(ProductId);
+            ProductResponse? response = await _productService.GetProductById(Id);
             if (response == null)
             {
-                _logger.LogError($"No product was found for id={ProductId}");
+                _logger.LogError($"No product was found for id={Id}");
                 return RedirectToAction("Index", "Products");
             }
             return View(response);
         }
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(ProductResponse? product)
+        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
+        public async Task<IActionResult> DeleteProduct(ProductResponse? request)
         {
             _logger.LogInformation("DeleteProduct action post method executed");
-            if (product == null)
+/*            if (request == null)
             {
                 _logger.LogError("id is null");
                 return RedirectToAction("Index", "Products");
-            }
-            ProductResponse? response = await _productService.GetProductById(product.Id);
+            }*/
+            ProductResponse? response = await _productService.GetProductById(request.Id);
             if (response == null)
             {
-                _logger.LogError($"no product was found for id={product.Id} ");
+                _logger.LogError($"no product was found for id={request.Id} ");
                 return RedirectToAction("Index", "Products");
             }
 
-            await _productService.DeleteProduct(product.Id);
+            await _productService.DeleteProduct(request.Id);
             _logger.LogDebug($"{response.ProductNameEn} was deleted");
             return RedirectToAction("Index", "Products");
         }
@@ -166,7 +153,6 @@ namespace TestProject.Controllers
         [HttpPost]
         public async Task<ActionResult> GetFilteredProducts(Guid typeId, string searchBy, string searchKey)
         {
-            _logger.LogInformation("GetFilteredProducts action method executed");
             _logger.LogDebug($"typeId:{typeId}--seachBy={searchBy}--searchKey={searchKey}");
             return ViewComponent("ProductTable", new { typeID = typeId, searchBy = searchBy, searchKey = searchKey });
         }
@@ -174,7 +160,6 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ProductToPDF()
         {
-            _logger.LogInformation("ProductToPDF action method executed");
             List<ProductResponse> products = await _productService.GetAllProducts();
             return new ViewAsPdf(products);
         }
@@ -182,58 +167,46 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ProductToCSV()
         {
-            _logger.LogInformation("ProductToCSV method executed");
             MemoryStream memoryStream = await _productService.ProductToCsv();
             return File(memoryStream, "application/octet-stream", "product.csv");
         }
         #endregion
 
         #region Description
-        [Route("[action]/{productID}")]
+        [Route("[action]/{Id}")]
         [HttpGet]
-        public async Task<IActionResult> ProductDescriptions(Guid? productID)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> ProductDescriptions(Guid? Id)
         {
-            _logger.LogInformation("ProductDescriptions action method executed");
-            if (productID == null || productID == Guid.Empty)
-            {
-                _logger.LogError("ProductId is null");
-                throw new ArgumentNullException(nameof(productID));
-            }
-            ProductResponse? product = await _productService.GetProductById(productID);
+            ProductResponse? product = await _productService.GetProductById(Id);
             if (product is null)
             {
-                _logger.LogError($"No product was found for id {productID}");
-                throw new ArgumentException(nameof(productID));
+                _logger.LogError($"No product was found for id {Id}");
+                throw new ArgumentException(nameof(Id));
             }
             return View(product);
         }
 
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]//Id=ProductId
         [HttpGet]
-        public async Task<IActionResult> AddDescription(Guid? ProductId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> AddDescription(Guid? Id)
         {
-            _logger.LogInformation("AddDescription get method executed");
-            if (ProductId == null || ProductId == Guid.Empty)
-            {
-                _logger.LogError("ProductId is null");
-                throw new ArgumentNullException(nameof(ProductId));
-            }
-            ProductResponse? Product = await _productService.GetProductById(ProductId);
+            ProductResponse? Product = await _productService.GetProductById(Id);
             if (Product == null)
             {
-                _logger.LogError($"No product was found for productId={ProductId} ");
+                _logger.LogError($"No product was found for productId={Id} ");
                 return RedirectToAction("Index");
             }
             ViewBag.Product = Product;
             return View();
         }
 
-        [Route("[action]/{ProductId}")]
+        [Route("[action]/{Id}")]//Id=ProductId
         [HttpPost]
         public async Task<IActionResult> AddDescription(ProductDescAddRequest? Desc)
         {
-            _logger.LogInformation("AddDescription action post method executed");
             if (Desc == null)
             {
                 _logger.LogError("request is null");
@@ -247,35 +220,28 @@ namespace TestProject.Controllers
                 return View();
             }
             await _productDescService.AddProductDesc(Desc);
-            return RedirectToAction("ProductDescriptions", new { productID = Desc.ProductID });
+            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
         }
 
 
-        [Route("[action]/DescriptionId")]
+        [Route("[action]/Id")]//Id=DescriptionId
         [HttpGet]
-        public async Task<IActionResult> DeleteDescription(Guid? DescriptionId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> DeleteDescription(Guid? ID)
         {
-            _logger.LogInformation("DeleteDescription action get method executed");
-            if (DescriptionId == null || DescriptionId == Guid.Empty)
-            {
-                _logger.LogError("DescriptionId is nll");
-                return RedirectToAction("index");
-            }
-            ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(DescriptionId);
+            ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(ID);
             if (desc == null)
             {
-                _logger.LogError($"No desc was found for descId={DescriptionId}");
+                _logger.LogError($"No desc was found for descId={ID}");
                 return RedirectToAction("Index");
             }
             return View(desc);
         }
 
-        [Route("[action]/DescriptionId")]
+        [Route("[action]/Id")]//Id=DescriptionId
         [HttpPost]
         public IActionResult DeleteDescription(ProductDescResponse? Desc)
         {
-            _logger.LogInformation("DeleteDescription action POST method executed");
-
             if (Desc == null || _productDescService.GetProductDescByDescID(Desc.Id) == null)
             {
                 _logger.LogError("desc is null or not fond in database");
@@ -283,15 +249,15 @@ namespace TestProject.Controllers
             }
             _productDescService.DeleteProductDesc(Desc.Id);
             _logger.LogDebug($"description with id={Desc.Id} was deleted");
-            return RedirectToAction("ProductDescriptions", new { productID = Desc.ProductID });
+            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
         }
 
-        [Route("[action]/DescriptionId")]
+        [Route("[action]/Id")]//Id=DescriptionId
         [HttpGet]
-        public async Task<IActionResult> EditDescription(Guid? DescId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> EditDescription(Guid? Id)
         {
-            _logger.LogInformation("EditDescription action GET method executed");
-            ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(DescId);
+            ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(Id);
             if (desc == null)
             {
                 _logger.LogError("Id is null");
@@ -300,11 +266,10 @@ namespace TestProject.Controllers
             return View(desc.ToProductDescUpdateRequest());
         }
 
-        [Route("[action]/DescriptionId")]
+        [Route("[action]/Id")]//Id=DescriptionId
         [HttpPost]
         public async Task<IActionResult> EditDescription(ProductDescResponse Desc)
         {
-            _logger.LogInformation("EditDescription action POST method executed");
             if (Desc == null)
             {
                 _logger.LogError("Desc is null");
@@ -321,47 +286,38 @@ namespace TestProject.Controllers
             response.DescTitle = Desc.DescTitle;
             await _productDescService.UpdateProductDesc(Desc.ToProductDescUpdateRequest());
             _logger.LogDebug($"Desc with id={Desc.Id} was updated");
-            return RedirectToAction("ProductDescriptions", new { productID = Desc.ProductID });
+            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
         }
         #endregion
 
         #region Images
-        [Route("[action]/{ProductId}")]
-        public async Task<IActionResult> ProductImages(Guid? ProductId)
+        [Route("[action]/{Id}")]//Id=ProductId
+        [HttpGet]
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> ProductImages(Guid? Id)
         {
-            _logger.LogInformation("ProductImages action method executed");
-            if (ProductId == null)
-            {
-                _logger.LogError("id is null");
-                return RedirectToAction("Index");
-            }
-            ProductResponse? product = await _productService.GetProductById(ProductId);
+            ProductResponse? product = await _productService.GetProductById(Id);
             if (product == null)
             {
-                _logger.LogError($"No product was found for id={ProductId}");
+                _logger.LogError($"No product was found for id={Id}");
                 return RedirectToAction("Index");
             }
             return View(product);
         }
 
-        [Route("[action]/ImageId")]
+        [Route("[action]/Id")]//Id=ImageId
         [HttpGet]
-        public async Task<IActionResult> DeleteImage(Guid? ImageId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> DeleteImage(Guid? Id)
         {
-            _logger.LogInformation("DeleteImage action GET method executed");
-            if (ImageId == null || ImageId == Guid.Empty)
-            {
-                _logger.LogError("imageID is null");
-                return RedirectToAction("index");
-            }
-            ProductImageResponse? Image = await _productImageService.GetProductImageByImageID(ImageId);
+            ProductImageResponse? Image = await _productImageService.GetProductImageByImageID(Id);
             if (Image == null)
             {
-                _logger.LogError($"No Image was found for id={ImageId}");
+                _logger.LogError($"No Image was found for id={Id}");
                 return RedirectToAction("Index");
             }
-            await _productImageService.DeleteProductImage(ImageId);
-            _logger.LogDebug($"Image for id={ImageId} was deleted from DB and ready to be deleted from server");
+            await _productImageService.DeleteProductImage(Id);
+            _logger.LogDebug($"Image for id={Id} was deleted from DB and ready to be deleted from server");
             string fileName = Image.ImageUrl;
             string path = Path.Combine(_environement.WebRootPath, $"images/products/{fileName}");
             FileInfo file = new FileInfo(path);
@@ -370,14 +326,14 @@ namespace TestProject.Controllers
                 file.Delete();
 
             }
-            return RedirectToAction("ProductImages", new { ProductId = Image.ProductID });
+            return RedirectToAction("ProductImages", new { Id = Image.ProductID });
         }
 
-        [Route("[action]/ProductId")]
+        [Route("[action]/Id")]//Id=ProductId
         [HttpPost]
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
         public async Task<IActionResult> AddImage(ProductImageAddRequest? image, IFormFile? imageFile)
         {
-            _logger.LogInformation("AddImage action POST method executed");
             if (image == null || imageFile == null || imageFile.FileName == null || imageFile.Length < 10)
             {
                 _logger.LogError("File is not allowed");
@@ -412,56 +368,44 @@ namespace TestProject.Controllers
             };
             _productImageService.AddProductImage(request);
 
-            return RedirectToAction("ProductImages", new { ProductId = productResponse.Id });
+            return RedirectToAction("ProductImages", new { Id = productResponse.Id });
         }
         #endregion
 
         #region Properties
-        [Route("[action]/{productID}")]
+        [Route("[action]/{ID}")]//Id=ProductId
         [HttpGet]
-        public async Task<IActionResult> ProductProperties(Guid productId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> ProductProperties(Guid? Id)
         {
-            _logger.LogInformation("ProductProperties action method executed");
-            if (productId == Guid.Empty)
-            {
-                _logger.LogError("Id is null");
-                return RedirectToAction("Index");
-            }
-            var productResponses = await _productService.GetProductById(productId);
+            var productResponses = await _productService.GetProductById(Id);
             if (productResponses == null)
             {
-                _logger.LogError($"No Product was found for Id={productId}");
+                _logger.LogError($"No Product was found for Id={Id}");
                 return RedirectToAction("Index");
             }
             return View(productResponses);
         }
 
-        [Route("[action]/{productId}")]
+        [Route("[action]/{ID}")]///Id=ProductId
         [HttpGet]
-        public async Task<IActionResult> AddProperty(Guid? productId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> AddProperty(Guid? Id)
         {
-            _logger.LogInformation("AddProprty action GET method executed");
-            if (productId==null||productId == Guid.Empty)
+            var product = await _productService.GetProductById(Id);
+            if (product == null)
             {
-                _logger.LogError("id is null");
-                return RedirectToAction("Index");
-            }
-            var product = await _productService.GetProductById(productId);
-            if (product==null)
-            {
-                _logger.LogError($"No product was found for id={productId}");
+                _logger.LogError($"No product was found for id={Id}");
                 return RedirectToAction("index");
             }
             ViewBag.Product = product;
             return View();
         }
 
-        [Route("[action]/{productId}")]
+        [Route("[action]/{ID}")]//Id=ProductId
         [HttpPost]
         public async Task<IActionResult> AddProperty(ProductPropertyAddRequest request)
         {
-            _logger.LogInformation("AddProprty action POST method executed");
-
             if (request == null)
             {
                 _logger.LogError("request is null");
@@ -475,33 +419,27 @@ namespace TestProject.Controllers
 
             await _productPropertyService.AddProductProperty(request);
             _logger.LogDebug($"requset {request.ToString()} was added to DB");
-            return RedirectToAction("ProductProperties", new { productId = request.ProductID });
+            return RedirectToAction("ProductProperties", new { Id = request.ProductID });
         }
 
-        [Route("[action]/{propertyId}")]
+        [Route("[action]/{Id}")]//Id=PropertyId
         [HttpGet]
-        public async Task<IActionResult> EditProperty(Guid? propertyId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> EditProperty(Guid? Id)
         {
-            _logger.LogInformation("EditProperty action GET method executed");
-            if (propertyId == null)
+            var request = await _productPropertyService.GetProductPropertyByPropertyID(Id);
+            if (request == null)
             {
-                _logger.LogError("propertyId is null");
-                return RedirectToAction("index");
-            }
-            var request = await _productPropertyService.GetProductPropertyByPropertyID(propertyId);
-            if (request==null)
-            {
-                _logger.LogError($"No property for id ={propertyId} was found");
+                _logger.LogError($"No property for id ={Id} was found");
                 return RedirectToAction("index");
             }
             return View(request.ToProductPropertyUpdateRequest());
         }
 
-        [Route("[action]/{propertyId}")]
+        [Route("[action]/{Id}")]//Id=PropertyId
         [HttpPost]
         public async Task<IActionResult> EditProperty(ProductPropertyUpdateRequest? request)
         {
-            _logger.LogInformation("EditProperty action POST method executed");
             if (request == null)
             {
                 _logger.LogError("request is null");
@@ -512,8 +450,8 @@ namespace TestProject.Controllers
                 _logger.LogError("Validation was failed");
                 return View();
             }
-            var property=await _productPropertyService.GetProductPropertyByPropertyID(request.Id);
-            if (property==null)
+            var property = await _productPropertyService.GetProductPropertyByPropertyID(request.Id);
+            if (property == null)
             {
                 _logger.LogError($"No property for id={request.Id} was found ");
                 return RedirectToAction("index");
@@ -523,33 +461,27 @@ namespace TestProject.Controllers
             property.PropertyTitle = request.PropertyTitle;
             await _productPropertyService.UpdateProductProperty(request);
             _logger.LogDebug($"Property with id={request.Id} was updated");
-            return RedirectToAction("ProductProperties", new { productId = request.ProductID });
+            return RedirectToAction("ProductProperties", new { Id = request.ProductID });
         }
 
-        [Route("[action]/{propertyId}")]
+        [Route("[action]/{Id}")]//Id=PropertyId
         [HttpGet]
-        public async Task<IActionResult> DeleteProperty(Guid? propertyId)
+        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        public async Task<IActionResult> DeleteProperty(Guid? Id)
         {
-            _logger.LogInformation("DeleteProperty action GET method executed");
-            if (propertyId == null)
-            {
-                _logger.LogError("id is null");
-                return RedirectToAction("index");
-            }
-            ProductPropertyResponse property = await _productPropertyService.GetProductPropertyByPropertyID(propertyId);
+            ProductPropertyResponse property = await _productPropertyService.GetProductPropertyByPropertyID(Id);
             if (property == null)
             {
-                _logger.LogError($"No property with id={propertyId} was found");
+                _logger.LogError($"No property with id={Id} was found");
                 return RedirectToAction("index");
             }
             return View(property);
         }
 
-        [Route("[action]/{propertyId}")]
+        [Route("[action]/{Id}")]//Id=PropertyId
         [HttpPost]
         public async Task<IActionResult> DeleteProperty(ProductPropertyResponse property)
         {
-            _logger.LogInformation("DeleteProperty action POST method executed");
             if (property == null)
             {
                 _logger.LogError("property is null");
@@ -563,7 +495,7 @@ namespace TestProject.Controllers
             }
             await _productPropertyService.DeleteProductProperty(propertyResponse.Id);
             _logger.LogDebug($"Property with id={property.Id} was deleted");
-            return RedirectToAction("ProductProperties", new { productId = property.ProductID });
+            return RedirectToAction("ProductProperties", new { Id = property.ProductID });
         }
         #endregion
 

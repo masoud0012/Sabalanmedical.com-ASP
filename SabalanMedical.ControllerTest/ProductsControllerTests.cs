@@ -2,13 +2,15 @@
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
-using TestProject.Controllers;
+using SabalanMedical.Controllers;
 using ServiceContracts.DTO.ProductTypeDTO;
 using Microsoft.AspNetCore.Mvc;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
-namespace TestProject
+namespace SabalanMedical
 {
     public class ProductsControllerTests
     {
@@ -47,7 +49,9 @@ namespace TestProject
             _productPropertyService = _productPropertyServiceMock.Object;
 
             _productsController = new ProductsController(_productService, _productTypeService,
-                _productImageService, _productDescService, _productPropertyService, null, _logger.Object);
+                _productImageService, _productDescService, _productPropertyService,
+                new Mock<IWebHostEnvironment>().Object
+                , _logger.Object,new Mock<IDiagnosticContext>().Object);
         }
         [Fact]
         public async Task Index_ShouldRetunIndexViewWithProductList()

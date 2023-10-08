@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace TestProject.Infrastracture.Migrations
+namespace SabalanMedical.Infrastracture.Migrations
 {
     [DbContext(typeof(SabalanDbContext))]
     partial class SabalanDbContextModelSnapshot : ModelSnapshot

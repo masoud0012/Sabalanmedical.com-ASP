@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SabalanMedical.UI.Filters.ActionFilters;
 using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 
-namespace TestProject.Controllers
+namespace SabalanMedical.Controllers
 {
+    [TypeFilter(typeof(ExecutedLogActionFilter))]
     public class HomeController : Controller
     {
         private readonly IProductTypeService _productTypeService;
@@ -33,7 +35,6 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Index method was excecued!");
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
             ViewBag.Title = "صفحه اول";
             return View(allProducts);
@@ -41,14 +42,12 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public IActionResult Contact()
         {
-            _logger.LogInformation("Contact method was excecued!");
             ViewBag.Title = "تماس با ما";
             return View();
         }
         [Route("[action]")]
         public IActionResult About()
         {
-            _logger.LogInformation("About method was excecued!");
             ViewBag.Title = "درباره ما";
             return View();
         }
@@ -56,7 +55,6 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public IActionResult Cooperation()
         {
-            _logger.LogInformation("Cooperation method was excecued!");
             ViewBag.Title = "همکاری با ما";
             return View();
         }
@@ -64,10 +62,9 @@ namespace TestProject.Controllers
         [Route("[action]")]
         public async Task<IActionResult> OurProducts()
         {
-            _logger.LogInformation("Our PProducts method was excecued!");
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
             IEnumerable<ProductResponse> allManufacturedProducts = allProducts.Where(t => t.isManufactured == true);
-            _logger.LogDebug($"{allManufacturedProducts.Count().ToString()} was founde as Manufactured products");
+            _logger.LogDebug($"{allManufacturedProducts.Count()} was founde as Manufactured products");
             ViewBag.Title = "تولیدات ما";
             return View(allManufacturedProducts);
         }
@@ -75,7 +72,6 @@ namespace TestProject.Controllers
         [Route("[action]/{productUrl}")]
         public async Task<IActionResult> OurProductDetails(string productUrl)
         {
-            _logger.LogInformation("OurProductDetails method was excecued!");
             _logger.LogDebug($"Try to finde info for Product Url: {productUrl}");
             ProductResponse? Product = await _productService.GetProductByProductUrl(productUrl);
             if (Product == null)
@@ -89,7 +85,6 @@ namespace TestProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Store()
         {
-            _logger.LogInformation("Sore action methos exected");
             List<ProductResponse> allProducts = await _productService.GetAllProducts();
             _logger.LogDebug($"{allProducts.Count()} products was found");
             return View(allProducts.OrderBy(t => t.TypeId));
@@ -98,7 +93,6 @@ namespace TestProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Product(string productUrl)
         {
-            _logger.LogInformation("Product action Method was excecuted");
             _logger.LogDebug($"product url is :{productUrl}");
             if (productUrl == null)
             {
@@ -117,7 +111,6 @@ namespace TestProject.Controllers
         [Route("[action]/{typeEn}")]
         public async Task<IActionResult> ProductTypes(string? typeEn)
         {
-            _logger.LogInformation("ProdctTypes Action methode was executed");
             _logger.LogDebug($"Type is: {typeEn}");
             if (typeEn is null)
             {

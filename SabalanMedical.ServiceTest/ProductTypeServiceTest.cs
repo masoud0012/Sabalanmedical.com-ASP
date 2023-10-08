@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace TestProject
+namespace SabalanMedical
 {
     public class ProductTypeServiceTest
     {

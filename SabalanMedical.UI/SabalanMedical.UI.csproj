@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Middleware\" />
-    <Folder Include="Filters\" />
     <Folder Include="Logs\" />
     <Folder Include="StartupExtensions\" />
   </ItemGroup>

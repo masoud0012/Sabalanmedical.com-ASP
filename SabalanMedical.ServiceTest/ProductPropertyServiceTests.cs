@@ -9,7 +9,7 @@ using ServiceContracts.DTO.ProductTypeDTO;
 using Services;
 using Xunit.Abstractions;
 
-namespace TestProject
+namespace SabalanMedical
 {
 
     public class ProductPropertyServiceTests

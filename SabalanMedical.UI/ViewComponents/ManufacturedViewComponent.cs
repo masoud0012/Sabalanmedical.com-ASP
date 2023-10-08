@@ -3,7 +3,7 @@ using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 using Services;
 
-namespace TestProject.UI.ViewComponents
+namespace SabalanMedical.UI.ViewComponents
 {
     public class ManufacturedViewComponent : ViewComponent
     {

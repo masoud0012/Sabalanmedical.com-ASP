@@ -13,7 +13,7 @@ using Services;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
 
-namespace TestProject
+namespace SabalanMedical
 {
     public class ProductServiceTests
     {

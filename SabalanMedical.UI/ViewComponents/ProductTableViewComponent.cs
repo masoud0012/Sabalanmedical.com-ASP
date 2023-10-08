@@ -2,7 +2,7 @@
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
 
-namespace TestProject.UI.ViewComponents
+namespace SabalanMedical.UI.ViewComponents
 {
     public class ProductTableViewComponent : ViewComponent
     {
