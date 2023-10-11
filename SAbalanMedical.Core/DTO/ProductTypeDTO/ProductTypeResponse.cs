@@ -24,6 +24,10 @@ namespace ServiceContracts.DTO.ProductTypeDTO
         {
             return base.GetHashCode();
         }
+        public override string ToString()
+        {
+            return $"{TypeNameEn}, {TypeNameFr}";
+        }
     }
     public static class ProductTypeExtension
     {

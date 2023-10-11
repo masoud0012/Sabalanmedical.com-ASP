@@ -3,21 +3,24 @@ using SabalanMedical.Controllers;
 
 namespace SabalanMedical.UI.Filters.ActionFilters
 {
-    public class ValidateGuidActionFilter : IActionFilter
+    /// <summary>
+    /// Checks the Guid input argument. enter to the action method if Guid is valid else throws ArgumentException 
+    /// </summary>
+    public class GuidValidateActionFilter : IActionFilter
     {
-        private readonly ILogger<ValidateGuidActionFilter> _logger;
-        public ValidateGuidActionFilter(ILogger<ValidateGuidActionFilter> logger)
+        private readonly ILogger<GuidValidateActionFilter> _logger;
+        public GuidValidateActionFilter(ILogger<GuidValidateActionFilter> logger)
         {
             _logger = logger;
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogInformation("{FilterName}.{FilterMethod}", nameof(ValidateGuidActionFilter)
+            _logger.LogInformation("{FilterName}.{FilterMethod}", nameof(GuidValidateActionFilter)
                             , nameof(OnActionExecuted));
         }
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            _logger.LogInformation("{FilterName}.{FilterMethod}",nameof(ValidateGuidActionFilter)
+            _logger.LogInformation("{FilterName}.{FilterMethod}",nameof(GuidValidateActionFilter)
                 ,nameof(OnActionExecuting));
             if (context.ActionArguments.ContainsKey("Id"))
             {

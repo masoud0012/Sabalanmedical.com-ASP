@@ -10,6 +10,7 @@ namespace ServiceContracts.DTO.ProductsDTO
     {
         [Required(ErrorMessage = "ProductShould have an ID")]
         public Guid Id { get; set; }
+
         [Required(ErrorMessage = "Product Type can not be empty")]
         public Guid TypeId { get; set; }
 

@@ -15,12 +15,12 @@ namespace SabalanMedical.UI.Filters.ActionFilters
         }
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            _logger.LogInformation("{FilterName}.{MethodName}",
+            _logger.LogInformation("{FilterName}.{FilterMethod}",
                 nameof(GlobalActionFilter), nameof(OnActionExecuting));
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogInformation("{FilterName}.{MethodName}",
+            _logger.LogInformation("{FilterName}.{FilterMethod}",
                 nameof(GlobalActionFilter), nameof(OnActionExecuted));
         }
 

@@ -8,9 +8,6 @@ namespace Entities
     /// </summary>
     public class ProductType : BaseEntity
     {
-/*        [Key]
-        public Guid TypeId { get; set; }*/
-
         [StringLength(200)]
         public string? TypeNameEN { get; set; }
 
@@ -18,6 +15,9 @@ namespace Entities
         public string? TypeNameFr { get; set; }
 
         public virtual ICollection<Product>? Products { get; set; }
-
+        public override string ToString()
+        {
+            return $"{TypeNameEN},{TypeNameFr}";
+        }
     }
 }

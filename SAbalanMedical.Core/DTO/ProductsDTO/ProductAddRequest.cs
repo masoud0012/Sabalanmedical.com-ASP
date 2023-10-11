@@ -10,8 +10,10 @@ namespace ServiceContracts.DTO.ProductsDTO
 
         [Required(ErrorMessage = "Product Type can not be empty")]
         public Guid TypeId { get; set; }
+
         [Required(ErrorMessage = "Product Name can not be empty")]
         public string? ProductNameEn { get; set; }
+
         [Required(ErrorMessage = "Product Name can not be empty")]
         public string? ProductNameFr { get; set; }
         public bool isHotSale { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
 using SabalanMedical.UI.Filters.ActionFilters;
@@ -40,42 +41,33 @@ namespace SabalanMedical.Controllers
             _logger = logger;
             _diagnosticContext = diagnosticContext;
         }
+
         #region Products
         [Route("[action]")]
+        [TypeFilter(typeof(TypeListActionFilter))]
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Index action was executed!");
             List<ProductResponse> productResponses = await _productService.GetAllProducts();
-            List<ProductResponse> distinctTypes = productResponses.DistinctBy(t => t.TypeId).ToList();
-            ViewBag.TypeList = distinctTypes?.Select(t => new SelectListItem() { Text = t.productType?.TypeNameEN, Value = t.TypeId.ToString() });
             return View(productResponses);
         }
 
         [Route("[action]")]
         [HttpGet]
+        [TypeFilter(typeof(TypeListActionFilter))]
         public async Task<IActionResult> AddProduct()
         {
             _logger.LogInformation("AddProduct Action get method executed");
-            var allTypes = await _productTypeService.GetAllProductTypes();
-            ViewBag.TypeList = allTypes?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.Id.ToString() });
             return View();
         }
 
         [Route("[action]")]
         [HttpPost]
-        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
-        public async Task<IActionResult> AddProduct(ProductAddRequest? request)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter), Order = 1)]
+        [TypeFilter(typeof(CheckValidationActionFilter), Order = 2)]
+        public async Task<IActionResult> AddProduct(ProductAddRequest request)
         {
             _logger.LogInformation("AddProduct action Post method executed");
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Validation for the product add reaquest object failed");
-                ViewBag.Types = await _productTypeService.GetAllProductTypes();
-                ViewBag.Errors = ModelState.Values.SelectMany(t => t.Errors).Select(t => t.ErrorMessage).ToList();
-                return View();
-            }
-
             await _productService.AddProduct(request);
             _diagnosticContext.Set("Addrequest", request);
             return RedirectToAction("Index", "Products");
@@ -83,67 +75,58 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        [TypeFilter(typeof(GuidValidateActionFilter),Order =1)]
+        [TypeFilter(typeof(TypeListActionFilter),Order =3)]
+        [TypeFilter(typeof(CheckGetProductByIdActionFilter),Order =2)]
         public async Task<IActionResult> EditProduct(Guid Id)
         {
             ProductResponse? response = await _productService.GetProductById(Id);
-            var allTypes = await _productTypeService.GetAllProductTypes();
-            ViewBag.TypeList = allTypes?.Select(t => new SelectListItem() { Text = t.TypeNameEn, Value = t.Id.ToString() });
             return View(response.ToProductUpdateRequest());
         }
 
         [Route("[action]/{Id}")]//Id: method get and post method has to have the same route
         [HttpPost]
-        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
-        public async Task<IActionResult> EditProduct(ProductUpdateRequest? request)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
+        [TypeFilter(typeof(CheckValidationActionFilter))]
+        public async Task<IActionResult> EditProduct(ProductUpdateRequest request)
         {
-            if (request is null || _productService.GetProductById(request.Id) == null)
+            if (_productService.GetProductById(request.Id) == null)
             {
                 _logger.LogError("requset is null");
                 return RedirectToAction("index", "Products");
             }
-            if (ModelState.IsValid)
-            {
-                await _productService.UpdateProduct(request);
-                _logger.LogInformation("Redirect to Index method");
-                return RedirectToAction("index", "Products");
-            }
-            _logger.LogError("validation for the request is failed");
-            return View(request);
+            await _productService.UpdateProduct(request);
+            _logger.LogInformation("Redirect to Index method");
+            return RedirectToAction("index", "Products");
         }
 
         [Route("[action]/{Id}")]
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> DeleteProduct(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        [TypeFilter(typeof(CheckGetProductByIdActionFilter))]
+        public async Task<IActionResult> DeleteProduct(Guid Id)
         {
             ProductResponse? response = await _productService.GetProductById(Id);
-            if (response == null)
+/*            if (response == null)
             {
                 _logger.LogError($"No product was found for id={Id}");
                 return RedirectToAction("Index", "Products");
-            }
+            }*/
             return View(response);
         }
 
         [Route("[action]/{Id}")]
         [HttpPost]
-        [TypeFilter(typeof(ProductRequestValidationActionFilter))]
-        public async Task<IActionResult> DeleteProduct(ProductResponse? request)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
+        public async Task<IActionResult> DeleteProduct(ProductResponse request)
         {
             _logger.LogInformation("DeleteProduct action post method executed");
-/*            if (request == null)
-            {
-                _logger.LogError("id is null");
-                return RedirectToAction("Index", "Products");
-            }*/
             ProductResponse? response = await _productService.GetProductById(request.Id);
             if (response == null)
             {
                 _logger.LogError($"no product was found for id={request.Id} ");
                 return RedirectToAction("Index", "Products");
             }
-
             await _productService.DeleteProduct(request.Id);
             _logger.LogDebug($"{response.ProductNameEn} was deleted");
             return RedirectToAction("Index", "Products");
@@ -175,8 +158,8 @@ namespace SabalanMedical.Controllers
         #region Description
         [Route("[action]/{Id}")]
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> ProductDescriptions(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> ProductDescriptions(Guid Id)
         {
             ProductResponse? product = await _productService.GetProductById(Id);
             if (product is null)
@@ -190,8 +173,8 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=ProductId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> AddDescription(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> AddDescription(Guid Id)
         {
             ProductResponse? Product = await _productService.GetProductById(Id);
             if (Product == null)
@@ -205,29 +188,30 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=ProductId
         [HttpPost]
-        public async Task<IActionResult> AddDescription(ProductDescAddRequest? Desc)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
+        public async Task<IActionResult> AddDescription(ProductDescAddRequest request)
         {
-            if (Desc == null)
-            {
-                _logger.LogError("request is null");
-                return RedirectToAction("Index");//redirectToAction Error
-            }
+            /*            if (request == null)
+                        {
+                            _logger.LogError("request is null");
+                            return RedirectToAction("Index");//redirectToAction Error
+                        }*/
             if (!ModelState.IsValid)
             {
                 _logger.LogError("validation for request failed");
-                ProductResponse? Product = await _productService.GetProductById(Desc.ProductID);
+                ProductResponse? Product = await _productService.GetProductById(request.ProductID);
                 ViewBag.Product = Product;
                 return View();
             }
-            await _productDescService.AddProductDesc(Desc);
-            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
+            await _productDescService.AddProductDesc(request);
+            return RedirectToAction("ProductDescriptions", new { Id = request.ProductID });
         }
 
 
         [Route("[action]/Id")]//Id=DescriptionId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> DeleteDescription(Guid? ID)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> DeleteDescription(Guid ID)
         {
             ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(ID);
             if (desc == null)
@@ -240,22 +224,23 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/Id")]//Id=DescriptionId
         [HttpPost]
-        public IActionResult DeleteDescription(ProductDescResponse? Desc)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
+        public IActionResult DeleteDescription(ProductDescResponse request)
         {
-            if (Desc == null || _productDescService.GetProductDescByDescID(Desc.Id) == null)
+            if (_productDescService.GetProductDescByDescID(request.Id) == null)
             {
                 _logger.LogError("desc is null or not fond in database");
                 return RedirectToAction("Index");
             }
-            _productDescService.DeleteProductDesc(Desc.Id);
-            _logger.LogDebug($"description with id={Desc.Id} was deleted");
-            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
+            _productDescService.DeleteProductDesc(request.Id);
+            _logger.LogDebug($"description with id={request.Id} was deleted");
+            return RedirectToAction("ProductDescriptions", new { Id = request.ProductID });
         }
 
         [Route("[action]/Id")]//Id=DescriptionId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> EditDescription(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> EditDescription(Guid Id)
         {
             ProductDescResponse? desc = await _productDescService.GetProductDescByDescID(Id);
             if (desc == null)
@@ -268,33 +253,28 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/Id")]//Id=DescriptionId
         [HttpPost]
-        public async Task<IActionResult> EditDescription(ProductDescResponse Desc)
+        public async Task<IActionResult> EditDescription(ProductDescResponse requset)
         {
-            if (Desc == null)
-            {
-                _logger.LogError("Desc is null");
-                return RedirectToAction("Index");
-            }
-            ProductDescResponse response = await _productDescService.GetProductDescByDescID(Desc.Id);
+            ProductDescResponse response = await _productDescService.GetProductDescByDescID(requset.Id);
             if (response is null)
             {
-                _logger.LogError($"No Desc for id={Desc.Id} was found");
+                _logger.LogError($"No request for id={requset.Id} was found");
                 return RedirectToAction("index");
             }
-            response.ProductID = Desc.ProductID;
-            response.Description = Desc.Description;
-            response.DescTitle = Desc.DescTitle;
-            await _productDescService.UpdateProductDesc(Desc.ToProductDescUpdateRequest());
-            _logger.LogDebug($"Desc with id={Desc.Id} was updated");
-            return RedirectToAction("ProductDescriptions", new { Id = Desc.ProductID });
+            response.ProductID = requset.ProductID;
+            response.Description = requset.Description;
+            response.DescTitle = requset.DescTitle;
+            await _productDescService.UpdateProductDesc(requset.ToProductDescUpdateRequest());
+            _logger.LogDebug($"request with id={requset.Id} was updated");
+            return RedirectToAction("ProductDescriptions", new { Id = requset.ProductID });
         }
         #endregion
 
         #region Images
         [Route("[action]/{Id}")]//Id=ProductId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> ProductImages(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> ProductImages(Guid Id)
         {
             ProductResponse? product = await _productService.GetProductById(Id);
             if (product == null)
@@ -307,8 +287,8 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/Id")]//Id=ImageId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> DeleteImage(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> DeleteImage(Guid Id)
         {
             ProductImageResponse? Image = await _productImageService.GetProductImageByImageID(Id);
             if (Image == null)
@@ -331,7 +311,7 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/Id")]//Id=ProductId
         [HttpPost]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
+        [TypeFilter(typeof(GuidValidateActionFilter))]
         public async Task<IActionResult> AddImage(ProductImageAddRequest? image, IFormFile? imageFile)
         {
             if (image == null || imageFile == null || imageFile.FileName == null || imageFile.Length < 10)
@@ -375,8 +355,8 @@ namespace SabalanMedical.Controllers
         #region Properties
         [Route("[action]/{ID}")]//Id=ProductId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> ProductProperties(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> ProductProperties(Guid Id)
         {
             var productResponses = await _productService.GetProductById(Id);
             if (productResponses == null)
@@ -389,8 +369,8 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{ID}")]///Id=ProductId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> AddProperty(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> AddProperty(Guid Id)
         {
             var product = await _productService.GetProductById(Id);
             if (product == null)
@@ -404,13 +384,9 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{ID}")]//Id=ProductId
         [HttpPost]
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
         public async Task<IActionResult> AddProperty(ProductPropertyAddRequest request)
         {
-            if (request == null)
-            {
-                _logger.LogError("request is null");
-                return RedirectToAction("index");
-            }
             if (!ModelState.IsValid)
             {
                 _logger.LogError("validation was failed");
@@ -424,13 +400,13 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=PropertyId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> EditProperty(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> EditProperty(Guid Id)
         {
             var request = await _productPropertyService.GetProductPropertyByPropertyID(Id);
             if (request == null)
             {
-                _logger.LogError($"No property for id ={Id} was found");
+                _logger.LogError($"No request for id ={Id} was found");
                 return RedirectToAction("index");
             }
             return View(request.ToProductPropertyUpdateRequest());
@@ -438,13 +414,9 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=PropertyId
         [HttpPost]
-        public async Task<IActionResult> EditProperty(ProductPropertyUpdateRequest? request)
+        [TypeFilter(typeof(CheckNullRequestValidationActionFilter))]
+        public async Task<IActionResult> EditProperty(ProductPropertyUpdateRequest request)
         {
-            if (request == null)
-            {
-                _logger.LogError("request is null");
-                return RedirectToAction("index");
-            }
             if (!ModelState.IsValid)
             {
                 _logger.LogError("Validation was failed");
@@ -453,7 +425,7 @@ namespace SabalanMedical.Controllers
             var property = await _productPropertyService.GetProductPropertyByPropertyID(request.Id);
             if (property == null)
             {
-                _logger.LogError($"No property for id={request.Id} was found ");
+                _logger.LogError($"No request for id={request.Id} was found ");
                 return RedirectToAction("index");
             }
             property.ProductID = request.ProductID;
@@ -466,13 +438,13 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=PropertyId
         [HttpGet]
-        [TypeFilter(typeof(ValidateGuidActionFilter))]
-        public async Task<IActionResult> DeleteProperty(Guid? Id)
+        [TypeFilter(typeof(GuidValidateActionFilter))]
+        public async Task<IActionResult> DeleteProperty(Guid Id)
         {
             ProductPropertyResponse property = await _productPropertyService.GetProductPropertyByPropertyID(Id);
             if (property == null)
             {
-                _logger.LogError($"No property with id={Id} was found");
+                _logger.LogError($"No request with id={Id} was found");
                 return RedirectToAction("index");
             }
             return View(property);
@@ -480,22 +452,17 @@ namespace SabalanMedical.Controllers
 
         [Route("[action]/{Id}")]//Id=PropertyId
         [HttpPost]
-        public async Task<IActionResult> DeleteProperty(ProductPropertyResponse property)
+        public async Task<IActionResult> DeleteProperty(ProductPropertyResponse request)
         {
-            if (property == null)
-            {
-                _logger.LogError("property is null");
-                return RedirectToAction("index");
-            }
-            var propertyResponse = await _productPropertyService.GetProductPropertyByPropertyID(property.Id);
+            var propertyResponse = await _productPropertyService.GetProductPropertyByPropertyID(request.Id);
             if (propertyResponse == null)
             {
-                _logger.LogError($"No property with id={property.Id} was found");
+                _logger.LogError($"No request with id={request.Id} was found");
                 return RedirectToAction("index");
             }
             await _productPropertyService.DeleteProductProperty(propertyResponse.Id);
-            _logger.LogDebug($"Property with id={property.Id} was deleted");
-            return RedirectToAction("ProductProperties", new { Id = property.ProductID });
+            _logger.LogDebug($"Property with id={request.Id} was deleted");
+            return RedirectToAction("ProductProperties", new { Id = request.ProductID });
         }
         #endregion
 
