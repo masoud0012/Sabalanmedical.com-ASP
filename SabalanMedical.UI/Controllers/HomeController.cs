@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SabalanMedical.UI.Filters.ActionFilters;
+using SabalanMedical.UI.Filters.ResultFilters;
 using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductsDTO;
@@ -7,6 +8,7 @@ using ServiceContracts.DTO.ProductsDTO;
 namespace SabalanMedical.Controllers
 {
     [TypeFilter(typeof(ExecutedLogActionFilter))]
+    [TypeFilter(typeof(TokenResltFilter))]
     public class HomeController : Controller
     {
         private readonly IProductTypeService _productTypeService;

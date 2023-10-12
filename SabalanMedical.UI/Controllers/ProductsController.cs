@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
 using SabalanMedical.UI.Filters.ActionFilters;
+using SabalanMedical.UI.Filters.AuthenticationFilters;
 using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
@@ -13,6 +14,7 @@ using ServiceContracts.DTO.ProductsDTO;
 namespace SabalanMedical.Controllers
 {
     [Route("[Controller]")]
+    [TypeFilter(typeof(TokenAutherizastionFilter))]
     [TypeFilter(typeof(ExecutedLogActionFilter))]
     public class ProductsController : Controller
     {
