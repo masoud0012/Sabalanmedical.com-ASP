@@ -1,20 +1,20 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rotativa.AspNetCore;
 using SabalanMedical.UI.Filters.ActionFilters;
-using SabalanMedical.UI.Filters.AuthenticationFilters;
+using SabalanMedical.UI.Filters.ExceptionFilters;
+using SabalanMedical.UI.Filters.ResultFilters.AlwaysRunFilter;
+using SabalanMedical.UI.Filters.SkipFilters;
 using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO.ProductDescriptionDTO;
 using ServiceContracts.DTO.ProductImageDTO;
 using ServiceContracts.DTO.ProductPropertyDTO;
 using ServiceContracts.DTO.ProductsDTO;
-
+ 
 namespace SabalanMedical.Controllers
 {
     [Route("[Controller]")]
-    [TypeFilter(typeof(TokenAutherizastionFilter))]
+    [TypeFilter(typeof(HandleExceptionFilter))]
     [TypeFilter(typeof(ExecutedLogActionFilter))]
     public class ProductsController : Controller
     {

@@ -25,7 +25,6 @@
     <Folder Include="Filters\ResourceFilters\" />
     <Folder Include="Middleware\" />
     <Folder Include="Logs\" />
-    <Folder Include="StartupExtensions\" />
   </ItemGroup>
 
   <ItemGroup>
